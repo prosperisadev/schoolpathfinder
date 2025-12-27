@@ -1,5 +1,5 @@
 import { Course, CourseRecommendation, UserProfile } from "@/types";
-import { courses } from "@/data/courses";
+import { allCourses as courses } from "@/data/courses";
 
 // Weights for the recommendation algorithm
 const WEIGHTS = {

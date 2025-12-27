@@ -1,4 +1,5 @@
 import { Course, School } from "@/types";
+import { additionalCourses } from "./additionalCourses";
 
 const nigerianSchools: School[] = [
   {
@@ -540,10 +541,13 @@ export const courses: Course[] = [
   },
 ];
 
+// Combine all courses
+export const allCourses: Course[] = [...courses, ...additionalCourses];
+
 export function getCoursById(id: string): Course | undefined {
-  return courses.find(course => course.id === id);
+  return allCourses.find(course => course.id === id);
 }
 
 export function getCoursesByCategory(category: string): Course[] {
-  return courses.filter(course => course.category === category);
+  return allCourses.filter(course => course.category === category);
 }
