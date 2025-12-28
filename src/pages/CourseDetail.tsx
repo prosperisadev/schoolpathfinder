@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCoursById } from "@/data/courses";
+import UniversityCard from "@/components/results/UniversityCard";
 
 const CourseDetail = () => {
   const { courseId } = useParams();
@@ -365,60 +366,31 @@ const CourseDetail = () => {
           </TabsContent>
 
           {/* Schools Tab */}
-          <TabsContent value="schools" className="space-y-6">
-            {["nigeria", "africa", "global"].map((location) => {
-              const locationSchools = course.schools.filter(s => s.location === location);
+          <TabsContent value="schools" className="space-y-8">
+            {[
+              { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "With WAEC/JAMB Requirements" },
+              { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "With International Certifications" },
+              { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "With International Certifications" },
+            ].map(({ location, emoji, title, subtitle }) => {
+              const locationSchools = course.schools
+                .filter(s => s.location === location)
+                .sort((a, b) => (a.ranking || 999) - (b.ranking || 999))
+                .slice(0, 5);
+              
               if (locationSchools.length === 0) return null;
               
               return (
                 <div key={location}>
-                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                    {location === "nigeria" && "🇳🇬"}
-                    {location === "africa" && "🌍"}
-                    {location === "global" && "🌐"}
-                    {location.charAt(0).toUpperCase() + location.slice(1)}
-                  </h3>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {locationSchools.map((school) => (
-                      <Card key={school.id} variant="interactive">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-lg">{school.name}</CardTitle>
-                          <p className="text-sm text-muted-foreground">{school.country}</p>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-muted-foreground">Tuition</span>
-                            <span className="font-medium text-foreground">
-                              {formatCurrency(school.tuitionRange.min, school.tuitionRange.currency)} - {formatCurrency(school.tuitionRange.max, school.tuitionRange.currency)}
-                            </span>
-                          </div>
-                          
-                          {school.scholarshipAvailable && (
-                            <Badge variant="success" className="w-full justify-center">
-                              Scholarships Available
-                            </Badge>
-                          )}
-                          
-                          <div className="space-y-2 pt-2">
-                            <div>
-                              <span className="text-xs font-medium text-primary">Pros</span>
-                              <ul className="text-xs text-muted-foreground">
-                                {school.pros.slice(0, 2).map((pro) => (
-                                  <li key={pro}>+ {pro}</li>
-                                ))}
-                              </ul>
-                            </div>
-                            <div>
-                              <span className="text-xs font-medium text-destructive">Cons</span>
-                              <ul className="text-xs text-muted-foreground">
-                                {school.cons.slice(0, 2).map((con) => (
-                                  <li key={con}>- {con}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                      <span className="text-2xl">{emoji}</span>
+                      {title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+                  </div>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                    {locationSchools.map((school, index) => (
+                      <UniversityCard key={school.id} school={school} rank={index + 1} />
                     ))}
                   </div>
                 </div>
