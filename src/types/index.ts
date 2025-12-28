@@ -69,6 +69,25 @@ export interface Course {
   };
 }
 
+export interface AdmissionRequirements {
+  // Nigerian universities
+  waecSubjects?: string[]; // e.g., ["English", "Mathematics", "Physics", "Chemistry", "Biology"]
+  minimumWaecGrade?: string; // e.g., "5 credits including English and Mathematics"
+  jambScore?: number; // e.g., 250
+  jambSubjects?: string[]; // e.g., ["English", "Mathematics", "Physics", "Chemistry"]
+  postUtme?: boolean;
+  
+  // International universities
+  satScore?: { min: number; max: number };
+  actScore?: { min: number; max: number };
+  ieltsScore?: number;
+  toeflScore?: number;
+  aLevels?: string; // e.g., "ABB including Mathematics"
+  ibScore?: number;
+  gpa?: number;
+  otherRequirements?: string[];
+}
+
 export interface School {
   id: string;
   name: string;
@@ -79,6 +98,8 @@ export interface School {
   pros: string[];
   cons: string[];
   ranking?: number;
+  admissionRequirements?: AdmissionRequirements;
+  courseSpecificRequirements?: Record<string, AdmissionRequirements>; // course-specific overrides
 }
 
 export interface CourseRecommendation {

@@ -1,102 +1,11 @@
 import { Course, School } from "@/types";
 import { additionalCourses } from "./additionalCourses";
+import { nigerianUniversities, africanUniversities, globalUniversities } from "./universities";
 
-const nigerianSchools: School[] = [
-  {
-    id: "unilag",
-    name: "University of Lagos",
-    location: "nigeria",
-    country: "Nigeria",
-    tuitionRange: { min: 150000, max: 500000, currency: "NGN" },
-    scholarshipAvailable: true,
-    pros: ["Strong alumni network", "Located in Lagos", "Industry connections"],
-    cons: ["Competitive admission", "Infrastructure challenges"],
-    ranking: 1,
-  },
-  {
-    id: "ui",
-    name: "University of Ibadan",
-    location: "nigeria",
-    country: "Nigeria",
-    tuitionRange: { min: 100000, max: 400000, currency: "NGN" },
-    scholarshipAvailable: true,
-    pros: ["Premier research institution", "Beautiful campus", "Strong academics"],
-    cons: ["Located outside major city", "Limited industry exposure"],
-    ranking: 2,
-  },
-  {
-    id: "covenant",
-    name: "Covenant University",
-    location: "nigeria",
-    country: "Nigeria",
-    tuitionRange: { min: 1500000, max: 2500000, currency: "NGN" },
-    scholarshipAvailable: true,
-    pros: ["Modern facilities", "Strong discipline", "Industry partnerships"],
-    cons: ["High tuition", "Strict rules"],
-    ranking: 3,
-  },
-];
-
-const africanSchools: School[] = [
-  {
-    id: "uct",
-    name: "University of Cape Town",
-    location: "africa",
-    country: "South Africa",
-    tuitionRange: { min: 3000, max: 8000, currency: "USD" },
-    scholarshipAvailable: true,
-    pros: ["Top-ranked in Africa", "International exposure", "Research opportunities"],
-    cons: ["Cost of living", "Visa requirements"],
-    ranking: 1,
-  },
-  {
-    id: "ug",
-    name: "University of Ghana",
-    location: "africa",
-    country: "Ghana",
-    tuitionRange: { min: 2000, max: 5000, currency: "USD" },
-    scholarshipAvailable: true,
-    pros: ["Cultural proximity", "English-speaking", "Growing economy"],
-    cons: ["Limited programs", "Infrastructure"],
-    ranking: 4,
-  },
-];
-
-const globalSchools: School[] = [
-  {
-    id: "mit",
-    name: "Massachusetts Institute of Technology",
-    location: "global",
-    country: "USA",
-    tuitionRange: { min: 55000, max: 60000, currency: "USD" },
-    scholarshipAvailable: true,
-    pros: ["World-class education", "Innovation hub", "Career opportunities"],
-    cons: ["Very competitive", "High cost", "Far from home"],
-    ranking: 1,
-  },
-  {
-    id: "oxford",
-    name: "University of Oxford",
-    location: "global",
-    country: "UK",
-    tuitionRange: { min: 30000, max: 45000, currency: "USD" },
-    scholarshipAvailable: true,
-    pros: ["Historic excellence", "Global network", "Research focus"],
-    cons: ["Competitive", "Cultural adjustment"],
-    ranking: 2,
-  },
-  {
-    id: "toronto",
-    name: "University of Toronto",
-    location: "global",
-    country: "Canada",
-    tuitionRange: { min: 40000, max: 55000, currency: "USD" },
-    scholarshipAvailable: true,
-    pros: ["Diverse environment", "Post-study work options", "Quality education"],
-    cons: ["Cold weather", "Cost of living"],
-    ranking: 15,
-  },
-];
+// Use the comprehensive universities from universities.ts
+const nigerianSchools: School[] = nigerianUniversities;
+const africanSchools: School[] = africanUniversities;
+const globalSchools: School[] = globalUniversities;
 
 export const courses: Course[] = [
   {
