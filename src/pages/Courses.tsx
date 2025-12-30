@@ -1,12 +1,15 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp } from "lucide-react";
+import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp, GitCompare, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { allCourses } from "@/data/courses";
+import { Course } from "@/types";
+import CourseComparisonModal from "@/components/courses/CourseComparisonModal";
 
 const categoryIcons: Record<string, string> = {
   "Technology": "💻",
@@ -32,6 +35,33 @@ const Courses = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
+
+  const toggleCourseSelection = (course: Course, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedCourses((prev) => {
+      const isSelected = prev.some((c) => c.id === course.id);
+      if (isSelected) {
+        return prev.filter((c) => c.id !== course.id);
+      }
+      if (prev.length >= 4) {
+        return prev; // Max 4 courses
+      }
+      return [...prev, course];
+    });
+  };
+
+  const removeCourseFromComparison = (courseId: string) => {
+    setSelectedCourses((prev) => prev.filter((c) => c.id !== courseId));
+    if (selectedCourses.length <= 1) {
+      setShowComparison(false);
+    }
+  };
+
+  const isCourseSelected = (courseId: string) => {
+    return selectedCourses.some((c) => c.id === courseId);
+  };
 
   const categories = useMemo(() => {
     const cats = [...new Set(allCourses.map((course) => course.category))];
@@ -161,71 +191,90 @@ const Courses = () => {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((course, index) => (
-                <motion.div
-                  key={course.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.03 }}
-                >
-                  <Card
-                    variant="interactive"
-                    className="cursor-pointer h-full"
-                    onClick={() => navigate(`/course/${course.id}`)}
+              {courses.map((course, index) => {
+                const isSelected = isCourseSelected(course.id);
+                return (
+                  <motion.div
+                    key={course.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + index * 0.03 }}
+                    className="relative"
                   >
-                    <CardHeader className="pb-2">
-                      <div className="flex items-start justify-between gap-2">
-                        <CardTitle className="text-lg leading-tight">{course.name}</CardTitle>
-                        <Badge variant="outline" className={categoryColors[course.category]}>
-                          {categoryIcons[course.category]}
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {course.overview}
-                      </p>
+                    {/* Selection Checkbox */}
+                    <button
+                      onClick={(e) => toggleCourseSelection(course, e)}
+                      className={`absolute top-3 right-3 z-10 h-6 w-6 rounded-md border-2 flex items-center justify-center transition-all ${
+                        isSelected
+                          ? "bg-primary border-primary text-primary-foreground"
+                          : "bg-background/80 border-muted-foreground/30 hover:border-primary"
+                      }`}
+                      title={isSelected ? "Remove from comparison" : "Add to comparison"}
+                    >
+                      {isSelected && <Check className="h-4 w-4" />}
+                    </button>
 
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Briefcase className="h-3 w-3" />
-                          <span>{course.nigeriaContext.careerOpportunities.length}+ careers</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <GraduationCap className="h-3 w-3" />
-                          <span>{course.schools.length} schools</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-primary" />
-                        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full gradient-primary rounded-full"
-                            style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
-                          />
-                        </div>
-                        <span className="text-xs font-medium text-muted-foreground">
-                          {course.futureOutlook.relevanceIn5Years}/10
-                        </span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-1">
-                        {course.coreSkills.slice(0, 3).map((skill) => (
-                          <Badge key={skill} variant="secondary" className="text-xs">
-                            {skill}
+                    <Card
+                      variant="interactive"
+                      className={`cursor-pointer h-full transition-all ${
+                        isSelected ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
+                      }`}
+                      onClick={() => navigate(`/course/${course.id}`)}
+                    >
+                      <CardHeader className="pb-2 pr-12">
+                        <div className="flex items-start justify-between gap-2">
+                          <CardTitle className="text-lg leading-tight">{course.name}</CardTitle>
+                          <Badge variant="outline" className={categoryColors[course.category]}>
+                            {categoryIcons[course.category]}
                           </Badge>
-                        ))}
-                        {course.coreSkills.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{course.coreSkills.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {course.overview}
+                        </p>
+
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Briefcase className="h-3 w-3" />
+                            <span>{course.nigeriaContext.careerOpportunities.length}+ careers</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <GraduationCap className="h-3 w-3" />
+                            <span>{course.schools.length} schools</span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <TrendingUp className="h-4 w-4 text-primary" />
+                          <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                            <div
+                              className="h-full gradient-primary rounded-full"
+                              style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-muted-foreground">
+                            {course.futureOutlook.relevanceIn5Years}/10
+                          </span>
+                        </div>
+
+                        <div className="flex flex-wrap gap-1">
+                          {course.coreSkills.slice(0, 3).map((skill) => (
+                            <Badge key={skill} variant="secondary" className="text-xs">
+                              {skill}
+                            </Badge>
+                          ))}
+                          {course.coreSkills.length > 3 && (
+                            <Badge variant="secondary" className="text-xs">
+                              +{course.coreSkills.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.section>
         ))}
@@ -287,6 +336,68 @@ const Courses = () => {
           </div>
         </div>
       </footer>
+      {/* Comparison Floating Bar */}
+      <AnimatePresence>
+        {selectedCourses.length > 0 && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-card border shadow-2xl rounded-2xl p-4 flex items-center gap-4"
+          >
+            <div className="flex items-center gap-2">
+              <GitCompare className="h-5 w-5 text-primary" />
+              <span className="font-medium text-foreground">
+                {selectedCourses.length} course{selectedCourses.length > 1 ? "s" : ""} selected
+              </span>
+              <span className="text-xs text-muted-foreground">(max 4)</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {selectedCourses.map((course) => (
+                <div
+                  key={course.id}
+                  className="flex items-center gap-1 bg-muted px-2 py-1 rounded-lg text-sm"
+                >
+                  <span className="max-w-24 truncate">{course.name}</span>
+                  <button
+                    onClick={() => removeCourseFromComparison(course.id)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSelectedCourses([])}
+              >
+                Clear
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => setShowComparison(true)}
+                disabled={selectedCourses.length < 2}
+              >
+                Compare
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Comparison Modal */}
+      {showComparison && (
+        <CourseComparisonModal
+          courses={selectedCourses}
+          onClose={() => setShowComparison(false)}
+          onRemoveCourse={removeCourseFromComparison}
+        />
+      )}
     </div>
   );
 };
