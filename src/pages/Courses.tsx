@@ -1,15 +1,17 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp, GitCompare, Check, X } from "lucide-react";
+import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp, GitCompare, Check, X, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import { allCourses } from "@/data/courses";
 import { Course } from "@/types";
 import CourseComparisonModal from "@/components/courses/CourseComparisonModal";
+import PaywallModal from "@/components/payment/PaywallModal";
+import { usePaymentStore } from "@/store/paymentStore";
+import { useAssessmentStore } from "@/store/assessmentStore";
 
 const categoryIcons: Record<string, string> = {
   "Technology": "💻",
@@ -31,22 +33,43 @@ const categoryColors: Record<string, string> = {
   "Social Impact": "bg-teal-500/10 text-teal-600 border-teal-500/20",
 };
 
+// Number of free courses to show per category
+const FREE_COURSES_PER_CATEGORY = 4;
+
 const Courses = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showComparison, setShowComparison] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  const { isPaid, checkPaymentStatus } = usePaymentStore();
+  const { recommendations } = useAssessmentStore();
+
+  // Check payment status on mount
+  useEffect(() => {
+    checkPaymentStatus();
+  }, []);
+
+  // Get recommended course IDs
+  const recommendedCourseIds = useMemo(() => {
+    return new Set(recommendations.map(r => r.course.id));
+  }, [recommendations]);
 
   const toggleCourseSelection = (course: Course, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isPaid) {
+      setShowPaywall(true);
+      return;
+    }
     setSelectedCourses((prev) => {
       const isSelected = prev.some((c) => c.id === course.id);
       if (isSelected) {
         return prev.filter((c) => c.id !== course.id);
       }
       if (prev.length >= 4) {
-        return prev; // Max 4 courses
+        return prev;
       }
       return [...prev, course];
     });
@@ -90,6 +113,14 @@ const Courses = () => {
     return grouped;
   }, [filteredCourses]);
 
+  const handleCourseClick = (course: Course, isLocked: boolean) => {
+    if (isLocked && !isPaid) {
+      setShowPaywall(true);
+    } else {
+      navigate(`/course/${course.id}`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -124,7 +155,7 @@ const Courses = () => {
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Browse through {allCourses.length}+ courses across {categories.length} categories. 
-            Find the perfect course that matches your interests and career goals.
+            {!isPaid && " Unlock full access to detailed insights and comparisons."}
           </p>
         </motion.div>
 
@@ -174,110 +205,166 @@ const Courses = () => {
         </motion.div>
 
         {/* Courses Grid by Category */}
-        {Object.entries(coursesByCategory).map(([category, courses], categoryIndex) => (
-          <motion.section
-            key={category}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + categoryIndex * 0.05 }}
-            className="mb-12"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-3xl">{categoryIcons[category]}</span>
-              <div>
-                <h2 className="text-2xl font-bold text-foreground">{category}</h2>
-                <p className="text-sm text-muted-foreground">{courses.length} courses</p>
+        {Object.entries(coursesByCategory).map(([category, courses], categoryIndex) => {
+          const lockedCount = isPaid ? 0 : Math.max(0, courses.length - FREE_COURSES_PER_CATEGORY);
+          
+          return (
+            <motion.section
+              key={category}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + categoryIndex * 0.05 }}
+              className="mb-12"
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-3xl">{categoryIcons[category]}</span>
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground">{category}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {isPaid ? `${courses.length} courses` : `${FREE_COURSES_PER_CATEGORY} of ${courses.length} courses`}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((course, index) => {
-                const isSelected = isCourseSelected(course.id);
-                return (
-                  <motion.div
-                    key={course.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.03 }}
-                    className="relative"
-                  >
-                    {/* Selection Checkbox */}
-                    <button
-                      onClick={(e) => toggleCourseSelection(course, e)}
-                      className={`absolute top-3 right-3 z-10 h-6 w-6 rounded-md border-2 flex items-center justify-center transition-all ${
-                        isSelected
-                          ? "bg-primary border-primary text-primary-foreground"
-                          : "bg-background/80 border-muted-foreground/30 hover:border-primary"
-                      }`}
-                      title={isSelected ? "Remove from comparison" : "Add to comparison"}
-                    >
-                      {isSelected && <Check className="h-4 w-4" />}
-                    </button>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {courses.map((course, index) => {
+                  const isLocked = !isPaid && index >= FREE_COURSES_PER_CATEGORY;
+                  const isSelected = isCourseSelected(course.id);
+                  const isRecommended = recommendedCourseIds.has(course.id);
 
-                    <Card
-                      variant="interactive"
-                      className={`cursor-pointer h-full transition-all ${
-                        isSelected ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
-                      }`}
-                      onClick={() => navigate(`/course/${course.id}`)}
+                  if (isLocked) return null; // Don't show locked courses in grid
+
+                  return (
+                    <motion.div
+                      key={course.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + index * 0.03 }}
+                      className="relative"
                     >
-                      <CardHeader className="pb-2 pr-12">
-                        <div className="flex items-start justify-between gap-2">
-                          <CardTitle className="text-lg leading-tight">{course.name}</CardTitle>
-                          <Badge variant="outline" className={categoryColors[course.category]}>
-                            {categoryIcons[course.category]}
+                      {/* Selection Checkbox - Only for paid users */}
+                      {isPaid && (
+                        <button
+                          onClick={(e) => toggleCourseSelection(course, e)}
+                          className={`absolute top-3 right-3 z-10 h-6 w-6 rounded-md border-2 flex items-center justify-center transition-all ${
+                            isSelected
+                              ? "bg-primary border-primary text-primary-foreground"
+                              : "bg-background/80 border-muted-foreground/30 hover:border-primary"
+                          }`}
+                          title={isSelected ? "Remove from comparison" : "Add to comparison"}
+                        >
+                          {isSelected && <Check className="h-4 w-4" />}
+                        </button>
+                      )}
+
+                      {/* Recommended Badge */}
+                      {isRecommended && isPaid && (
+                        <div className="absolute top-3 left-3 z-10">
+                          <Badge variant="default" className="bg-yellow-500 text-yellow-900">
+                            ⭐ Recommended
                           </Badge>
                         </div>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {course.overview}
-                        </p>
+                      )}
 
-                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <Briefcase className="h-3 w-3" />
-                            <span>{course.nigeriaContext.careerOpportunities.length}+ careers</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <GraduationCap className="h-3 w-3" />
-                            <span>{course.schools.length} schools</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4 text-primary" />
-                          <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                            <div
-                              className="h-full gradient-primary rounded-full"
-                              style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
-                            />
-                          </div>
-                          <span className="text-xs font-medium text-muted-foreground">
-                            {course.futureOutlook.relevanceIn5Years}/10
-                          </span>
-                        </div>
-
-                        <div className="flex flex-wrap gap-1">
-                          {course.coreSkills.slice(0, 3).map((skill) => (
-                            <Badge key={skill} variant="secondary" className="text-xs">
-                              {skill}
+                      <Card
+                        variant="interactive"
+                        className={`cursor-pointer h-full transition-all ${
+                          isSelected ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
+                        }`}
+                        onClick={() => handleCourseClick(course, false)}
+                      >
+                        <CardHeader className={`pb-2 ${isPaid ? 'pr-12' : ''}`}>
+                          <div className="flex items-start justify-between gap-2">
+                            <CardTitle className="text-lg leading-tight">{course.name}</CardTitle>
+                            <Badge variant="outline" className={categoryColors[course.category]}>
+                              {categoryIcons[course.category]}
                             </Badge>
-                          ))}
-                          {course.coreSkills.length > 3 && (
-                            <Badge variant="secondary" className="text-xs">
-                              +{course.coreSkills.length - 3}
-                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {course.overview}
+                          </p>
+
+                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <Briefcase className="h-3 w-3" />
+                              <span>{course.nigeriaContext.careerOpportunities.length}+ careers</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <GraduationCap className="h-3 w-3" />
+                              <span>{course.schools.length} schools</span>
+                            </div>
+                          </div>
+
+                          {/* Only show detailed info for paid users */}
+                          {isPaid ? (
+                            <>
+                              <div className="flex items-center gap-2">
+                                <TrendingUp className="h-4 w-4 text-primary" />
+                                <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                                  <div
+                                    className="h-full gradient-primary rounded-full"
+                                    style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
+                                  />
+                                </div>
+                                <span className="text-xs font-medium text-muted-foreground">
+                                  {course.futureOutlook.relevanceIn5Years}/10
+                                </span>
+                              </div>
+
+                              <div className="flex flex-wrap gap-1">
+                                {course.coreSkills.slice(0, 3).map((skill) => (
+                                  <Badge key={skill} variant="secondary" className="text-xs">
+                                    {skill}
+                                  </Badge>
+                                ))}
+                                {course.coreSkills.length > 3 && (
+                                  <Badge variant="secondary" className="text-xs">
+                                    +{course.coreSkills.length - 3}
+                                  </Badge>
+                                )}
+                              </div>
+                            </>
+                          ) : (
+                            <div className="pt-2 border-t border-dashed">
+                              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                <Lock className="h-3 w-3" />
+                                Unlock for full insights
+                              </p>
+                            </div>
                           )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.section>
-        ))}
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Locked courses indicator */}
+              {!isPaid && lockedCount > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-4"
+                >
+                  <button
+                    onClick={() => setShowPaywall(true)}
+                    className="w-full p-4 rounded-xl border-2 border-dashed border-muted hover:border-primary/50 transition-colors flex items-center justify-center gap-3 group"
+                  >
+                    <Lock className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                      +{lockedCount} more courses available in {category}
+                    </span>
+                    <Badge variant="outline" className="group-hover:border-primary transition-colors">
+                      Unlock ₦999
+                    </Badge>
+                  </button>
+                </motion.div>
+              )}
+            </motion.section>
+          );
+        })}
 
         {filteredCourses.length === 0 && (
           <motion.div
@@ -303,20 +390,42 @@ const Courses = () => {
           viewport={{ once: true }}
           className="mt-16 rounded-3xl gradient-primary p-8 md:p-12 text-center"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
-            Not sure which course is right for you?
-          </h2>
-          <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
-            Take our personalized assessment to discover courses that match your interests, 
-            personality, and career goals.
-          </p>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigate("/assessment")}
-          >
-            Take the Assessment
-          </Button>
+          {isPaid ? (
+            <>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+                Want personalized course rankings?
+              </h2>
+              <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
+                Take our assessment to discover which courses match your interests, 
+                personality, and career goals best.
+              </p>
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => navigate("/assessment")}
+              >
+                Take the Assessment
+              </Button>
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
+                Unlock Full Course Access & Personalized Report
+              </h2>
+              <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
+                Get access to all courses, detailed insights, salary data, university comparisons, 
+                and a downloadable PDF report.
+              </p>
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => setShowPaywall(true)}
+              >
+                <Lock className="h-4 w-4 mr-2" />
+                Unlock for ₦999
+              </Button>
+            </>
+          )}
         </motion.div>
       </main>
 
@@ -336,9 +445,10 @@ const Courses = () => {
           </div>
         </div>
       </footer>
-      {/* Comparison Floating Bar */}
+
+      {/* Comparison Floating Bar - Only for paid users */}
       <AnimatePresence>
-        {selectedCourses.length > 0 && (
+        {isPaid && selectedCourses.length > 0 && (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -398,6 +508,13 @@ const Courses = () => {
           onRemoveCourse={removeCourseFromComparison}
         />
       )}
+
+      {/* Paywall Modal */}
+      <PaywallModal 
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        onSuccess={() => setShowPaywall(false)}
+      />
     </div>
   );
 };

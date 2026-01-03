@@ -1,18 +1,28 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Compass, RefreshCw, Filter, ChevronDown } from "lucide-react";
+import { Compass, RefreshCw, Filter, Download, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAssessmentStore } from "@/store/assessmentStore";
+import { usePaymentStore } from "@/store/paymentStore";
 import CourseCard from "@/components/results/CourseCard";
-import { useState } from "react";
+import PreviewResults from "@/components/results/PreviewResults";
+import PaywallModal from "@/components/payment/PaywallModal";
+import { useState, useEffect } from "react";
 
 const Results = () => {
   const navigate = useNavigate();
   const { recommendations, resetAssessment, profile } = useAssessmentStore();
+  const { isPaid, checkPaymentStatus, isLoading } = usePaymentStore();
   const [filterLocation, setFilterLocation] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("fit");
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  // Check payment status on mount
+  useEffect(() => {
+    checkPaymentStatus();
+  }, []);
 
   // Redirect if no recommendations
   if (recommendations.length === 0) {
@@ -50,6 +60,11 @@ const Results = () => {
     navigate("/assessment");
   };
 
+  const handlePaymentSuccess = () => {
+    setShowPaywall(false);
+    // Payment status will update from store
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -66,10 +81,18 @@ const Results = () => {
               <span className="font-semibold text-foreground">PathFinder</span>
             </div>
             
-            <Button variant="outline" onClick={handleRetake} className="gap-2">
-              <RefreshCw className="h-4 w-4" />
-              Retake
-            </Button>
+            <div className="flex items-center gap-2">
+              {isPaid && (
+                <Button variant="outline" className="gap-2">
+                  <Download className="h-4 w-4" />
+                  Download PDF
+                </Button>
+              )}
+              <Button variant="outline" onClick={handleRetake} className="gap-2">
+                <RefreshCw className="h-4 w-4" />
+                Retake
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -82,90 +105,118 @@ const Results = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <Badge variant="accent" className="mb-4">Your Personalized Results</Badge>
+            <Badge variant="accent" className="mb-4">
+              {isPaid ? "Your Full Report" : "Your Preview Results"}
+            </Badge>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Top {recommendations.length} Courses For You
+              {isPaid 
+                ? `Top ${recommendations.length} Courses For You`
+                : "Your Career Assessment Results"
+              }
             </h1>
             <p className="text-lg text-muted-foreground">
-              Based on your interests, personality, and preferences, we've identified 
-              these courses as your best matches.
+              {isPaid 
+                ? "Based on your interests, personality, and preferences, we've identified these courses as your best matches."
+                : "We've analyzed your responses. Unlock the full report to see your personalized course rankings."
+              }
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="border-b bg-card">
-        <div className="container py-4">
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">Filter:</span>
+      {/* Content based on payment status */}
+      {isPaid ? (
+        <>
+          {/* Filters - Only for paid users */}
+          <section className="border-b bg-card">
+            <div className="container py-4">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">Filter:</span>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { value: "all", label: "All Locations" },
+                    { value: "nigeria", label: "Nigeria" },
+                    { value: "africa", label: "Africa" },
+                    { value: "global", label: "Global" },
+                  ].map(option => (
+                    <Badge
+                      key={option.value}
+                      variant={filterLocation === option.value ? "default" : "secondary"}
+                      className="cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => setFilterLocation(option.value)}
+                    >
+                      {option.label}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2 ml-auto">
+                  <span className="text-sm text-muted-foreground">Sort by:</span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="bg-secondary text-secondary-foreground rounded-lg px-3 py-1.5 text-sm border-0 focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="fit">Best Fit</option>
+                    <option value="future">Future Relevance</option>
+                    <option value="financial">Affordability</option>
+                  </select>
+                </div>
+              </div>
             </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {[
-                { value: "all", label: "All Locations" },
-                { value: "nigeria", label: "Nigeria" },
-                { value: "africa", label: "Africa" },
-                { value: "global", label: "Global" },
-              ].map(option => (
-                <Badge
-                  key={option.value}
-                  variant={filterLocation === option.value ? "default" : "secondary"}
-                  className="cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={() => setFilterLocation(option.value)}
+          </section>
+
+          {/* Full Results Grid */}
+          <main className="container py-8 md:py-12">
+            <div className="grid gap-6">
+              {filteredRecommendations.map((recommendation, index) => (
+                <motion.div
+                  key={recommendation.course.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
                 >
-                  {option.label}
-                </Badge>
+                  <CourseCard 
+                    recommendation={recommendation} 
+                    rank={index + 1}
+                    onClick={() => navigate(`/course/${recommendation.course.id}`)}
+                  />
+                </motion.div>
               ))}
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
-              <span className="text-sm text-muted-foreground">Sort by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-secondary text-secondary-foreground rounded-lg px-3 py-1.5 text-sm border-0 focus:ring-2 focus:ring-primary"
-              >
-                <option value="fit">Best Fit</option>
-                <option value="future">Future Relevance</option>
-                <option value="financial">Affordability</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </section>
+            {filteredRecommendations.length === 0 && (
+              <Card className="p-12 text-center">
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    No courses found with the selected filters. Try adjusting your filters.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </main>
+        </>
+      ) : (
+        /* Preview Results for unpaid users */
+        <main className="container py-8 md:py-12 max-w-4xl">
+          <PreviewResults 
+            recommendations={recommendations}
+            profile={profile}
+            onUnlock={() => setShowPaywall(true)}
+          />
+        </main>
+      )}
 
-      {/* Results Grid */}
-      <main className="container py-8 md:py-12">
-        <div className="grid gap-6">
-          {filteredRecommendations.map((recommendation, index) => (
-            <motion.div
-              key={recommendation.course.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <CourseCard 
-                recommendation={recommendation} 
-                rank={index + 1}
-                onClick={() => navigate(`/course/${recommendation.course.id}`)}
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {filteredRecommendations.length === 0 && (
-          <Card className="p-12 text-center">
-            <CardContent>
-              <p className="text-muted-foreground">
-                No courses found with the selected filters. Try adjusting your filters.
-              </p>
-            </CardContent>
-          </Card>
-        )}
-      </main>
+      {/* Paywall Modal */}
+      <PaywallModal 
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 };
