@@ -9,8 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { usePaymentStore } from "@/store/paymentStore";
 import { useAssessmentStore } from "@/store/assessmentStore";
 
-// Paystack public key - this is safe to expose
-const PAYSTACK_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+// Paystack public key from environment
+const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
 interface PaywallModalProps {
   isOpen: boolean;
