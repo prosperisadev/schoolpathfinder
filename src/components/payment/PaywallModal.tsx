@@ -54,6 +54,18 @@ const PaywallModal = ({ isOpen, onClose, onSuccess }: PaywallModalProps) => {
     storeEmail(email);
 
     try {
+      // Check Paystack public key is configured
+      if (!PAYSTACK_PUBLIC_KEY) {
+        console.error("PAYSTACK_PUBLIC_KEY is not configured");
+        toast({
+          title: "Configuration Error",
+          description: "Payment system is not properly configured.",
+          variant: "destructive",
+        });
+        setIsProcessing(false);
+        return;
+      }
+
       // Create session in database
       const sessionId = await createSession(email, {
         profile,
@@ -63,19 +75,31 @@ const PaywallModal = ({ isOpen, onClose, onSuccess }: PaywallModalProps) => {
         })),
       });
 
+      console.log("Session created:", sessionId);
+
       // Load Paystack script if not already loaded
       if (!window.PaystackPop) {
+        console.log("Loading Paystack script...");
         const script = document.createElement("script");
         script.src = "https://js.paystack.co/v2/inline.js";
         script.async = true;
         document.body.appendChild(script);
-        await new Promise((resolve) => {
-          script.onload = resolve;
+        await new Promise((resolve, reject) => {
+          script.onload = () => {
+            console.log("Paystack script loaded");
+            resolve(true);
+          };
+          script.onerror = () => {
+            reject(new Error("Failed to load Paystack script"));
+          };
         });
       }
 
-      // Initialize Paystack payment
-      const handler = window.PaystackPop.setup({
+      console.log("Initializing Paystack with key:", PAYSTACK_PUBLIC_KEY?.substring(0, 10) + "...");
+
+      // Initialize Paystack payment using new syntax
+      const popup = new window.PaystackPop();
+      popup.newTransaction({
         key: PAYSTACK_PUBLIC_KEY,
         email: email,
         amount: 99900, // ₦999 in kobo
@@ -90,11 +114,11 @@ const PaywallModal = ({ isOpen, onClose, onSuccess }: PaywallModalProps) => {
             },
           ],
         },
-        callback: async (response: { reference: string }) => {
-          console.log("Payment callback:", response);
+        onSuccess: async (transaction: { reference: string }) => {
+          console.log("Payment success:", transaction);
           
           // Verify payment on backend
-          const verified = await verifyPayment(response.reference);
+          const verified = await verifyPayment(transaction.reference);
           
           if (verified) {
             toast({
@@ -111,7 +135,7 @@ const PaywallModal = ({ isOpen, onClose, onSuccess }: PaywallModalProps) => {
           }
           setIsProcessing(false);
         },
-        onClose: () => {
+        onCancel: () => {
           setIsProcessing(false);
           toast({
             title: "Payment cancelled",
@@ -119,8 +143,6 @@ const PaywallModal = ({ isOpen, onClose, onSuccess }: PaywallModalProps) => {
           });
         },
       });
-
-      handler.openIframe();
     } catch (error) {
       console.error("Payment error:", error);
       toast({
