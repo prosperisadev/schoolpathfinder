@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_sessions: {
+        Row: {
+          assessment_data: Json | null
+          created_at: string
+          email: string
+          expires_at: string | null
+          id: string
+          paid_at: string | null
+          payment_status: string
+          transaction_reference: string | null
+          updated_at: string
+        }
+        Insert: {
+          assessment_data?: Json | null
+          created_at?: string
+          email: string
+          expires_at?: string | null
+          id?: string
+          paid_at?: string | null
+          payment_status?: string
+          transaction_reference?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assessment_data?: Json | null
+          created_at?: string
+          email?: string
+          expires_at?: string | null
+          id?: string
+          paid_at?: string | null
+          payment_status?: string
+          transaction_reference?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
