@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp, GitCompare, Check, X, Lock } from "lucide-react";
+import { Compass, Search, Filter, GraduationCap, Briefcase, TrendingUp, GitCompare, Check, X, Lock, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { allCourses } from "@/data/courses";
 import { Course } from "@/types";
 import CourseComparisonModal from "@/components/courses/CourseComparisonModal";
-import PaywallModal from "@/components/payment/PaywallModal";
-import { usePaymentStore } from "@/store/paymentStore";
+import AccessCodeModal from "@/components/payment/AccessCodeModal";
+import { useAccessStore } from "@/store/accessStore";
 import { useAssessmentStore } from "@/store/assessmentStore";
 
 const categoryIcons: Record<string, string> = {
@@ -35,6 +35,7 @@ const categoryColors: Record<string, string> = {
 
 // Number of free courses to show per category
 const FREE_COURSES_PER_CATEGORY = 4;
+const WHATSAPP_LINK = "https://wa.me/2347031279128";
 
 const Courses = () => {
   const navigate = useNavigate();
@@ -42,15 +43,16 @@ const Courses = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
   const [showComparison, setShowComparison] = useState(false);
-  const [showPaywall, setShowPaywall] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
 
-  const { isPaid, checkPaymentStatus } = usePaymentStore();
+  const { isUnlocked, checkAccess } = useAccessStore();
   const { recommendations } = useAssessmentStore();
+  const [accessValid, setAccessValid] = useState(false);
 
-  // Check payment status on mount
+  // Check access status on mount
   useEffect(() => {
-    checkPaymentStatus();
-  }, []);
+    setAccessValid(checkAccess());
+  }, [isUnlocked]);
 
   // Get recommended course IDs
   const recommendedCourseIds = useMemo(() => {
@@ -59,8 +61,8 @@ const Courses = () => {
 
   const toggleCourseSelection = (course: Course, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!isPaid) {
-      setShowPaywall(true);
+    if (!accessValid) {
+      setShowAccessModal(true);
       return;
     }
     setSelectedCourses((prev) => {
@@ -114,15 +116,15 @@ const Courses = () => {
   }, [filteredCourses]);
 
   const handleCourseClick = (course: Course, isLocked: boolean) => {
-    if (isLocked && !isPaid) {
-      setShowPaywall(true);
+    if (isLocked && !accessValid) {
+      setShowAccessModal(true);
     } else {
       navigate(`/course/${course.id}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-32">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container py-4">
@@ -155,7 +157,7 @@ const Courses = () => {
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Browse through {allCourses.length}+ courses across {categories.length} categories. 
-            {!isPaid && " Unlock full access to detailed insights and comparisons."}
+            {!accessValid && " Unlock full access to detailed insights and comparisons."}
           </p>
         </motion.div>
 
@@ -206,7 +208,7 @@ const Courses = () => {
 
         {/* Courses Grid by Category */}
         {Object.entries(coursesByCategory).map(([category, courses], categoryIndex) => {
-          const lockedCount = isPaid ? 0 : Math.max(0, courses.length - FREE_COURSES_PER_CATEGORY);
+          const lockedCount = accessValid ? 0 : Math.max(0, courses.length - FREE_COURSES_PER_CATEGORY);
           
           return (
             <motion.section
@@ -221,14 +223,14 @@ const Courses = () => {
                 <div>
                   <h2 className="text-2xl font-bold text-foreground">{category}</h2>
                   <p className="text-sm text-muted-foreground">
-                    {isPaid ? `${courses.length} courses` : `${FREE_COURSES_PER_CATEGORY} of ${courses.length} courses`}
+                    {accessValid ? `${courses.length} courses` : `${FREE_COURSES_PER_CATEGORY} of ${courses.length} courses`}
                   </p>
                 </div>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {courses.map((course, index) => {
-                  const isLocked = !isPaid && index >= FREE_COURSES_PER_CATEGORY;
+                  const isLocked = !accessValid && index >= FREE_COURSES_PER_CATEGORY;
                   const isSelected = isCourseSelected(course.id);
                   const isRecommended = recommendedCourseIds.has(course.id);
 
@@ -242,8 +244,8 @@ const Courses = () => {
                       transition={{ delay: 0.1 + index * 0.03 }}
                       className="relative"
                     >
-                      {/* Selection Checkbox - Only for paid users */}
-                      {isPaid && (
+                      {/* Selection Checkbox - Only for unlocked users */}
+                      {accessValid && (
                         <button
                           onClick={(e) => toggleCourseSelection(course, e)}
                           className={`absolute top-3 right-3 z-10 h-6 w-6 rounded-md border-2 flex items-center justify-center transition-all ${
@@ -258,7 +260,7 @@ const Courses = () => {
                       )}
 
                       {/* Recommended Badge */}
-                      {isRecommended && isPaid && (
+                      {isRecommended && accessValid && (
                         <div className="absolute top-3 left-3 z-10">
                           <Badge variant="default" className="bg-yellow-500 text-yellow-900">
                             ⭐ Recommended
@@ -273,7 +275,7 @@ const Courses = () => {
                         }`}
                         onClick={() => handleCourseClick(course, false)}
                       >
-                        <CardHeader className={`pb-2 ${isPaid ? 'pr-12' : ''}`}>
+                        <CardHeader className={`pb-2 ${accessValid ? 'pr-12' : ''}`}>
                           <div className="flex items-start justify-between gap-2">
                             <CardTitle className="text-lg leading-tight">{course.name}</CardTitle>
                             <Badge variant="outline" className={categoryColors[course.category]}>
@@ -297,8 +299,8 @@ const Courses = () => {
                             </div>
                           </div>
 
-                          {/* Only show detailed info for paid users */}
-                          {isPaid ? (
+                          {/* Only show detailed info for unlocked users */}
+                          {accessValid ? (
                             <>
                               <div className="flex items-center gap-2">
                                 <TrendingUp className="h-4 w-4 text-primary" />
@@ -342,14 +344,14 @@ const Courses = () => {
               </div>
 
               {/* Locked courses indicator */}
-              {!isPaid && lockedCount > 0 && (
+              {!accessValid && lockedCount > 0 && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="mt-4"
                 >
                   <button
-                    onClick={() => setShowPaywall(true)}
+                    onClick={() => setShowAccessModal(true)}
                     className="w-full p-4 rounded-xl border-2 border-dashed border-muted hover:border-primary/50 transition-colors flex items-center justify-center gap-3 group"
                   >
                     <Lock className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -357,7 +359,7 @@ const Courses = () => {
                       +{lockedCount} more courses available in {category}
                     </span>
                     <Badge variant="outline" className="group-hover:border-primary transition-colors">
-                      Unlock ₦999
+                      Unlock
                     </Badge>
                   </button>
                 </motion.div>
@@ -390,7 +392,7 @@ const Courses = () => {
           viewport={{ once: true }}
           className="mt-16 rounded-3xl gradient-primary p-8 md:p-12 text-center"
         >
-          {isPaid ? (
+          {accessValid ? (
             <>
               <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
                 Want personalized course rankings?
@@ -416,14 +418,25 @@ const Courses = () => {
                 Get access to all courses, detailed insights, salary data, university comparisons, 
                 and a downloadable PDF report.
               </p>
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={() => setShowPaywall(true)}
-              >
-                <Lock className="h-4 w-4 mr-2" />
-                Unlock for ₦999
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => setShowAccessModal(true)}
+                >
+                  <Lock className="h-4 w-4 mr-2" />
+                  Enter Access Code
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => window.open(WHATSAPP_LINK, "_blank")}
+                  className="bg-white/10 border-white/30 text-primary-foreground hover:bg-white/20"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Request Code on WhatsApp
+                </Button>
+              </div>
             </>
           )}
         </motion.div>
@@ -446,55 +459,59 @@ const Courses = () => {
         </div>
       </footer>
 
-      {/* Comparison Floating Bar - Only for paid users */}
+      {/* Comparison Floating Bar - Fixed at bottom, only for unlocked users */}
       <AnimatePresence>
-        {isPaid && selectedCourses.length > 0 && (
+        {accessValid && selectedCourses.length > 0 && (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-card border shadow-2xl rounded-2xl p-4 flex items-center gap-4"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t shadow-2xl"
           >
-            <div className="flex items-center gap-2">
-              <GitCompare className="h-5 w-5 text-primary" />
-              <span className="font-medium text-foreground">
-                {selectedCourses.length} course{selectedCourses.length > 1 ? "s" : ""} selected
-              </span>
-              <span className="text-xs text-muted-foreground">(max 4)</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              {selectedCourses.map((course) => (
-                <div
-                  key={course.id}
-                  className="flex items-center gap-1 bg-muted px-2 py-1 rounded-lg text-sm"
-                >
-                  <span className="max-w-24 truncate">{course.name}</span>
-                  <button
-                    onClick={() => removeCourseFromComparison(course.id)}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
+            <div className="container py-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <GitCompare className="h-5 w-5 text-primary" />
+                  <span className="font-medium text-foreground">
+                    {selectedCourses.length} course{selectedCourses.length > 1 ? "s" : ""} selected
+                  </span>
+                  <span className="text-xs text-muted-foreground">(max 4)</span>
                 </div>
-              ))}
-            </div>
 
-            <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSelectedCourses([])}
-              >
-                Clear
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => setShowComparison(true)}
-                disabled={selectedCourses.length < 2}
-              >
-                Compare
-              </Button>
+                <div className="flex items-center gap-2 flex-wrap justify-center flex-1">
+                  {selectedCourses.map((course) => (
+                    <div
+                      key={course.id}
+                      className="flex items-center gap-1 bg-muted px-2 py-1 rounded-lg text-sm"
+                    >
+                      <span className="max-w-24 truncate">{course.name}</span>
+                      <button
+                        onClick={() => removeCourseFromComparison(course.id)}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedCourses([])}
+                  >
+                    Clear
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setShowComparison(true)}
+                    disabled={selectedCourses.length < 2}
+                  >
+                    Compare Courses
+                  </Button>
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
@@ -509,11 +526,14 @@ const Courses = () => {
         />
       )}
 
-      {/* Paywall Modal */}
-      <PaywallModal 
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        onSuccess={() => setShowPaywall(false)}
+      {/* Access Code Modal */}
+      <AccessCodeModal 
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        onSuccess={() => {
+          setShowAccessModal(false);
+          setAccessValid(true);
+        }}
       />
     </div>
   );

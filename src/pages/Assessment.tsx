@@ -23,7 +23,14 @@ const Assessment = () => {
   const canProceed = () => {
     switch (step) {
       case 0:
-        return profile.age && profile.country && profile.preferredLocation && profile.budgetRange;
+        // Require full name, academic track, and the new academic fields
+        return profile.fullName && 
+               profile.academicTrack && 
+               profile.waecEstimate && 
+               profile.jambEstimate && 
+               profile.learningStyle &&
+               profile.preferredLocation && 
+               profile.budgetRange;
       case 1:
         return Object.keys(profile.interests || {}).length >= 3;
       case 2:

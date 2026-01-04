@@ -14,39 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
+      access_codes: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_used: boolean
+          used_at: string | null
+          used_by_email: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_used?: boolean
+          used_at?: string | null
+          used_by_email?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_used?: boolean
+          used_at?: string | null
+          used_by_email?: string | null
+        }
+        Relationships: []
+      }
       assessment_sessions: {
         Row: {
+          academic_track: string | null
+          access_code: string | null
           assessment_data: Json | null
           created_at: string
           email: string
           expires_at: string | null
+          full_name: string | null
           id: string
+          jamb_estimate: string | null
+          learning_style: string | null
           paid_at: string | null
           payment_status: string
+          share_token: string | null
           transaction_reference: string | null
           updated_at: string
+          waec_estimate: string | null
         }
         Insert: {
+          academic_track?: string | null
+          access_code?: string | null
           assessment_data?: Json | null
           created_at?: string
           email: string
           expires_at?: string | null
+          full_name?: string | null
           id?: string
+          jamb_estimate?: string | null
+          learning_style?: string | null
           paid_at?: string | null
           payment_status?: string
+          share_token?: string | null
           transaction_reference?: string | null
           updated_at?: string
+          waec_estimate?: string | null
         }
         Update: {
+          academic_track?: string | null
+          access_code?: string | null
           assessment_data?: Json | null
           created_at?: string
           email?: string
           expires_at?: string | null
+          full_name?: string | null
           id?: string
+          jamb_estimate?: string | null
+          learning_style?: string | null
           paid_at?: string | null
           payment_status?: string
+          share_token?: string | null
           transaction_reference?: string | null
           updated_at?: string
+          waec_estimate?: string | null
         }
         Relationships: []
       }

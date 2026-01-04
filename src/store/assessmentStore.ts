@@ -19,8 +19,13 @@ interface AssessmentState {
 
 export const useAssessmentStore = create<AssessmentState>((set, get) => ({
   step: 0,
-  totalSteps: 5,
+  totalSteps: 4,
   profile: {
+    fullName: '',
+    academicTrack: undefined,
+    waecEstimate: undefined,
+    jambEstimate: undefined,
+    learningStyle: undefined,
     interests: {},
     personality: {
       analyticalVsCreative: 0,
@@ -55,6 +60,11 @@ export const useAssessmentStore = create<AssessmentState>((set, get) => ({
   resetAssessment: () => set({
     step: 0,
     profile: {
+      fullName: '',
+      academicTrack: undefined,
+      waecEstimate: undefined,
+      jambEstimate: undefined,
+      learningStyle: undefined,
       interests: {},
       personality: {
         analyticalVsCreative: 0,

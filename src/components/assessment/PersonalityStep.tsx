@@ -13,9 +13,14 @@ const PersonalityStep = () => {
 
   return (
     <div className="space-y-6">
-      <p className="text-muted-foreground text-center mb-6">
-        Move the slider towards the trait that describes you better
-      </p>
+      <div className="text-center mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+        <p className="text-foreground font-medium mb-1">
+          👆 Drag the slider to where you best fit
+        </p>
+        <p className="text-sm text-muted-foreground">
+          There are no right or wrong answers - just be honest about your preferences
+        </p>
+      </div>
       {PERSONALITY_TRAITS.map((trait) => (
         <Card key={trait.id} variant="elevated">
           <CardContent className="py-6">
