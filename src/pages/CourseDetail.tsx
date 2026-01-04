@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
@@ -13,7 +14,9 @@ import {
   DollarSign,
   Star,
   CheckCircle,
-  Clock
+  Clock,
+  Lock,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,11 +24,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCoursById } from "@/data/courses";
 import UniversityCard from "@/components/results/UniversityCard";
+import AccessCodeModal from "@/components/payment/AccessCodeModal";
+import { useAccessStore } from "@/store/accessStore";
+
+const WHATSAPP_LINK = "https://wa.me/2347031279128";
 
 const CourseDetail = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const course = getCoursById(courseId || "");
+  const { isUnlocked, checkAccess } = useAccessStore();
+  const [accessValid, setAccessValid] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
+  useEffect(() => {
+    setAccessValid(checkAccess());
+  }, [isUnlocked]);
 
   if (!course) {
     return (
@@ -45,6 +59,37 @@ const CourseDetail = () => {
       return `₦${(amount / 1000000).toFixed(1)}M`;
     }
     return `$${(amount / 1000).toFixed(0)}K`;
+  };
+
+  // Locked content overlay component
+  const LockedOverlay = ({ children, title }: { children: React.ReactNode, title: string }) => {
+    if (accessValid) return <>{children}</>;
+    
+    return (
+      <div className="relative">
+        <div className="absolute inset-0 backdrop-blur-md bg-background/70 z-10 flex flex-col items-center justify-center rounded-xl p-6 text-center">
+          <Lock className="h-8 w-8 text-muted-foreground mb-3" />
+          <p className="font-medium text-foreground mb-2">Unlock to view {title}</p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button size="sm" onClick={() => setShowAccessModal(true)}>
+              Enter Access Code
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => window.open(WHATSAPP_LINK, "_blank")}
+              className="gap-1"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Get Code
+            </Button>
+          </div>
+        </div>
+        <div className="filter blur-sm pointer-events-none">
+          {children}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -163,180 +208,188 @@ const CourseDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card variant="elevated">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Award className="h-5 w-5 text-primary" />
-                    Success Pathway
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Recommended Internships</h4>
-                    <ul className="space-y-1">
-                      {course.successPathway.internships.slice(0, 3).map((item) => (
-                        <li key={item} className="text-sm text-muted-foreground flex items-center gap-2">
-                          <CheckCircle className="h-3 w-3 text-primary" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Key Certifications</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {course.successPathway.certifications.slice(0, 4).map((cert) => (
-                        <Badge key={cert} variant="outline">{cert}</Badge>
-                      ))}
+              <LockedOverlay title="Success Pathway">
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Award className="h-5 w-5 text-primary" />
+                      Success Pathway
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Recommended Internships</h4>
+                      <ul className="space-y-1">
+                        {course.successPathway.internships.slice(0, 3).map((item) => (
+                          <li key={item} className="text-sm text-muted-foreground flex items-center gap-2">
+                            <CheckCircle className="h-3 w-3 text-primary" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Key Certifications</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {course.successPathway.certifications.slice(0, 4).map((cert) => (
+                          <Badge key={cert} variant="outline">{cert}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </LockedOverlay>
             </div>
           </TabsContent>
 
           {/* Nigeria vs Global Tab */}
           <TabsContent value="nigeria-vs-global" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card variant="elevated" className="border-l-4 border-l-primary">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <span className="text-2xl">🇳🇬</span>
-                    In Nigeria
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{course.nigeriaContext.description}</p>
-                  
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Teaching Style</h4>
-                    <p className="text-sm text-muted-foreground">{course.nigeriaContext.teachingStyle}</p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Career Opportunities</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {course.nigeriaContext.careerOpportunities.map((opp) => (
-                        <Badge key={opp} variant="secondary">{opp}</Badge>
-                      ))}
+            <LockedOverlay title="Nigeria vs Global Comparison">
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card variant="elevated" className="border-l-4 border-l-primary">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <span className="text-2xl">🇳🇬</span>
+                      In Nigeria
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground">{course.nigeriaContext.description}</p>
+                    
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Teaching Style</h4>
+                      <p className="text-sm text-muted-foreground">{course.nigeriaContext.teachingStyle}</p>
                     </div>
-                  </div>
-                  
-                  <div className="pt-2 border-t">
-                    <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                      <DollarSign className="h-4 w-4" />
-                      Salary Range
-                    </h4>
-                    <p className="text-lg font-semibold text-primary">
-                      {formatCurrency(course.nigeriaContext.salaryRange.min, "NGN")} - {formatCurrency(course.nigeriaContext.salaryRange.max, "NGN")}/year
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+                    
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Career Opportunities</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {course.nigeriaContext.careerOpportunities.map((opp) => (
+                          <Badge key={opp} variant="secondary">{opp}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2 border-t">
+                      <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
+                        <DollarSign className="h-4 w-4" />
+                        Salary Range
+                      </h4>
+                      <p className="text-lg font-semibold text-primary">
+                        {formatCurrency(course.nigeriaContext.salaryRange.min, "NGN")} - {formatCurrency(course.nigeriaContext.salaryRange.max, "NGN")}/year
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              <Card variant="elevated" className="border-l-4 border-l-accent">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <span className="text-2xl">🌍</span>
-                    Globally
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{course.globalContext.description}</p>
-                  
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Teaching Style</h4>
-                    <p className="text-sm text-muted-foreground">{course.globalContext.teachingStyle}</p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-foreground mb-2">Career Opportunities</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {course.globalContext.careerOpportunities.map((opp) => (
-                        <Badge key={opp} variant="secondary">{opp}</Badge>
-                      ))}
+                <Card variant="elevated" className="border-l-4 border-l-accent">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <span className="text-2xl">🌍</span>
+                      Globally
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground">{course.globalContext.description}</p>
+                    
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Teaching Style</h4>
+                      <p className="text-sm text-muted-foreground">{course.globalContext.teachingStyle}</p>
                     </div>
-                  </div>
-                  
-                  <div className="pt-2 border-t">
-                    <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                      <DollarSign className="h-4 w-4" />
-                      Salary Range
-                    </h4>
-                    <p className="text-lg font-semibold text-accent">
-                      ${(course.globalContext.salaryRange.min / 1000).toFixed(0)}K - ${(course.globalContext.salaryRange.max / 1000).toFixed(0)}K/year
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                    
+                    <div>
+                      <h4 className="font-medium text-foreground mb-2">Career Opportunities</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {course.globalContext.careerOpportunities.map((opp) => (
+                          <Badge key={opp} variant="secondary">{opp}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2 border-t">
+                      <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
+                        <DollarSign className="h-4 w-4" />
+                        Salary Range
+                      </h4>
+                      <p className="text-lg font-semibold text-accent">
+                        ${(course.globalContext.salaryRange.min / 1000).toFixed(0)}K - ${(course.globalContext.salaryRange.max / 1000).toFixed(0)}K/year
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </LockedOverlay>
           </TabsContent>
 
           {/* Career Path Tab */}
           <TabsContent value="career" className="space-y-6">
-            <Card variant="elevated">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Briefcase className="h-5 w-5 text-primary" />
-                  Day-to-Day Work
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{course.careerPath.dayToDay}</p>
-              </CardContent>
-            </Card>
+            <LockedOverlay title="Career Path Details">
+              <div className="space-y-6">
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Briefcase className="h-5 w-5 text-primary" />
+                      Day-to-Day Work
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{course.careerPath.dayToDay}</p>
+                  </CardContent>
+                </Card>
 
-            <Card variant="elevated">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-primary" />
-                  Typical Employers
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {course.careerPath.typicalEmployers.map((employer) => (
-                    <Badge key={employer} variant="secondary" className="text-sm py-2 px-4">
-                      {employer}
-                    </Badge>
-                  ))}
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-primary" />
+                      Typical Employers
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {course.careerPath.typicalEmployers.map((employer) => (
+                        <Badge key={employer} variant="secondary" className="text-sm py-2 px-4">
+                          {employer}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle>Recommended Projects</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {course.successPathway.projects.map((project) => (
+                          <li key={project} className="flex items-center gap-2 text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                            {project}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle>Volunteering Opportunities</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {course.successPathway.volunteering.map((vol) => (
+                          <li key={vol} className="flex items-center gap-2 text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
+                            {vol}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card variant="elevated">
-                <CardHeader>
-                  <CardTitle>Recommended Projects</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {course.successPathway.projects.map((project) => (
-                      <li key={project} className="flex items-center gap-2 text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                        {project}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card variant="elevated">
-                <CardHeader>
-                  <CardTitle>Volunteering Opportunities</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {course.successPathway.volunteering.map((vol) => (
-                      <li key={vol} className="flex items-center gap-2 text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
-                        {vol}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+              </div>
+            </LockedOverlay>
           </TabsContent>
 
           {/* Curriculum Tab */}
@@ -367,38 +420,52 @@ const CourseDetail = () => {
 
           {/* Schools Tab */}
           <TabsContent value="schools" className="space-y-8">
-            {[
-              { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "With WAEC/JAMB Requirements" },
-              { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "With International Certifications" },
-              { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "With International Certifications" },
-            ].map(({ location, emoji, title, subtitle }) => {
-              const locationSchools = course.schools
-                .filter(s => s.location === location)
-                .sort((a, b) => (a.ranking || 999) - (b.ranking || 999))
-                .slice(0, 5);
-              
-              if (locationSchools.length === 0) return null;
-              
-              return (
-                <div key={location}>
-                  <div className="mb-4">
-                    <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                      <span className="text-2xl">{emoji}</span>
-                      {title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
-                  </div>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                    {locationSchools.map((school, index) => (
-                      <UniversityCard key={school.id} school={school} rank={index + 1} />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            <LockedOverlay title="University Options">
+              <div className="space-y-8">
+                {[
+                  { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "With WAEC/JAMB Requirements" },
+                  { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "With International Certifications" },
+                  { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "With International Certifications" },
+                ].map(({ location, emoji, title, subtitle }) => {
+                  const locationSchools = course.schools
+                    .filter(s => s.location === location)
+                    .sort((a, b) => (a.ranking || 999) - (b.ranking || 999))
+                    .slice(0, 5);
+                  
+                  if (locationSchools.length === 0) return null;
+                  
+                  return (
+                    <div key={location}>
+                      <div className="mb-4">
+                        <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                          <span className="text-2xl">{emoji}</span>
+                          {title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+                      </div>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                        {locationSchools.map((school, index) => (
+                          <UniversityCard key={school.id} school={school} rank={index + 1} />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </LockedOverlay>
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Access Code Modal */}
+      <AccessCodeModal 
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        onSuccess={() => {
+          setShowAccessModal(false);
+          setAccessValid(true);
+        }}
+      />
     </div>
   );
 };

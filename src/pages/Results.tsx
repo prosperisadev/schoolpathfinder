@@ -1,28 +1,49 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { Compass, RefreshCw, Filter, Download, Eye } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Compass, RefreshCw, Filter, Share2, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAssessmentStore } from "@/store/assessmentStore";
-import { usePaymentStore } from "@/store/paymentStore";
+import { useAccessStore } from "@/store/accessStore";
 import CourseCard from "@/components/results/CourseCard";
 import PreviewResults from "@/components/results/PreviewResults";
-import PaywallModal from "@/components/payment/PaywallModal";
+import AccessCodeModal from "@/components/payment/AccessCodeModal";
 import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Results = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { toast } = useToast();
   const { recommendations, resetAssessment, profile } = useAssessmentStore();
-  const { isPaid, checkPaymentStatus, isLoading } = usePaymentStore();
+  const { isUnlocked, checkAccess, generateShareToken, shareToken, loadFromShareToken, fullName } = useAccessStore();
   const [filterLocation, setFilterLocation] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("fit");
-  const [showPaywall, setShowPaywall] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [accessValid, setAccessValid] = useState(false);
 
-  // Check payment status on mount
+  // Check for share token in URL and load shared results
   useEffect(() => {
-    checkPaymentStatus();
-  }, []);
+    const token = searchParams.get('share');
+    if (token) {
+      loadFromShareToken(token).then(valid => {
+        if (!valid) {
+          toast({
+            title: "Link Expired",
+            description: "This shared link has expired. Please request a new one.",
+            variant: "destructive",
+          });
+        }
+      });
+    }
+  }, [searchParams]);
+
+  // Check access status on mount
+  useEffect(() => {
+    setAccessValid(checkAccess());
+  }, [isUnlocked]);
 
   // Redirect if no recommendations
   if (recommendations.length === 0) {
@@ -60,10 +81,30 @@ const Results = () => {
     navigate("/assessment");
   };
 
-  const handlePaymentSuccess = () => {
-    setShowPaywall(false);
-    // Payment status will update from store
+  const handleAccessSuccess = () => {
+    setShowAccessModal(false);
+    setAccessValid(true);
   };
+
+  const handleShare = async () => {
+    let token = shareToken;
+    if (!token) {
+      token = await generateShareToken();
+    }
+    
+    if (token) {
+      const shareUrl = `${window.location.origin}/results?share=${token}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast({
+        title: "Link Copied!",
+        description: "Share this link with others. It's valid for 24 hours.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const userName = profile.fullName?.split(' ')[0] || fullName?.split(' ')[0] || 'there';
 
   return (
     <div className="min-h-screen bg-background">
@@ -82,10 +123,10 @@ const Results = () => {
             </div>
             
             <div className="flex items-center gap-2">
-              {isPaid && (
-                <Button variant="outline" className="gap-2">
-                  <Download className="h-4 w-4" />
-                  Download PDF
+              {accessValid && (
+                <Button variant="outline" onClick={handleShare} className="gap-2">
+                  {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
+                  {copied ? "Copied!" : "Share"}
                 </Button>
               )}
               <Button variant="outline" onClick={handleRetake} className="gap-2">
@@ -106,16 +147,16 @@ const Results = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <Badge variant="accent" className="mb-4">
-              {isPaid ? "Your Full Report" : "Your Preview Results"}
+              {accessValid ? "Your Full Report" : "Your Preview Results"}
             </Badge>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              {isPaid 
-                ? `Top ${recommendations.length} Courses For You`
-                : "Your Career Assessment Results"
+              {accessValid 
+                ? `${userName}, here are your top ${recommendations.length} courses`
+                : `${userName}, here's what we found`
               }
             </h1>
             <p className="text-lg text-muted-foreground">
-              {isPaid 
+              {accessValid 
                 ? "Based on your interests, personality, and preferences, we've identified these courses as your best matches."
                 : "We've analyzed your responses. Unlock the full report to see your personalized course rankings."
               }
@@ -124,10 +165,10 @@ const Results = () => {
         </div>
       </section>
 
-      {/* Content based on payment status */}
-      {isPaid ? (
+      {/* Content based on access status */}
+      {accessValid ? (
         <>
-          {/* Filters - Only for paid users */}
+          {/* Filters - Only for unlocked users */}
           <section className="border-b bg-card">
             <div className="container py-4">
               <div className="flex flex-wrap items-center gap-4">
@@ -201,21 +242,21 @@ const Results = () => {
           </main>
         </>
       ) : (
-        /* Preview Results for unpaid users */
+        /* Preview Results for locked users */
         <main className="container py-8 md:py-12 max-w-4xl">
           <PreviewResults 
             recommendations={recommendations}
             profile={profile}
-            onUnlock={() => setShowPaywall(true)}
+            onUnlock={() => setShowAccessModal(true)}
           />
         </main>
       )}
 
-      {/* Paywall Modal */}
-      <PaywallModal 
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        onSuccess={handlePaymentSuccess}
+      {/* Access Code Modal */}
+      <AccessCodeModal 
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        onSuccess={handleAccessSuccess}
       />
     </div>
   );

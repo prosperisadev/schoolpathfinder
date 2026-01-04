@@ -1,0 +1,201 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { supabase } from '@/integrations/supabase/client';
+
+interface AccessState {
+  isUnlocked: boolean;
+  unlockedAt: string | null;
+  expiresAt: string | null;
+  email: string;
+  fullName: string;
+  shareToken: string | null;
+  isLoading: boolean;
+  
+  setEmail: (email: string) => void;
+  setFullName: (name: string) => void;
+  validateAccessCode: (code: string, email: string) => Promise<boolean>;
+  checkAccess: () => boolean;
+  generateShareToken: () => Promise<string | null>;
+  loadFromShareToken: (token: string) => Promise<boolean>;
+  clearAccess: () => void;
+}
+
+export const useAccessStore = create<AccessState>()(
+  persist(
+    (set, get) => ({
+      isUnlocked: false,
+      unlockedAt: null,
+      expiresAt: null,
+      email: '',
+      fullName: '',
+      shareToken: null,
+      isLoading: false,
+
+      setEmail: (email) => set({ email }),
+      setFullName: (name) => set({ fullName: name }),
+
+      validateAccessCode: async (code: string, email: string) => {
+        set({ isLoading: true });
+        try {
+          // Check if code exists and is valid
+          const { data: codeData, error: codeError } = await supabase
+            .from('access_codes')
+            .select('*')
+            .eq('code', code.toUpperCase().trim())
+            .single();
+
+          if (codeError || !codeData) {
+            set({ isLoading: false });
+            return false;
+          }
+
+          // Check if code is already used
+          if (codeData.is_used) {
+            // If used, check if it's within 24 hours and by same email
+            if (codeData.used_by_email === email && codeData.expires_at) {
+              const expiresAt = new Date(codeData.expires_at);
+              if (expiresAt > new Date()) {
+                set({
+                  isUnlocked: true,
+                  unlockedAt: codeData.used_at,
+                  expiresAt: codeData.expires_at,
+                  email,
+                  isLoading: false,
+                });
+                return true;
+              }
+            }
+            set({ isLoading: false });
+            return false; // Code already used by someone else or expired
+          }
+
+          // Mark code as used
+          const now = new Date();
+          const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours
+
+          const { error: updateError } = await supabase
+            .from('access_codes')
+            .update({
+              is_used: true,
+              used_by_email: email,
+              used_at: now.toISOString(),
+              expires_at: expiresAt.toISOString(),
+            })
+            .eq('id', codeData.id);
+
+          if (updateError) {
+            set({ isLoading: false });
+            return false;
+          }
+
+          set({
+            isUnlocked: true,
+            unlockedAt: now.toISOString(),
+            expiresAt: expiresAt.toISOString(),
+            email,
+            isLoading: false,
+          });
+
+          return true;
+        } catch (error) {
+          console.error('Error validating access code:', error);
+          set({ isLoading: false });
+          return false;
+        }
+      },
+
+      checkAccess: () => {
+        const { isUnlocked, expiresAt } = get();
+        if (!isUnlocked || !expiresAt) return false;
+        
+        const expires = new Date(expiresAt);
+        const isValid = expires > new Date();
+        
+        if (!isValid) {
+          set({ isUnlocked: false, unlockedAt: null, expiresAt: null });
+        }
+        
+        return isValid;
+      },
+
+      generateShareToken: async () => {
+        const { email } = get();
+        if (!email) return null;
+
+        const token = `share_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Update session with share token
+        const { error } = await supabase
+          .from('assessment_sessions')
+          .update({ share_token: token })
+          .eq('email', email);
+
+        if (error) {
+          console.error('Error generating share token:', error);
+          return null;
+        }
+
+        set({ shareToken: token });
+        return token;
+      },
+
+      loadFromShareToken: async (token: string) => {
+        set({ isLoading: true });
+        try {
+          const { data, error } = await supabase
+            .from('assessment_sessions')
+            .select('*')
+            .eq('share_token', token)
+            .single();
+
+          if (error || !data) {
+            set({ isLoading: false });
+            return false;
+          }
+
+          // Check if access is still valid (within 24 hours of payment)
+          if (data.expires_at) {
+            const expiresAt = new Date(data.expires_at);
+            if (expiresAt > new Date()) {
+              set({
+                isUnlocked: true,
+                expiresAt: data.expires_at,
+                email: data.email,
+                shareToken: token,
+                isLoading: false,
+              });
+              return true;
+            }
+          }
+
+          set({ isLoading: false });
+          return false;
+        } catch (error) {
+          console.error('Error loading from share token:', error);
+          set({ isLoading: false });
+          return false;
+        }
+      },
+
+      clearAccess: () => set({
+        isUnlocked: false,
+        unlockedAt: null,
+        expiresAt: null,
+        email: '',
+        fullName: '',
+        shareToken: null,
+      }),
+    }),
+    {
+      name: 'pathfinder-access',
+      partialize: (state) => ({
+        isUnlocked: state.isUnlocked,
+        unlockedAt: state.unlockedAt,
+        expiresAt: state.expiresAt,
+        email: state.email,
+        fullName: state.fullName,
+        shareToken: state.shareToken,
+      }),
+    }
+  )
+);

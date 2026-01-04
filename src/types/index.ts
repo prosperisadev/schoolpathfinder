@@ -1,9 +1,14 @@
 // Types for the PathFinder platform
 
 export interface UserProfile {
+  fullName: string;
   age: number;
   country: string;
   academicBackground: string;
+  academicTrack: "science" | "art" | "commercial";
+  waecEstimate: "mostly_distinctions" | "mix_distinctions_credits" | "mostly_credits";
+  jambEstimate: "very_confident" | "fairly_confident" | "not_confident";
+  learningStyle: "fast_learner" | "moderate_learner" | "practical_learner";
   preferredLocation: "nigeria" | "africa" | "global";
   budgetRange: {
     min: number;
