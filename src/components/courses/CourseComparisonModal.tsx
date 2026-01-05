@@ -57,11 +57,10 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
               <X className="h-5 w-5" />
             </Button>
           </div>
-
           {/* Comparison Table */}
           <ScrollArea className="flex-1">
             <div className="min-w-max">
-              <table className="w-full">
+              <table className="w-max min-w-max">
                 <thead className="sticky top-0 bg-card z-10">
                   <tr className="border-b">
                     <th className="text-left p-4 font-semibold text-muted-foreground w-48 min-w-48">Attribute</th>
@@ -95,7 +94,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       </div>
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4 text-sm text-muted-foreground">
+                      <td key={course.id} className="p-4 text-sm text-muted-foreground max-w-80 align-top">
                         {course.overview}
                       </td>
                     ))}
@@ -110,7 +109,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       </div>
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="flex flex-wrap gap-1">
                           {course.coreSkills.map((skill) => (
                             <Badge key={skill} variant="secondary" className="text-xs">
@@ -131,7 +130,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       </div>
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <ul className="space-y-1">
                           {course.nigeriaContext.careerOpportunities.slice(0, 5).map((career) => (
                             <li key={career} className="text-sm text-muted-foreground flex items-center gap-1">
@@ -155,7 +154,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       💰 Salary Range (Nigeria)
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="text-sm">
                           <div className="text-muted-foreground">
                             Min: {formatCurrency(course.nigeriaContext.salaryRange.min, course.nigeriaContext.salaryRange.currency)}
@@ -174,7 +173,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       🌍 Salary Range (Global)
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="text-sm">
                           <div className="text-muted-foreground">
                             Min: {formatCurrency(course.globalContext.salaryRange.min, course.globalContext.salaryRange.currency)}
@@ -196,7 +195,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       </div>
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
@@ -222,11 +221,11 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       </div>
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="text-sm">
-                          <div>🇳🇬 {course.schools.filter(s => s.location === "nigeria").length} Nigerian</div>
-                          <div>🌍 {course.schools.filter(s => s.location === "africa").length} African</div>
-                          <div>🌐 {course.schools.filter(s => s.location === "global").length} Global</div>
+                          <div>🇳🇬 {course.schools.filter((s) => s.location === "nigeria").length} Nigerian</div>
+                          <div>🌍 {course.schools.filter((s) => s.location === "africa").length} African</div>
+                          <div>🌐 {course.schools.filter((s) => s.location === "global").length} Global</div>
                         </div>
                       </td>
                     ))}
@@ -240,7 +239,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                     {courses.map((course) => {
                       const items = getCurriculumItems(course.curriculum);
                       return (
-                        <td key={course.id} className="p-4">
+                        <td key={course.id} className="p-4 align-top">
                           <ul className="space-y-1">
                             {items.map((item, idx) => (
                               <li key={idx} className="text-sm text-muted-foreground flex items-center gap-1">
@@ -260,7 +259,7 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
                       🚀 Industry Trends
                     </td>
                     {courses.map((course) => (
-                      <td key={course.id} className="p-4">
+                      <td key={course.id} className="p-4 align-top">
                         <div className="flex flex-wrap gap-1">
                           {course.futureOutlook.trends.map((trend) => (
                             <Badge key={trend} variant="outline" className="text-xs bg-primary/5">
