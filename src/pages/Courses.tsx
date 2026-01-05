@@ -46,7 +46,7 @@ const Courses = () => {
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   const { isUnlocked, checkAccess } = useAccessStore();
-  const { recommendations } = useAssessmentStore();
+  const { recommendations, profile } = useAssessmentStore();
   const [accessValid, setAccessValid] = useState(false);
 
   // Check access status on mount
@@ -58,6 +58,13 @@ const Courses = () => {
   const recommendedCourseIds = useMemo(() => {
     return new Set(recommendations.map(r => r.course.id));
   }, [recommendations]);
+
+  // Map academic track to course categories
+  const trackToCategoriesMap: Record<string, string[]> = {
+    science: ["Technology", "Health", "Engineering"],
+    art: ["Media & Creative", "Governance & Policy", "Social Impact"],
+    commercial: ["Finance & Business", "Governance & Policy", "Social Impact"],
+  };
 
   const toggleCourseSelection = (course: Course, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -78,10 +85,14 @@ const Courses = () => {
   };
 
   const removeCourseFromComparison = (courseId: string) => {
-    setSelectedCourses((prev) => prev.filter((c) => c.id !== courseId));
-    if (selectedCourses.length <= 1) {
-      setShowComparison(false);
-    }
+    setSelectedCourses((prev) => {
+      const updated = prev.filter((c) => c.id !== courseId);
+      // Close modal if less than 2 courses remain after removal
+      if (updated.length < 2) {
+        setShowComparison(false);
+      }
+      return updated;
+    });
   };
 
   const isCourseSelected = (courseId: string) => {
@@ -94,15 +105,22 @@ const Courses = () => {
   }, []);
 
   const filteredCourses = useMemo(() => {
+    // Get allowed categories based on user's academic track
+    const allowedCategories = profile.academicTrack 
+      ? trackToCategoriesMap[profile.academicTrack] 
+      : null;
+    
     return allCourses.filter((course) => {
       const matchesSearch =
         course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.overview.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = !selectedCategory || course.category === selectedCategory;
-      return matchesSearch && matchesCategory;
+      // If user has selected an academic track, only show courses in matching categories
+      const matchesTrack = !allowedCategories || allowedCategories.includes(course.category);
+      return matchesSearch && matchesCategory && matchesTrack;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, profile.academicTrack]);
 
   const coursesByCategory = useMemo(() => {
     const grouped: Record<string, typeof allCourses> = {};
