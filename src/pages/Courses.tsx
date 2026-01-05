@@ -493,7 +493,9 @@ const Courses = () => {
                   <span className="font-medium text-foreground">
                     {selectedCourses.length} course{selectedCourses.length > 1 ? "s" : ""} selected
                   </span>
-                  <span className="text-xs text-muted-foreground">(max 4)</span>
+                  <span className="text-xs text-muted-foreground">
+                    {selectedCourses.length < 2 ? "(select 2-4 to compare)" : "(max 4)"}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap justify-center flex-1">
@@ -535,8 +537,8 @@ const Courses = () => {
         )}
       </AnimatePresence>
 
-      {/* Comparison Modal */}
-      {showComparison && (
+      {/* Comparison Modal - Only show when 2+ courses selected */}
+      {showComparison && selectedCourses.length >= 2 && (
         <CourseComparisonModal
           courses={selectedCourses}
           onClose={() => setShowComparison(false)}
