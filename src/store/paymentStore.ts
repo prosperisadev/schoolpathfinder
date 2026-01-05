@@ -103,13 +103,14 @@ export const usePaymentStore = create<PaymentState>()(
       },
 
       verifyPayment: async (reference: string) => {
-        const { sessionId } = get();
-        if (!sessionId) return false;
+        const { sessionId, email } = get();
+        if (!sessionId || !email) return false;
 
         set({ isLoading: true });
         try {
+          // Include email for session ownership verification
           const { data, error } = await supabase.functions.invoke('verify-payment', {
-            body: { reference, sessionId }
+            body: { reference, sessionId, email }
           });
 
           if (error) throw error;
