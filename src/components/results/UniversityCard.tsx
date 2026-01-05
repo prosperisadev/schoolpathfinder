@@ -50,9 +50,16 @@ const UniversityCard = ({ school, rank }: UniversityCardProps) => {
         </div>
 
         {school.scholarshipAvailable && (
-          <Badge variant="success" className="w-full justify-center text-xs">
-            Scholarships Available
-          </Badge>
+          <a 
+            href="https://www.scholarshipair.com/scholarships-by-type/undergraduate"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <Badge variant="success" className="w-full justify-center text-xs cursor-pointer hover:opacity-80 transition-opacity">
+              Scholarships Available →
+            </Badge>
+          </a>
         )}
 
         {/* Admission Requirements Accordion */}
