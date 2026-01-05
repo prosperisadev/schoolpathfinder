@@ -37,66 +37,31 @@ export const useAccessStore = create<AccessState>()(
       validateAccessCode: async (code: string, email: string) => {
         set({ isLoading: true });
         try {
-          // Check if code exists and is valid
-          const { data: codeData, error: codeError } = await supabase
-            .from('access_codes')
-            .select('*')
-            .eq('code', code.toUpperCase().trim())
-            .single();
-
-          if (codeError || !codeData) {
-            set({ isLoading: false });
-            return false;
-          }
-
-          // Check if code is already used
-          if (codeData.is_used) {
-            // If used, check if it's within 24 hours and by same email
-            if (codeData.used_by_email === email && codeData.expires_at) {
-              const expiresAt = new Date(codeData.expires_at);
-              if (expiresAt > new Date()) {
-                set({
-                  isUnlocked: true,
-                  unlockedAt: codeData.used_at,
-                  expiresAt: codeData.expires_at,
-                  email,
-                  isLoading: false,
-                });
-                return true;
-              }
-            }
-            set({ isLoading: false });
-            return false; // Code already used by someone else or expired
-          }
-
-          // Mark code as used
-          const now = new Date();
-          const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours
-
-          const { error: updateError } = await supabase
-            .from('access_codes')
-            .update({
-              is_used: true,
-              used_by_email: email,
-              used_at: now.toISOString(),
-              expires_at: expiresAt.toISOString(),
-            })
-            .eq('id', codeData.id);
-
-          if (updateError) {
-            set({ isLoading: false });
-            return false;
-          }
-
-          set({
-            isUnlocked: true,
-            unlockedAt: now.toISOString(),
-            expiresAt: expiresAt.toISOString(),
-            email,
-            isLoading: false,
+          // Call server-side edge function for secure validation
+          const { data, error } = await supabase.functions.invoke('validate-access-code', {
+            body: { code: code.toUpperCase().trim(), email }
           });
 
-          return true;
+          if (error) {
+            console.error('Error validating access code:', error);
+            set({ isLoading: false });
+            return false;
+          }
+
+          if (data?.valid) {
+            const now = new Date();
+            set({
+              isUnlocked: true,
+              unlockedAt: now.toISOString(),
+              expiresAt: data.expiresAt,
+              email,
+              isLoading: false,
+            });
+            return true;
+          }
+
+          set({ isLoading: false });
+          return false;
         } catch (error) {
           console.error('Error validating access code:', error);
           set({ isLoading: false });

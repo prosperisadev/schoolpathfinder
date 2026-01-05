@@ -2,3 +2,6 @@ project_id = "nwejjwafzscmttqxbrlj"
 
 [functions.verify-payment]
 verify_jwt = false
+
+[functions.validate-access-code]
+verify_jwt = false

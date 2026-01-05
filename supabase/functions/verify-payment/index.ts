@@ -9,6 +9,7 @@ const corsHeaders = {
 interface VerifyPaymentRequest {
   reference: string;
   sessionId: string;
+  email: string;
 }
 
 serve(async (req) => {
@@ -18,13 +19,53 @@ serve(async (req) => {
   }
 
   try {
-    const { reference, sessionId }: VerifyPaymentRequest = await req.json();
-    console.log("Verifying payment:", { reference, sessionId });
+    const { reference, sessionId, email }: VerifyPaymentRequest = await req.json();
+    console.log("Verifying payment:", { reference, sessionId, email });
 
-    if (!reference || !sessionId) {
+    if (!reference || !sessionId || !email) {
       return new Response(
-        JSON.stringify({ error: "Missing reference or sessionId" }),
+        JSON.stringify({ error: "Missing reference, sessionId, or email" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Initialize Supabase client with service role for privileged access
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // SECURITY: Verify the session belongs to this email BEFORE processing payment
+    const { data: existingSession, error: sessionError } = await supabase
+      .from("assessment_sessions")
+      .select("id, email")
+      .eq("id", sessionId)
+      .single();
+
+    if (sessionError || !existingSession) {
+      console.error("Session not found:", sessionId);
+      return new Response(
+        JSON.stringify({ error: "Session not found" }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (existingSession.email !== email) {
+      console.error("Email mismatch - attempted unauthorized access:", { 
+        sessionEmail: existingSession.email, 
+        providedEmail: email 
+      });
+      return new Response(
+        JSON.stringify({ error: "Unauthorized - session does not belong to this email" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -39,7 +80,7 @@ serve(async (req) => {
 
     // Verify transaction with Paystack
     const paystackResponse = await fetch(
-      `https://api.paystack.co/transaction/verify/${reference}`,
+      `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
       {
         method: "GET",
         headers: {
@@ -71,11 +112,6 @@ serve(async (req) => {
       );
     }
 
-    // Initialize Supabase client
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
     // Calculate expiry time (24 hours from now)
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
@@ -89,6 +125,7 @@ serve(async (req) => {
         expires_at: expiresAt,
       })
       .eq("id", sessionId)
+      .eq("email", email) // Double-check ownership during update
       .select()
       .single();
 
