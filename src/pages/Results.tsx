@@ -11,6 +11,8 @@ import PreviewResults from "@/components/results/PreviewResults";
 import AccessCodeModal from "@/components/payment/AccessCodeModal";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { generatePersonalizedSummary } from "@/lib/recommendations";
+import { UserProfile } from "@/types";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -105,6 +107,7 @@ const Results = () => {
   };
 
   const userName = profile.fullName?.split(' ')[0] || fullName?.split(' ')[0] || 'there';
+  const personalizedSummary = profile.fullName ? generatePersonalizedSummary(profile as UserProfile, recommendations) : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -161,6 +164,13 @@ const Results = () => {
                 : "We've analyzed your responses. Unlock the full report to see your personalized course rankings."
               }
             </p>
+            {accessValid && personalizedSummary && (
+              <Card className="mt-6 bg-primary/5 border-primary/20">
+                <CardContent className="pt-6">
+                  <p className="text-foreground leading-relaxed">{personalizedSummary}</p>
+                </CardContent>
+              </Card>
+            )}
           </motion.div>
         </div>
       </section>
