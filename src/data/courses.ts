@@ -1,5 +1,6 @@
 import { Course, School } from "@/types";
 import { additionalCourses } from "./additionalCourses";
+import { newGlobalCourses } from "./newGlobalCourses";
 import { nigerianUniversities, africanUniversities, globalUniversities } from "./universities";
 
 // Use the comprehensive universities from universities.ts
@@ -450,8 +451,8 @@ export const courses: Course[] = [
   },
 ];
 
-// Combine all courses
-export const allCourses: Course[] = [...courses, ...additionalCourses];
+// Combine all courses including new global courses
+export const allCourses: Course[] = [...courses, ...additionalCourses, ...newGlobalCourses];
 
 export function getCoursById(id: string): Course | undefined {
   return allCourses.find(course => course.id === id);

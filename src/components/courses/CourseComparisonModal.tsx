@@ -18,16 +18,6 @@ const formatCurrency = (amount: number, currency: string) => {
   return `$${amount.toLocaleString()}`;
 };
 
-const getCurriculumItems = (curriculum: Course["curriculum"]) => {
-  const allItems = [
-    ...curriculum.year1.slice(0, 1),
-    ...curriculum.year2.slice(0, 1),
-    ...curriculum.year3.slice(0, 1),
-    ...curriculum.year4.slice(0, 1),
-  ];
-  return allItems;
-};
-
 const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseComparisonModalProps) => {
   if (courses.length === 0) return null;
 
@@ -48,230 +38,139 @@ const CourseComparisonModal = ({ courses, onClose, onRemoveCourse }: CourseCompa
           className="fixed inset-4 md:inset-8 bg-card border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 md:p-6 border-b bg-card">
+          <div className="flex items-center justify-between p-4 md:p-6 border-b bg-card shrink-0">
             <div>
               <h2 className="text-xl md:text-2xl font-bold text-foreground">Compare Courses</h2>
-              <p className="text-sm text-muted-foreground">Comparing {courses.length} courses side by side</p>
+              <p className="text-sm text-muted-foreground">Comparing {courses.length} courses</p>
             </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="h-5 w-5" />
             </Button>
           </div>
-          {/* Comparison Table */}
-          <ScrollArea className="flex-1">
-            <div className="min-w-max">
-              <table className="w-max min-w-max">
-                <thead className="sticky top-0 bg-card z-10">
-                  <tr className="border-b">
-                    <th className="text-left p-4 font-semibold text-muted-foreground w-48 min-w-48">Attribute</th>
-                    {courses.map((course) => (
-                      <th key={course.id} className="text-left p-4 min-w-72 max-w-80">
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <h3 className="font-bold text-foreground text-lg">{course.name}</h3>
-                            <Badge variant="outline" className="mt-1">{course.category}</Badge>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 shrink-0"
-                            onClick={() => onRemoveCourse(course.id)}
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
+
+          {/* Comparison Cards - Vertical Scroll Only */}
+          <ScrollArea className="flex-1 p-4 md:p-6">
+            <div className={`grid gap-4 ${courses.length === 2 ? 'md:grid-cols-2' : courses.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
+              {courses.map((course) => (
+                <div key={course.id} className="bg-muted/30 rounded-xl p-4 border relative">
+                  {/* Remove Button */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-2 right-2 h-6 w-6"
+                    onClick={() => onRemoveCourse(course.id)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+
+                  {/* Course Header */}
+                  <div className="mb-4 pr-6">
+                    <h3 className="font-bold text-foreground text-lg leading-tight">{course.name}</h3>
+                    <Badge variant="outline" className="mt-2">{course.category}</Badge>
+                  </div>
+
                   {/* Overview */}
-                  <tr className="border-b bg-muted/30">
-                    <td className="p-4 font-medium text-foreground">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-primary" />
-                        Overview
-                      </div>
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 text-sm text-muted-foreground max-w-80 align-top">
-                        {course.overview}
-                      </td>
-                    ))}
-                  </tr>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <BookOpen className="h-4 w-4 text-primary" />
+                      <span className="font-medium text-sm">Overview</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground line-clamp-3">{course.overview}</p>
+                  </div>
 
                   {/* Core Skills */}
-                  <tr className="border-b">
-                    <td className="p-4 font-medium text-foreground">
-                      <div className="flex items-center gap-2">
-                        <GraduationCap className="h-4 w-4 text-primary" />
-                        Core Skills
-                      </div>
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="flex flex-wrap gap-1">
-                          {course.coreSkills.map((skill) => (
-                            <Badge key={skill} variant="secondary" className="text-xs">
-                              {skill}
-                            </Badge>
-                          ))}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <GraduationCap className="h-4 w-4 text-primary" />
+                      <span className="font-medium text-sm">Core Skills</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {course.coreSkills.slice(0, 4).map((skill) => (
+                        <Badge key={skill} variant="secondary" className="text-xs">
+                          {skill}
+                        </Badge>
+                      ))}
+                      {course.coreSkills.length > 4 && (
+                        <Badge variant="secondary" className="text-xs">+{course.coreSkills.length - 4}</Badge>
+                      )}
+                    </div>
+                  </div>
 
-                  {/* Career Opportunities */}
-                  <tr className="border-b bg-muted/30">
-                    <td className="p-4 font-medium text-foreground">
-                      <div className="flex items-center gap-2">
-                        <Briefcase className="h-4 w-4 text-primary" />
-                        Career Paths
-                      </div>
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <ul className="space-y-1">
-                          {course.nigeriaContext.careerOpportunities.slice(0, 5).map((career) => (
-                            <li key={career} className="text-sm text-muted-foreground flex items-center gap-1">
-                              <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                              {career}
-                            </li>
-                          ))}
-                          {course.nigeriaContext.careerOpportunities.length > 5 && (
-                            <li className="text-xs text-muted-foreground">
-                              +{course.nigeriaContext.careerOpportunities.length - 5} more
-                            </li>
-                          )}
-                        </ul>
-                      </td>
-                    ))}
-                  </tr>
+                  {/* Career Paths */}
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Briefcase className="h-4 w-4 text-primary" />
+                      <span className="font-medium text-sm">Career Paths</span>
+                    </div>
+                    <ul className="space-y-1">
+                      {course.nigeriaContext.careerOpportunities.slice(0, 3).map((career) => (
+                        <li key={career} className="text-xs text-muted-foreground flex items-center gap-1">
+                          <span className="h-1 w-1 rounded-full bg-primary shrink-0" />
+                          {career}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                  {/* Salary Range (Nigeria) */}
-                  <tr className="border-b">
-                    <td className="p-4 font-medium text-foreground">
-                      💰 Salary Range (Nigeria)
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="text-sm">
-                          <div className="text-muted-foreground">
-                            Min: {formatCurrency(course.nigeriaContext.salaryRange.min, course.nigeriaContext.salaryRange.currency)}
-                          </div>
-                          <div className="text-primary font-medium">
-                            Max: {formatCurrency(course.nigeriaContext.salaryRange.max, course.nigeriaContext.salaryRange.currency)}
-                          </div>
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-
-                  {/* Global Salary */}
-                  <tr className="border-b bg-muted/30">
-                    <td className="p-4 font-medium text-foreground">
-                      🌍 Salary Range (Global)
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="text-sm">
-                          <div className="text-muted-foreground">
-                            Min: {formatCurrency(course.globalContext.salaryRange.min, course.globalContext.salaryRange.currency)}
-                          </div>
-                          <div className="text-primary font-medium">
-                            Max: {formatCurrency(course.globalContext.salaryRange.max, course.globalContext.salaryRange.currency)}
-                          </div>
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
+                  {/* Salary */}
+                  <div className="mb-4 grid grid-cols-2 gap-2">
+                    <div className="bg-background/50 rounded-lg p-2">
+                      <p className="text-xs text-muted-foreground">🇳🇬 Nigeria</p>
+                      <p className="text-xs font-medium text-primary">
+                        {formatCurrency(course.nigeriaContext.salaryRange.max, "NGN")}
+                      </p>
+                    </div>
+                    <div className="bg-background/50 rounded-lg p-2">
+                      <p className="text-xs text-muted-foreground">🌍 Global</p>
+                      <p className="text-xs font-medium text-primary">
+                        {formatCurrency(course.globalContext.salaryRange.max, "USD")}
+                      </p>
+                    </div>
+                  </div>
 
                   {/* Future Relevance */}
-                  <tr className="border-b">
-                    <td className="p-4 font-medium text-foreground">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-primary" />
-                        Future Relevance
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingUp className="h-4 w-4 text-primary" />
+                      <span className="font-medium text-sm">Future Relevance</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                        <div
+                          className="h-full gradient-primary rounded-full"
+                          style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
+                        />
                       </div>
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                              <div
-                                className="h-full gradient-primary rounded-full"
-                                style={{ width: `${course.futureOutlook.relevanceIn5Years * 10}%` }}
-                              />
-                            </div>
-                            <span className="text-sm font-medium">{course.futureOutlook.relevanceIn5Years}/10</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">{course.futureOutlook.techImpact}</p>
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
+                      <span className="text-xs font-medium">{course.futureOutlook.relevanceIn5Years}/10</span>
+                    </div>
+                  </div>
 
-                  {/* Number of Schools */}
-                  <tr className="border-b bg-muted/30">
-                    <td className="p-4 font-medium text-foreground">
-                      <div className="flex items-center gap-2">
-                        <School className="h-4 w-4 text-primary" />
-                        Universities
-                      </div>
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="text-sm">
-                          <div>🇳🇬 {course.schools.filter((s) => s.location === "nigeria").length} Nigerian</div>
-                          <div>🌍 {course.schools.filter((s) => s.location === "africa").length} African</div>
-                          <div>🌐 {course.schools.filter((s) => s.location === "global").length} Global</div>
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-
-                  {/* Typical Curriculum */}
-                  <tr className="border-b">
-                    <td className="p-4 font-medium text-foreground">
-                      📚 Curriculum Highlights
-                    </td>
-                    {courses.map((course) => {
-                      const items = getCurriculumItems(course.curriculum);
-                      return (
-                        <td key={course.id} className="p-4 align-top">
-                          <ul className="space-y-1">
-                            {items.map((item, idx) => (
-                              <li key={idx} className="text-sm text-muted-foreground flex items-center gap-1">
-                                <span className="h-1.5 w-1.5 rounded-full bg-secondary shrink-0" />
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </td>
-                      );
-                    })}
-                  </tr>
+                  {/* Universities */}
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <School className="h-4 w-4 text-primary" />
+                      <span className="font-medium text-sm">Universities</span>
+                    </div>
+                    <div className="flex gap-2 text-xs">
+                      <span>🇳🇬 {course.schools.filter((s) => s.location === "nigeria").length}</span>
+                      <span>🌍 {course.schools.filter((s) => s.location === "africa").length}</span>
+                      <span>🌐 {course.schools.filter((s) => s.location === "global").length}</span>
+                    </div>
+                  </div>
 
                   {/* Trends */}
-                  <tr className="border-b bg-muted/30">
-                    <td className="p-4 font-medium text-foreground">
-                      🚀 Industry Trends
-                    </td>
-                    {courses.map((course) => (
-                      <td key={course.id} className="p-4 align-top">
-                        <div className="flex flex-wrap gap-1">
-                          {course.futureOutlook.trends.map((trend) => (
-                            <Badge key={trend} variant="outline" className="text-xs bg-primary/5">
-                              {trend}
-                            </Badge>
-                          ))}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+                  <div>
+                    <p className="text-xs font-medium mb-2">🚀 Trends</p>
+                    <div className="flex flex-wrap gap-1">
+                      {course.futureOutlook.trends.slice(0, 3).map((trend) => (
+                        <Badge key={trend} variant="outline" className="text-xs bg-primary/5">
+                          {trend}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </ScrollArea>
         </motion.div>

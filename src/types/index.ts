@@ -72,6 +72,9 @@ export interface Course {
     peopleVsTask: number;
     riskVsStability: number;
   };
+  // NEW FIELDS for matching logic
+  academicTrackRequired?: ("science" | "art" | "commercial")[];
+  difficultyLevel?: "low" | "medium" | "high";
 }
 
 export interface AdmissionRequirements {
