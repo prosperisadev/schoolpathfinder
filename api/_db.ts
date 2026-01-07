@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "../src/db/schema";
+import * as schema from "./_schema";
 
 // Create a new connection for each request in serverless environment
 export function getDatabase() {

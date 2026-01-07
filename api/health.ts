@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { getDatabase } from "./_db";
-import { accessCodesBank } from "../src/db/schema";
+import { accessCodesBank } from "./_schema";
 import { sql } from "drizzle-orm";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

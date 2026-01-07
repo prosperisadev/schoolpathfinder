@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { getDatabase } from "./_db";
 import { sql } from "drizzle-orm";
-import { universitiesComprehensive } from "../src/db/schema";
+import { universitiesComprehensive } from "./_schema";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
