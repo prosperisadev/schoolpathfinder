@@ -2,13 +2,14 @@
 // In production (Vercel), use relative paths. In development, use localhost
 
 const getApiUrl = () => {
+  // In production (Vercel), use relative paths (same origin)
+  // This ensures we always hit the serverless functions in /api/
+  if (import.meta.env.PROD) {
+    return "";
+  }
   // If VITE_API_URL is explicitly set, use it
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
-  }
-  // In production, use relative paths (same origin)
-  if (import.meta.env.PROD) {
-    return "";
   }
   // In development, use localhost Express server
   return "http://localhost:3001";

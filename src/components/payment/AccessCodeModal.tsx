@@ -4,7 +4,7 @@ import { Lock, Check, Sparkles, GraduationCap, Globe, BadgePercent, MessageCircl
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useAccessStore } from "@/store/accessStore";
 import { useAssessmentStore } from "@/store/assessmentStore";
@@ -82,6 +82,9 @@ const AccessCodeModal = ({ isOpen, onClose, onSuccess }: AccessCodeModalProps) =
             <Lock className="h-5 w-5 text-primary" />
             Unlock Your Personalized Results
           </DialogTitle>
+          <DialogDescription>
+            Enter your email and access code to unlock your full career report.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
