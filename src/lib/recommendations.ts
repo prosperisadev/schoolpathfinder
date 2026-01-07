@@ -1,5 +1,6 @@
 import { Course, CourseRecommendation, UserProfile } from "@/types";
 import { allCourses as courses } from "@/data/courses";
+import { COURSE_DEPARTMENT_MAP, canStudentTakeCourse, Department } from "@/data/universities";
 
 // Weights for the recommendation algorithm
 const WEIGHTS = {
@@ -8,75 +9,30 @@ const WEIGHTS = {
   financial: 0.20,
   location: 0.10,
   future: 0.10,
-  academic: 0.15, // NEW: academic strength weight
+  academic: 0.15,
 };
-
-// Academic track constraints - which tracks can access which course categories
-const TRACK_COURSE_MAPPING: Record<string, string[]> = {
-  science: [
-    "Technology", "Health", "Engineering", "Finance & Business", 
-    "Governance & Policy", "Social Impact", "Media & Creative"
-  ],
-  commercial: [
-    "Finance & Business", "Governance & Policy", "Social Impact", 
-    "Media & Creative", "Technology" // limited tech access
-  ],
-  art: [
-    "Media & Creative", "Governance & Policy", "Social Impact", 
-    "Finance & Business" // limited finance access
-  ],
-};
-
-// Courses that are STRICTLY science-only (Art/Commercial students cannot access)
-const SCIENCE_ONLY_COURSES = [
-  "medicine", "computer-science", "mechanical-engineering", "nursing",
-  "data-science", "cybersecurity", "software-engineering", "artificial-intelligence",
-  "ai-machine-learning", "biomedical-engineering", "pharmacy", "public-health",
-  "health-informatics", "nutrition-dietetics", "renewable-energy-engineering",
-  "civil-engineering", "petroleum-engineering", "electrical-electronics-engineering",
-  "mathematics", "physics", "chemistry", "chemical-engineering"
-];
-
-// Courses that Commercial students CAN access from Tech (not heavy science)
-const COMMERCIAL_TECH_ALLOWED = [
-  "information-technology", "ux-ui-design", "product-management", 
-  "blockchain-web3", "cloud-computing", "digital-marketing", "fintech",
-  "game-development"
-];
 
 export function calculateRecommendations(profile: UserProfile): CourseRecommendation[] {
-  const userTrack = profile.academicTrack;
+  const userTrack = profile.academicTrack as Department;
   
-  // Filter courses based on academic track
+  // Filter courses based on STRICT department mapping
+  // Students can ONLY see courses from their department
   const eligibleCourses = courses.filter(course => {
-    // If course has explicit track requirements, check them
+    // First check the master department map
+    const courseDepartment = COURSE_DEPARTMENT_MAP[course.id];
+    
+    if (courseDepartment) {
+      // Use strict department matching
+      return courseDepartment === userTrack;
+    }
+    
+    // Fallback: If course has explicit track requirements in the course data, check them
     if (course.academicTrackRequired && course.academicTrackRequired.length > 0) {
       return course.academicTrackRequired.includes(userTrack);
     }
     
-    // Check if course is in science-only list
-    if (SCIENCE_ONLY_COURSES.includes(course.id)) {
-      return userTrack === "science";
-    }
-    
-    // For commercial students, allow specific tech courses
-    if (userTrack === "commercial") {
-      if (course.category === "Technology") {
-        return COMMERCIAL_TECH_ALLOWED.includes(course.id);
-      }
-      return TRACK_COURSE_MAPPING.commercial.includes(course.category);
-    }
-    
-    // For art students
-    if (userTrack === "art") {
-      if (course.category === "Technology") {
-        return ["ux-ui-design", "digital-marketing", "game-development", "product-management"].includes(course.id);
-      }
-      return TRACK_COURSE_MAPPING.art.includes(course.category);
-    }
-    
-    // Science students can access all
-    return true;
+    // If no mapping exists, don't show the course (be conservative)
+    return false;
   });
   
   const recommendations: CourseRecommendation[] = eligibleCourses.map(course => {

@@ -1,5 +1,336 @@
 import { School } from "@/types";
 
+// === DEPARTMENT DEFINITIONS ===
+export type Department = "science" | "art" | "commercial";
+
+// Master course-to-department mapping
+// This is the STRICT mapping that determines which academic track can take which courses
+export const COURSE_DEPARTMENT_MAP: Record<string, Department> = {
+  // === SCIENCE DEPARTMENT COURSES ===
+  "computer-science": "science",
+  "medicine": "science",
+  "mechanical-engineering": "science",
+  "nursing": "science",
+  "data-science": "science",
+  "cybersecurity": "science",
+  "software-engineering": "science",
+  "artificial-intelligence": "science",
+  "ai-machine-learning": "science",
+  "biomedical-engineering": "science",
+  "pharmacy": "science",
+  "public-health": "science",
+  "health-informatics": "science",
+  "nutrition-dietetics": "science",
+  "renewable-energy-engineering": "science",
+  "civil-engineering": "science",
+  "petroleum-engineering": "science",
+  "electrical-electronics-engineering": "science",
+  "electrical-engineering": "science",
+  "chemical-engineering": "science",
+  "mathematics": "science",
+  "physics": "science",
+  "chemistry": "science",
+  "biology": "science",
+  "biochemistry": "science",
+  "microbiology": "science",
+  "geology": "science",
+  "agricultural-science": "science",
+  "veterinary-medicine": "science",
+  "dentistry": "science",
+  "physiotherapy": "science",
+  "medical-lab-science": "science",
+  "radiography": "science",
+  "optometry": "science",
+  "architecture": "science",
+  "quantity-surveying": "science",
+  "estate-management": "science",
+  "surveying-geoinformatics": "science",
+  "environmental-science": "science",
+  "climate-sustainability": "science",
+  "cloud-computing": "science",
+  "game-development": "science",
+  "blockchain-web3": "science",
+  "food-science": "science",
+  "statistics": "science",
+  "industrial-chemistry": "science",
+  
+  // === ART DEPARTMENT COURSES ===
+  "law": "art",
+  "mass-communication": "art",
+  "english": "art",
+  "history": "art",
+  "philosophy": "art",
+  "religious-studies": "art",
+  "linguistics": "art",
+  "theatre-arts": "art",
+  "music": "art",
+  "fine-arts": "art",
+  "french": "art",
+  "arabic": "art",
+  "yoruba": "art",
+  "igbo": "art",
+  "hausa": "art",
+  "creative-writing": "art",
+  "film-studies": "art",
+  "journalism": "art",
+  "international-relations": "art",
+  "political-science": "art",
+  "public-administration": "art",
+  "sociology": "art",
+  "psychology": "art",
+  "social-work": "art",
+  "criminology": "art",
+  "diplomacy-strategic-studies": "art",
+  "peace-conflict-studies": "art",
+  "media-communication": "art",
+  "ux-ui-design": "art",
+  "digital-marketing": "art",
+  "content-creation": "art",
+  "animation-motion-graphics": "art",
+  "graphic-design": "art",
+  "education": "art",
+  "library-science": "art",
+  "urban-planning": "art",
+  
+  // === COMMERCIAL DEPARTMENT COURSES ===
+  "economics": "commercial",
+  "accounting": "commercial",
+  "banking-finance": "commercial",
+  "business-administration": "commercial",
+  "marketing": "commercial",
+  "insurance": "commercial",
+  "actuarial-science": "commercial",
+  "entrepreneurship": "commercial",
+  "human-resource-management": "commercial",
+  "supply-chain-logistics": "commercial",
+  "project-management": "commercial",
+  "fintech": "commercial",
+  "investment-banking": "commercial",
+  "real-estate-finance": "commercial",
+  "international-business": "commercial",
+  "management-information-systems": "commercial",
+  "office-management": "commercial",
+  "taxation": "commercial",
+  "auditing": "commercial",
+  "product-management": "commercial",
+  "secretarial-studies": "commercial",
+  "hospitality-management": "commercial",
+  "tourism-management": "commercial",
+  "public-finance": "commercial",
+};
+
+// Function to get department for a course
+export function getCourseDepartment(courseId: string): Department | null {
+  return COURSE_DEPARTMENT_MAP[courseId] || null;
+}
+
+// Function to check if a student can take a course based on their track
+export function canStudentTakeCourse(studentTrack: Department, courseId: string): boolean {
+  const courseDepartment = getCourseDepartment(courseId);
+  if (!courseDepartment) return false;
+  // Students can ONLY take courses from their department
+  return studentTrack === courseDepartment;
+}
+
+// === UNIVERSITY COURSE OFFERINGS ===
+// Maps which courses each Nigerian university offers
+export interface UniversityCourseOffering {
+  courseId: string;
+  available: boolean;
+  rankingScore: number; // 1-100, specific to this course at this university
+}
+
+export const UNIVERSITY_COURSE_OFFERINGS: Record<string, UniversityCourseOffering[]> = {
+  "unilag": [
+    { courseId: "computer-science", available: true, rankingScore: 95 },
+    { courseId: "medicine", available: true, rankingScore: 98 },
+    { courseId: "law", available: true, rankingScore: 96 },
+    { courseId: "economics", available: true, rankingScore: 94 },
+    { courseId: "mass-communication", available: true, rankingScore: 92 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 90 },
+    { courseId: "accounting", available: true, rankingScore: 93 },
+    { courseId: "pharmacy", available: true, rankingScore: 88 },
+    { courseId: "nursing", available: true, rankingScore: 85 },
+    { courseId: "business-administration", available: true, rankingScore: 94 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 89 },
+    { courseId: "civil-engineering", available: true, rankingScore: 88 },
+    { courseId: "political-science", available: true, rankingScore: 85 },
+    { courseId: "sociology", available: true, rankingScore: 82 },
+    { courseId: "data-science", available: true, rankingScore: 85 },
+  ],
+  "ui": [
+    { courseId: "medicine", available: true, rankingScore: 99 },
+    { courseId: "law", available: true, rankingScore: 97 },
+    { courseId: "pharmacy", available: true, rankingScore: 96 },
+    { courseId: "economics", available: true, rankingScore: 93 },
+    { courseId: "computer-science", available: true, rankingScore: 88 },
+    { courseId: "political-science", available: true, rankingScore: 94 },
+    { courseId: "sociology", available: true, rankingScore: 91 },
+    { courseId: "accounting", available: true, rankingScore: 86 },
+    { courseId: "dentistry", available: true, rankingScore: 95 },
+    { courseId: "veterinary-medicine", available: true, rankingScore: 97 },
+    { courseId: "psychology", available: true, rankingScore: 90 },
+    { courseId: "history", available: true, rankingScore: 92 },
+  ],
+  "covenant": [
+    { courseId: "computer-science", available: true, rankingScore: 96 },
+    { courseId: "software-engineering", available: true, rankingScore: 95 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 94 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 90 },
+    { courseId: "business-administration", available: true, rankingScore: 93 },
+    { courseId: "accounting", available: true, rankingScore: 92 },
+    { courseId: "economics", available: true, rankingScore: 88 },
+    { courseId: "law", available: true, rankingScore: 85 },
+    { courseId: "architecture", available: true, rankingScore: 91 },
+    { courseId: "mass-communication", available: true, rankingScore: 86 },
+    { courseId: "data-science", available: true, rankingScore: 90 },
+    { courseId: "cybersecurity", available: true, rankingScore: 88 },
+  ],
+  "abu": [
+    { courseId: "medicine", available: true, rankingScore: 94 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 95 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 94 },
+    { courseId: "civil-engineering", available: true, rankingScore: 93 },
+    { courseId: "law", available: true, rankingScore: 90 },
+    { courseId: "economics", available: true, rankingScore: 85 },
+    { courseId: "accounting", available: true, rankingScore: 84 },
+    { courseId: "pharmacy", available: true, rankingScore: 88 },
+    { courseId: "veterinary-medicine", available: true, rankingScore: 92 },
+    { courseId: "agricultural-science", available: true, rankingScore: 93 },
+    { courseId: "chemical-engineering", available: true, rankingScore: 91 },
+    { courseId: "computer-science", available: true, rankingScore: 82 },
+  ],
+  "unn": [
+    { courseId: "medicine", available: true, rankingScore: 92 },
+    { courseId: "law", available: true, rankingScore: 94 },
+    { courseId: "pharmacy", available: true, rankingScore: 91 },
+    { courseId: "computer-science", available: true, rankingScore: 85 },
+    { courseId: "economics", available: true, rankingScore: 87 },
+    { courseId: "accounting", available: true, rankingScore: 86 },
+    { courseId: "mass-communication", available: true, rankingScore: 89 },
+    { courseId: "political-science", available: true, rankingScore: 88 },
+    { courseId: "dentistry", available: true, rankingScore: 90 },
+    { courseId: "business-administration", available: true, rankingScore: 84 },
+  ],
+  "oau": [
+    { courseId: "pharmacy", available: true, rankingScore: 98 },
+    { courseId: "medicine", available: true, rankingScore: 93 },
+    { courseId: "law", available: true, rankingScore: 88 },
+    { courseId: "computer-science", available: true, rankingScore: 86 },
+    { courseId: "economics", available: true, rankingScore: 85 },
+    { courseId: "accounting", available: true, rankingScore: 84 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 87 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 86 },
+    { courseId: "nursing", available: true, rankingScore: 85 },
+    { courseId: "dentistry", available: true, rankingScore: 91 },
+  ],
+  "lasu": [
+    { courseId: "law", available: true, rankingScore: 88 },
+    { courseId: "accounting", available: true, rankingScore: 85 },
+    { courseId: "business-administration", available: true, rankingScore: 86 },
+    { courseId: "economics", available: true, rankingScore: 82 },
+    { courseId: "mass-communication", available: true, rankingScore: 84 },
+    { courseId: "computer-science", available: true, rankingScore: 78 },
+    { courseId: "medicine", available: true, rankingScore: 75 },
+    { courseId: "nursing", available: true, rankingScore: 80 },
+    { courseId: "political-science", available: true, rankingScore: 79 },
+    { courseId: "sociology", available: true, rankingScore: 77 },
+  ],
+  "uniport": [
+    { courseId: "medicine", available: true, rankingScore: 91 },
+    { courseId: "petroleum-engineering", available: true, rankingScore: 98 },
+    { courseId: "chemical-engineering", available: true, rankingScore: 94 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 88 },
+    { courseId: "law", available: true, rankingScore: 86 },
+    { courseId: "pharmacy", available: true, rankingScore: 87 },
+    { courseId: "economics", available: true, rankingScore: 83 },
+    { courseId: "accounting", available: true, rankingScore: 82 },
+    { courseId: "computer-science", available: true, rankingScore: 79 },
+    { courseId: "dentistry", available: true, rankingScore: 89 },
+  ],
+  "uniben": [
+    { courseId: "medicine", available: true, rankingScore: 93 },
+    { courseId: "pharmacy", available: true, rankingScore: 89 },
+    { courseId: "law", available: true, rankingScore: 87 },
+    { courseId: "economics", available: true, rankingScore: 82 },
+    { courseId: "accounting", available: true, rankingScore: 81 },
+    { courseId: "computer-science", available: true, rankingScore: 78 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 83 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 82 },
+    { courseId: "mass-communication", available: true, rankingScore: 80 },
+    { courseId: "nursing", available: true, rankingScore: 84 },
+  ],
+  "futa": [
+    { courseId: "computer-science", available: true, rankingScore: 91 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 93 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 92 },
+    { courseId: "civil-engineering", available: true, rankingScore: 90 },
+    { courseId: "architecture", available: true, rankingScore: 88 },
+    { courseId: "agricultural-science", available: true, rankingScore: 85 },
+    { courseId: "biochemistry", available: true, rankingScore: 84 },
+    { courseId: "data-science", available: true, rankingScore: 82 },
+  ],
+  "babcock": [
+    { courseId: "medicine", available: true, rankingScore: 92 },
+    { courseId: "nursing", available: true, rankingScore: 94 },
+    { courseId: "law", available: true, rankingScore: 85 },
+    { courseId: "accounting", available: true, rankingScore: 86 },
+    { courseId: "business-administration", available: true, rankingScore: 87 },
+    { courseId: "computer-science", available: true, rankingScore: 83 },
+    { courseId: "mass-communication", available: true, rankingScore: 82 },
+    { courseId: "public-health", available: true, rankingScore: 88 },
+    { courseId: "economics", available: true, rankingScore: 79 },
+    { courseId: "banking-finance", available: true, rankingScore: 80 },
+  ],
+  "landmark": [
+    { courseId: "agricultural-science", available: true, rankingScore: 95 },
+    { courseId: "computer-science", available: true, rankingScore: 85 },
+    { courseId: "accounting", available: true, rankingScore: 82 },
+    { courseId: "business-administration", available: true, rankingScore: 83 },
+    { courseId: "economics", available: true, rankingScore: 78 },
+    { courseId: "biochemistry", available: true, rankingScore: 86 },
+    { courseId: "microbiology", available: true, rankingScore: 87 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 80 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 79 },
+    { courseId: "chemical-engineering", available: true, rankingScore: 81 },
+  ],
+  "unilorin": [
+    { courseId: "medicine", available: true, rankingScore: 90 },
+    { courseId: "law", available: true, rankingScore: 88 },
+    { courseId: "pharmacy", available: true, rankingScore: 87 },
+    { courseId: "computer-science", available: true, rankingScore: 84 },
+    { courseId: "accounting", available: true, rankingScore: 85 },
+    { courseId: "economics", available: true, rankingScore: 83 },
+    { courseId: "electrical-engineering", available: true, rankingScore: 86 },
+    { courseId: "mechanical-engineering", available: true, rankingScore: 85 },
+    { courseId: "civil-engineering", available: true, rankingScore: 84 },
+    { courseId: "mass-communication", available: true, rankingScore: 81 },
+  ],
+};
+
+// Helper function to get universities that offer a specific course
+export function getUniversitiesForCourse(courseId: string, allUniversities: School[]): School[] {
+  return allUniversities
+    .filter(uni => {
+      const offerings = UNIVERSITY_COURSE_OFFERINGS[uni.id];
+      if (!offerings) return false;
+      return offerings.some(o => o.courseId === courseId && o.available);
+    })
+    .sort((a, b) => {
+      const aScore = UNIVERSITY_COURSE_OFFERINGS[a.id]?.find(o => o.courseId === courseId)?.rankingScore || 0;
+      const bScore = UNIVERSITY_COURSE_OFFERINGS[b.id]?.find(o => o.courseId === courseId)?.rankingScore || 0;
+      return bScore - aScore;
+    });
+}
+
+// Helper function to get course-specific ranking for a university
+export function getCourseRankingForUniversity(universityId: string, courseId: string): number | null {
+  const offerings = UNIVERSITY_COURSE_OFFERINGS[universityId];
+  if (!offerings) return null;
+  const offering = offerings.find(o => o.courseId === courseId);
+  return offering?.rankingScore || null;
+}
+
 // 20 Nigerian Universities with WAEC/JAMB requirements
 export const nigerianUniversities: School[] = [
   {
