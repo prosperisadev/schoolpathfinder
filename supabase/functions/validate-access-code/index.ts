@@ -52,12 +52,23 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check if code exists
-    const { data: codeData, error: codeError } = await supabase
-      .from("access_codes")
+    // Check if code exists (try the new table first, fallback to old)
+    let { data: codeData, error: codeError } = await supabase
+      .from("access_codes_bank")
       .select("*")
       .eq("code", sanitizedCode)
       .single();
+
+    // Fallback to old table if new one doesn't exist
+    if (codeError && codeError.code === "PGRST116") {
+      const { data: oldCode, error: oldError } = await supabase
+        .from("access_codes")
+        .select("*")
+        .eq("code", sanitizedCode)
+        .single();
+      codeData = oldCode;
+      codeError = oldError;
+    }
 
     if (codeError || !codeData) {
       console.log("Code not found:", sanitizedCode);
@@ -97,8 +108,12 @@ serve(async (req) => {
     // Mark code as used (atomic operation with is_used check to prevent race conditions)
     const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours
 
-    const { error: updateError, data: updatedCode } = await supabase
-      .from("access_codes")
+    // Try updating the new table first
+    let updateError = null;
+    let updatedCode = null;
+
+    ({ error: updateError, data: updatedCode } = await supabase
+      .from("access_codes_bank")
       .update({
         is_used: true,
         used_by_email: email,
@@ -106,9 +121,25 @@ serve(async (req) => {
         expires_at: expiresAt.toISOString(),
       })
       .eq("id", codeData.id)
-      .eq("is_used", false) // Only update if still unused (prevents race conditions)
+      .eq("is_used", false)
       .select()
-      .single();
+      .single());
+
+    // Fallback to old table if new one doesn't exist
+    if (updateError && updateError.code === "PGRST116") {
+      ({ error: updateError, data: updatedCode } = await supabase
+        .from("access_codes")
+        .update({
+          is_used: true,
+          used_by_email: email,
+          used_at: now.toISOString(),
+          expires_at: expiresAt.toISOString(),
+        })
+        .eq("id", codeData.id)
+        .eq("is_used", false)
+        .select()
+        .single());
+    }
 
     if (updateError || !updatedCode) {
       console.error("Failed to mark code as used (possible race condition):", updateError);

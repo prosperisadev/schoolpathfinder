@@ -1,16 +1,36 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CourseRecommendation } from "@/types";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, MapPin, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { getUniversitiesForCourse, UniversityRecommendation } from "@/lib/api";
 
 interface CourseCardProps {
   recommendation: CourseRecommendation;
   rank: number;
   onClick: () => void;
+  preferredLocation?: "nigeria" | "africa" | "global";
 }
 
-const CourseCard = ({ recommendation, rank, onClick }: CourseCardProps) => {
+const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeria" }: CourseCardProps) => {
   const { course, fitScore, whyFits } = recommendation;
+  const [universities, setUniversities] = useState<UniversityRecommendation[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const unis = await getUniversitiesForCourse(course.id, preferredLocation);
+        setUniversities(unis.slice(0, 3)); // Show top 3
+      } catch (error) {
+        console.error("Error loading universities:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUniversities();
+  }, [course.id, preferredLocation]);
 
   return (
     <Card variant="interactive" onClick={onClick} className="overflow-hidden">
@@ -30,7 +50,24 @@ const CourseCard = ({ recommendation, rank, onClick }: CourseCardProps) => {
                   </Badge>
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">{course.name}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{whyFits}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{whyFits}</p>
+                
+                {/* University Recommendations */}
+                {!loading && universities.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-xs font-semibold text-muted-foreground">Offered by:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {universities.map((uni) => (
+                        <div key={uni.id} className="inline-flex items-center gap-1 bg-secondary/50 rounded-full px-2.5 py-1 text-xs">
+                          <MapPin className="h-3 w-3 text-muted-foreground" />
+                          <span>{uni.name}</span>
+                          <Star className="h-2.5 w-2.5 fill-yellow-500 text-yellow-500" />
+                          <span className="font-semibold">{parseFloat(uni.courseRankingScore).toFixed(0)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-center">

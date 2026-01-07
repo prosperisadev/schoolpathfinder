@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePersonalizedSummary } from "@/lib/recommendations";
 import { UserProfile } from "@/types";
+import { getSessionByShareToken } from "@/lib/api";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -25,21 +26,58 @@ const Results = () => {
   const [showAccessModal, setShowAccessModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [accessValid, setAccessValid] = useState(false);
+  const [loadingSharedResults, setLoadingSharedResults] = useState(false);
 
-  // Check for share token in URL and load shared results
+  // Handle shareable link - reload-resilient approach
   useEffect(() => {
-    const token = searchParams.get('share');
-    if (token) {
-      loadFromShareToken(token).then(valid => {
-        if (!valid) {
+    const handleShareToken = async () => {
+      const token = searchParams.get('share');
+      if (token) {
+        setLoadingSharedResults(true);
+        try {
+          // Fetch session data from API using the share token
+          const session = await getSessionByShareToken(token);
+
+          if (!session) {
+            toast({
+              title: "Link Not Found",
+              description: "This shared link is invalid or has been removed.",
+              variant: "destructive",
+            });
+            setLoadingSharedResults(false);
+            return;
+          }
+
+          // Check expiration
+          if (session.expiresAt) {
+            const expiresAt = new Date(session.expiresAt);
+            if (expiresAt < new Date()) {
+              toast({
+                title: "Link Expired",
+                description: "This shared link has expired. Please request a new one.",
+                variant: "destructive",
+              });
+              setLoadingSharedResults(false);
+              return;
+            }
+          }
+
+          // Load the shared data
+          await loadFromShareToken(token);
+          setLoadingSharedResults(false);
+        } catch (error) {
+          console.error("Error loading shared results:", error);
           toast({
-            title: "Link Expired",
-            description: "This shared link has expired. Please request a new one.",
+            title: "Error",
+            description: "Failed to load shared results. Please try again.",
             variant: "destructive",
           });
+          setLoadingSharedResults(false);
         }
-      });
-    }
+      }
+    };
+
+    handleShareToken();
   }, [searchParams]);
 
   // Check access status on mount
@@ -47,8 +85,8 @@ const Results = () => {
     setAccessValid(checkAccess());
   }, [isUnlocked]);
 
-  // Redirect if no recommendations
-  if (recommendations.length === 0) {
+  // Redirect if no recommendations and not loading shared results
+  if (recommendations.length === 0 && !loadingSharedResults) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -57,6 +95,18 @@ const Results = () => {
           <Button variant="hero" onClick={() => navigate("/assessment")}>
             Start Assessment
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state for shared results
+  if (loadingSharedResults) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="mb-4 h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <h2 className="text-xl font-semibold text-foreground">Loading Results...</h2>
         </div>
       </div>
     );
@@ -235,6 +285,7 @@ const Results = () => {
                     recommendation={recommendation} 
                     rank={index + 1}
                     onClick={() => navigate(`/course/${recommendation.course.id}`)}
+                    preferredLocation={filterLocation === "all" ? "nigeria" : (filterLocation as any)}
                   />
                 </motion.div>
               ))}
