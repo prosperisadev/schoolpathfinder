@@ -1,6 +1,20 @@
-// API client for communicating with the Express server
+// API client for communicating with the API server
+// In production (Vercel), use relative paths. In development, use localhost
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const getApiUrl = () => {
+  // If VITE_API_URL is explicitly set, use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // In production, use relative paths (same origin)
+  if (import.meta.env.PROD) {
+    return "";
+  }
+  // In development, use localhost Express server
+  return "http://localhost:3001";
+};
+
+const API_URL = getApiUrl();
 
 interface ApiResponse<T> {
   data?: T;
@@ -84,7 +98,7 @@ export interface Session {
 }
 
 export async function getSessionByShareToken(token: string): Promise<Session | null> {
-  const response = await fetchApi<Session>(`/api/sessions/share/${token}`);
+  const response = await fetchApi<Session>(`/api/sessions/${token}`);
   return response.data || null;
 }
 
@@ -123,7 +137,7 @@ export async function getUniversitiesForCourse(
   location: string = "nigeria"
 ): Promise<UniversityRecommendation[]> {
   const response = await fetchApi<UniversityRecommendation[]>(
-    `/api/universities/course/${courseId}?location=${location}`
+    `/api/universities/${courseId}?location=${location}`
   );
   return response.data || [];
 }
