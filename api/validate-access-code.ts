@@ -91,8 +91,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       expiresAt: expiresAt.toISOString(),
       message: "Access code validated successfully",
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error validating access code:", error);
-    return res.status(500).json({ valid: false, error: "Server error" });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return res.status(500).json({ 
+      valid: false, 
+      error: "Server error", 
+      details: process.env.NODE_ENV === "development" ? errorMessage : undefined 
+    });
   }
 }
