@@ -1,8 +1,8 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
 import * as schema from "./_schema";
 
-// Create a new connection for each request in serverless environment
+// Create database connection for Vercel serverless
 export function getDatabase() {
   const connectionString = process.env.DATABASE_URL;
   
@@ -12,15 +12,8 @@ export function getDatabase() {
   }
 
   try {
-    const client = postgres(connectionString, {
-      prepare: false,
-      ssl: "require",
-      max: 1,
-      idle_timeout: 20,
-      connect_timeout: 10,
-    });
-    
-    return drizzle(client, { schema });
+    const sql = neon(connectionString);
+    return drizzle(sql, { schema });
   } catch (error) {
     console.error("Database connection error:", error);
     throw error;
