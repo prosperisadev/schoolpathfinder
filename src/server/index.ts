@@ -116,7 +116,7 @@ app.post("/api/validate-access-code", async (req, res) => {
 // ==================== SESSION ROUTES ====================
 
 // Get session by share token
-app.get("/api/sessions/share/:token", async (req, res) => {
+app.get("/api/session-by-token/:token", async (req, res) => {
   try {
     const { token } = req.params;
 
@@ -186,7 +186,7 @@ app.post("/api/sessions", async (req, res) => {
 });
 
 // Update session share token
-app.patch("/api/sessions/:email/share", async (req, res) => {
+app.patch("/api/share-token/:email", async (req, res) => {
   try {
     const { email } = req.params;
     const shareToken = `share_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;

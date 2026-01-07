@@ -98,7 +98,7 @@ export interface Session {
 }
 
 export async function getSessionByShareToken(token: string): Promise<Session | null> {
-  const response = await fetchApi<Session>(`/api/sessions/${token}`);
+  const response = await fetchApi<Session>(`/api/session-by-token/${token}`);
   return response.data || null;
 }
 
@@ -111,7 +111,7 @@ export async function saveSession(sessionData: Partial<Session>): Promise<Sessio
 }
 
 export async function generateShareToken(email: string): Promise<string | null> {
-  const response = await fetchApi<{ shareToken: string }>(`/api/sessions/${email}/share`, {
+  const response = await fetchApi<{ shareToken: string }>(`/api/share-token/${encodeURIComponent(email)}`, {
     method: "PATCH",
   });
   return response.data?.shareToken || null;
