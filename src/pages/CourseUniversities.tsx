@@ -1,17 +1,17 @@
-import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
-import { ArrowLeft, MapPin, TrendingUp, TrendingDown, Minus, ExternalLink } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, MapPin, TrendingUp, TrendingDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { allCourses } from "@/data/courses";
 import { nigerianUniversities, africanUniversities, globalUniversities } from "@/data/universities";
 import { getTopUniversities } from "@/data/universityRankings";
+import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
 import type { School } from "@/types";
 
 export default function CourseUniversities() {
   const { courseId } = useParams<{ courseId: string }>();
-  const [expandedRegion, setExpandedRegion] = useState<string | null>(null);
+  const navigate = useNavigate();
   
   const course = allCourses.find((c) => c.id === courseId);
 
@@ -28,10 +28,13 @@ export default function CourseUniversities() {
     );
   }
 
-  // Get top universities for each region
-  const nigerianRankings = getTopUniversities(courseId, "nigeria", 5);
-  const africanRankings = getTopUniversities(courseId, "africa", 5);
-  const globalRankings = getTopUniversities(courseId, "global", 5);
+  // Get universities offering this course using EXPLICIT mapping
+  const courseMapping = getUniversitiesForCourse(courseId || "");
+  
+  // Get top universities for each region (limit to 5 for preview)
+  const nigerianRankings = getTopUniversities(courseId || "", "nigeria", 5);
+  const africanRankings = getTopUniversities(courseId || "", "africa", 5);
+  const globalRankings = getTopUniversities(courseId || "", "global", 5);
 
   // Get full university details
   const getNigerianUniversityDetails = (universityId: string): School | undefined => {
@@ -45,6 +48,11 @@ export default function CourseUniversities() {
   const getGlobalUniversityDetails = (universityId: string): School | undefined => {
     return globalUniversities.find(u => u.id === universityId);
   };
+
+  // Check if course is offered in each region
+  const hasNigerianUniversities = courseMapping && courseMapping.nigerianUniversityIds.length > 0;
+  const hasAfricanUniversities = courseMapping && courseMapping.africanUniversityIds.length > 0;
+  const hasGlobalUniversities = courseMapping && courseMapping.globalUniversityIds.length > 0;
 
   const renderUniversityCard = (ranking: any, getUniversityDetails: (id: string) => School | undefined) => {
     const university = getUniversityDetails(ranking.universityId);
@@ -119,11 +127,27 @@ export default function CourseUniversities() {
     description: string,
     rankings: any[],
     getUniversityDetails: (id: string) => School | undefined,
-    regionKey: string,
-    allUniversitiesLink: string
+    regionKey: "nigerian" | "african" | "global",
+    buttonText: string,
+    noUniversitiesMessage: string
   ) => {
+    // Show "no universities" message if course not offered in this region
     if (rankings.length === 0) {
-      return null;
+      return (
+        <section className="space-y-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+            <p className="text-gray-600 mt-1">{description}</p>
+          </div>
+          <Card className="bg-yellow-50 border-yellow-200">
+            <CardContent className="p-6">
+              <p className="text-yellow-900">
+                {noUniversitiesMessage}
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+      );
     }
 
     return (
@@ -137,29 +161,17 @@ export default function CourseUniversities() {
           {rankings.map((ranking) => renderUniversityCard(ranking, getUniversityDetails))}
         </div>
 
-        <div className="flex justify-center">
+        {/* Button at the BOTTOM of section to view all universities */}
+        <div className="flex justify-center pt-4">
           <Button
             variant="outline"
             className="gap-2"
-            onClick={() => setExpandedRegion(expandedRegion === regionKey ? null : regionKey)}
+            onClick={() => navigate(`/universities/${regionKey}/${courseId}`)}
           >
             <ExternalLink className="h-4 w-4" />
-            View all {title.toLowerCase()} offering this course →
+            {buttonText}
           </Button>
         </div>
-
-        {/* Expanded view would load all universities here */}
-        {expandedRegion === regionKey && (
-          <Card className="mt-4 bg-blue-50">
-            <CardContent className="p-6">
-              <p className="text-center text-gray-700">
-                Complete list of all {rankings.length}+ universities would load here.
-                <br />
-                This would include sorting options, filters, and full details.
-              </p>
-            </CardContent>
-          </Card>
-        )}
       </section>
     );
   };
@@ -181,43 +193,31 @@ export default function CourseUniversities() {
             Universities Offering {course.name}
           </h1>
           <p className="text-lg text-gray-600">
-            Explore universities by region, ranked by their {course.name} programs
+            Explore top-ranked universities by region for {course.name}
           </p>
         </div>
-
-        {/* Course Availability Notice */}
-        {course.nigerianAvailable === false && (
-          <Card className="mb-8 bg-yellow-50 border-yellow-200">
-            <CardContent className="p-6">
-              <p className="text-yellow-900 font-semibold">
-                ⚠️ This course is not currently offered as a standalone degree in Nigerian universities.
-              </p>
-              <p className="text-yellow-800 text-sm mt-2">
-                Consider related courses like Computer Science or explore international universities below.
-              </p>
-            </CardContent>
-          </Card>
-        )}
 
         <div className="space-y-12">
           {/* Nigerian Universities Section */}
           {renderRegionSection(
             "Nigerian Universities",
-            "Top Nigerian universities offering " + course.name + ", ranked by program quality",
+            "Top-ranked Nigerian universities offering " + course.name,
             nigerianRankings,
             getNigerianUniversityDetails,
-            "nigeria",
-            `/universities/nigeria/${courseId}`
+            "nigerian",
+            "View all Nigerian universities offering this course →",
+            "No Nigerian universities currently offer this course as a standalone degree."
           )}
 
-          {/* African Universities Section (excluding Nigeria) */}
+          {/* African Universities Section (EXCLUDING NIGERIA) */}
           {renderRegionSection(
-            "African Universities (Non-Nigerian)",
-            "Leading African universities outside Nigeria with strong " + course.name + " programs",
+            "African Universities",
+            "Leading African universities with strong " + course.name + " programs",
             africanRankings,
             getAfricanUniversityDetails,
-            "africa",
-            `/universities/africa/${courseId}`
+            "african",
+            "View all African universities offering this course →",
+            "No African universities outside Nigeria currently offer this course."
           )}
 
           {/* Global Universities Section */}
@@ -227,23 +227,10 @@ export default function CourseUniversities() {
             globalRankings,
             getGlobalUniversityDetails,
             "global",
-            `/universities/global/${courseId}`
+            "View all global universities offering this course →",
+            "University data for this course is being compiled."
           )}
         </div>
-
-        {/* No universities message */}
-        {nigerianRankings.length === 0 && africanRankings.length === 0 && globalRankings.length === 0 && (
-          <Card className="mt-8">
-            <CardContent className="p-12 text-center">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                University data coming soon
-              </h3>
-              <p className="text-gray-600">
-                We're working on adding comprehensive university information for this course.
-              </p>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );
