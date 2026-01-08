@@ -452,7 +452,16 @@ export const courses: Course[] = [
 ];
 
 // Combine all courses including new global courses
-export const allCourses: Course[] = [...courses, ...additionalCourses, ...newGlobalCourses];
+// Filter duplicates: if a course ID appears in multiple arrays, keep the first occurrence
+const coursesMap = new Map<string, Course>();
+
+[...courses, ...additionalCourses, ...newGlobalCourses].forEach(course => {
+  if (!coursesMap.has(course.id)) {
+    coursesMap.set(course.id, course);
+  }
+});
+
+export const allCourses: Course[] = Array.from(coursesMap.values());
 
 export function getCoursById(id: string): Course | undefined {
   return allCourses.find(course => course.id === id);
