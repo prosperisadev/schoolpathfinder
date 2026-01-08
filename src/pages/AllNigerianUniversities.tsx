@@ -39,15 +39,14 @@ export default function AllNigerianUniversities() {
   
   // Get ALL rankings (not just top 5)
   const allRankings = getCourseUniversityRankings(courseId || "", "nigeria");
-  // Apply Paywall Logic
-  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
-  const isPaywalled = !isUnlocked && validRankings.length > 3;
-
-  
   // Filter to only include universities that actually offer the course
   const validRankings = allRankings.filter(ranking => 
     nigerianUniversityIds.includes(ranking.universityId)
   );
+  
+  // Apply Paywall Logic
+  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
+  const isPaywalled = !isUnlocked && validRankings.length > 3;
 
   const getNigerianUniversityDetails = (universityId: string): School | undefined => {
     return nigerianUniversities.find(u => u.id === universityId);
