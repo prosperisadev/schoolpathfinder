@@ -138,7 +138,7 @@ export async function getUniversitiesForCourse(
   location: string = "nigeria"
 ): Promise<UniversityRecommendation[]> {
   const response = await fetchApi<UniversityRecommendation[]>(
-    `/api/universities/${courseId}?location=${location}`
+    `/api/universities?courseId=${encodeURIComponent(courseId)}&location=${location}`
   );
   return response.data || [];
 }
