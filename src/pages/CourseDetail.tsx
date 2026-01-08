@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { 
   ArrowLeft, 
   Compass, 
@@ -16,16 +16,24 @@ import {
   CheckCircle,
   Clock,
   Lock,
-  MessageCircle
+  MessageCircle,
+  Users,
+  Target,
+  ArrowRight,
+  TrendingDown,
+  Minus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCoursById } from "@/data/courses";
 import UniversityCard from "@/components/results/UniversityCard";
 import AccessCodeModal from "@/components/payment/AccessCodeModal";
 import { useAccessStore } from "@/store/accessStore";
+import { useAssessmentStore } from "@/store/assessmentStore";
+import { getCareerPathway, getCareerTrends } from "@/data/careerPathways";
+import { generatePeerComparison, getSimilarStudentChoices } from "@/data/peerInsights";
 
 const WHATSAPP_LINK = "https://wa.me/2347031279128";
 
@@ -34,8 +42,12 @@ const CourseDetail = () => {
   const navigate = useNavigate();
   const course = getCoursById(courseId || "");
   const { isUnlocked, checkAccess } = useAccessStore();
+  const { profile } = useAssessmentStore();
   const [accessValid, setAccessValid] = useState(false);
   const [showAccessModal, setShowAccessModal] = useState(false);
+
+  const careerPathway = getCareerPathway(courseId || "");
+  const careerTrends = getCareerTrends(courseId || "");
 
   useEffect(() => {
     setAccessValid(checkAccess());
@@ -143,11 +155,12 @@ const CourseDetail = () => {
       {/* Main Content */}
       <main className="container py-8 md:py-12">
         <Tabs defaultValue="overview" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 h-auto gap-2 bg-transparent p-0">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 h-auto gap-2 bg-transparent p-0">
             {[
               { value: "overview", label: "Overview", icon: BookOpen },
+              { value: "peer-insights", label: "Peer Insights", icon: Users },
+              { value: "career-pathway", label: "Career Journey", icon: Target },
               { value: "nigeria-vs-global", label: "Nigeria vs Global", icon: Globe },
-              { value: "career", label: "Career Path", icon: Briefcase },
               { value: "curriculum", label: "Curriculum", icon: GraduationCap },
               { value: "schools", label: "Schools", icon: MapPin },
             ].map((tab) => (
@@ -242,6 +255,263 @@ const CourseDetail = () => {
             </div>
           </TabsContent>
 
+          {/* Peer Insights Tab */}
+          <TabsContent value="peer-insights" className="space-y-6">
+            {profile?.academicTrack && (
+              <Card variant="elevated" className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-blue-600" />
+                    Students Like You
+                  </CardTitle>
+                  <CardDescription>
+                    Based on aggregated data from {profile.academicTrack} students with similar profiles
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-gray-700">
+                    {generatePeerComparison(
+                      profile.academicTrack,
+                      profile.learningStyle || "moderate_learner",
+                      courseId || ""
+                    )}
+                  </p>
+                  
+                  <div className="pt-4 border-t">
+                    <h4 className="font-medium text-gray-900 mb-3">Similar students also explore:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {getSimilarStudentChoices(profile.academicTrack, courseId).map((altCourseId) => {
+                        const altCourse = getCoursById(altCourseId);
+                        return altCourse ? (
+                          <Link key={altCourseId} to={`/course/${altCourseId}`}>
+                            <Badge variant="outline" className="hover:bg-blue-100 cursor-pointer">
+                              {altCourse.name}
+                            </Badge>
+                          </Link>
+                        ) : null;
+                      })}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Career Outcome Trends */}
+            {careerTrends && (
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      {careerTrends.demandTrend === "↑" && <TrendingUp className="h-5 w-5 text-green-600" />}
+                      {careerTrends.demandTrend === "↓" && <TrendingDown className="h-5 w-5 text-red-600" />}
+                      {careerTrends.demandTrend === "→" && <Minus className="h-5 w-5 text-yellow-600" />}
+                      Demand Trend {careerTrends.demandTrend}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{careerTrends.demandDescription}</p>
+                  </CardContent>
+                </Card>
+
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      {careerTrends.salaryTrendSymbol === "↑" && <TrendingUp className="h-5 w-5 text-green-600" />}
+                      {careerTrends.salaryTrendSymbol === "↓" && <TrendingDown className="h-5 w-5 text-red-600" />}
+                      {careerTrends.salaryTrendSymbol === "→" && <Minus className="h-5 w-5 text-yellow-600" />}
+                      Salary Trend {careerTrends.salaryTrendSymbol}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{careerTrends.salaryDescription}</p>
+                  </CardContent>
+                </Card>
+
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-purple-600" />
+                      Industry Adoption
+                    </CardTitle>
+                    <CardDescription className="capitalize">{careerTrends.industryAdoption} pace</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{careerTrends.industryAdoptionDescription}</p>
+                  </CardContent>
+                </Card>
+
+                <Card variant="elevated">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Target className="h-5 w-5 text-orange-600" />
+                      Automation Risk
+                    </CardTitle>
+                    <CardDescription>
+                      <Badge 
+                        variant={
+                          careerTrends.automationRisk === "low" ? "default" :
+                          careerTrends.automationRisk === "medium" ? "secondary" :
+                          "destructive"
+                        }
+                      >
+                        {careerTrends.automationRisk.toUpperCase()}
+                      </Badge>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{careerTrends.automationRiskDescription}</p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {careerTrends && (
+              <Card variant="elevated" className="bg-gradient-to-r from-purple-50 to-blue-50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-purple-600" />
+                    Future Outlook
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-700 font-medium">{careerTrends.futureOutlook}</p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          {/* Career Pathway Tab */}
+          <TabsContent value="career-pathway" className="space-y-6">
+            <LockedOverlay title="Career Pathway Journey">
+              {careerPathway && (
+                <div className="space-y-8">
+                  {/* Main Pathway */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
+                      <Target className="h-6 w-6 text-primary" />
+                      Your Career Journey
+                    </h3>
+                    
+                    <div className="relative">
+                      {/* Timeline line */}
+                      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-blue-500 to-purple-500 hidden md:block" />
+                      
+                      <div className="space-y-8">
+                        {careerPathway.pathway.map((role, index) => (
+                          <div key={role.title} className="relative">
+                            {/* Timeline dot */}
+                            <div className="absolute left-6 top-6 w-5 h-5 rounded-full bg-primary border-4 border-background z-10 hidden md:block" />
+                            
+                            <Card variant="elevated" className="md:ml-16">
+                              <CardHeader>
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <Badge 
+                                      variant={
+                                        role.stage === "entry" ? "default" :
+                                        role.stage === "mid" ? "secondary" :
+                                        "outline"
+                                      }
+                                      className="mb-2"
+                                    >
+                                      {role.stage === "entry" ? "Entry Level" :
+                                       role.stage === "mid" ? "Mid Career" :
+                                       "Senior Level"}
+                                    </Badge>
+                                    <CardTitle>{role.title}</CardTitle>
+                                    <CardDescription className="flex items-center gap-2 mt-1">
+                                      <Clock className="h-4 w-4" />
+                                      {role.yearsExperience}
+                                    </CardDescription>
+                                  </div>
+                                </div>
+                              </CardHeader>
+                              <CardContent className="space-y-4">
+                                <p className="text-muted-foreground">{role.description}</p>
+                                
+                                {role.typicalSalaryNGN && (
+                                  <div className="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                      <p className="text-sm font-medium text-foreground mb-1">Nigeria Salary:</p>
+                                      <p className="text-lg font-semibold text-primary">
+                                        ₦{(role.typicalSalaryNGN.min / 1000000).toFixed(1)}M - ₦{(role.typicalSalaryNGN.max / 1000000).toFixed(1)}M
+                                      </p>
+                                    </div>
+                                    {role.typicalSalaryUSD && (
+                                      <div>
+                                        <p className="text-sm font-medium text-foreground mb-1">Global Salary:</p>
+                                        <p className="text-lg font-semibold text-accent">
+                                          ${(role.typicalSalaryUSD.min / 1000).toFixed(0)}K - ${(role.typicalSalaryUSD.max / 1000).toFixed(0)}K
+                                        </p>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                                
+                                <div>
+                                  <p className="text-sm font-medium text-foreground mb-2">Required Skills:</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {role.requiredSkills.map((skill) => (
+                                      <Badge key={skill} variant="outline">{skill}</Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                
+                                {role.certifications && role.certifications.length > 0 && (
+                                  <div>
+                                    <p className="text-sm font-medium text-foreground mb-2">Recommended Certifications:</p>
+                                    <div className="flex flex-wrap gap-2">
+                                      {role.certifications.map((cert) => (
+                                        <Badge key={cert} variant="secondary">{cert}</Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </CardContent>
+                            </Card>
+                            
+                            {index < careerPathway.pathway.length - 1 && (
+                              <div className="flex items-center justify-center my-4 md:ml-16">
+                                <ArrowRight className="h-5 w-5 text-muted-foreground rotate-90 md:rotate-0" />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Alternative Pathways */}
+                  {careerPathway.alternativePathways && careerPathway.alternativePathways.length > 0 && (
+                    <div className="pt-8 border-t">
+                      <h3 className="text-xl font-semibold text-foreground mb-4">Alternative Career Tracks</h3>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        {careerPathway.alternativePathways.map((altPath) => (
+                          <Card key={altPath.name} variant="elevated" className="border-l-4 border-l-accent">
+                            <CardHeader>
+                              <CardTitle className="text-lg">{altPath.name}</CardTitle>
+                              <CardDescription>{altPath.description}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-3">
+                                {altPath.roles.map((role) => (
+                                  <div key={role.title} className="border-l-2 border-muted pl-3 py-2">
+                                    <p className="font-medium text-foreground">{role.title}</p>
+                                    <p className="text-sm text-muted-foreground">{role.yearsExperience}</p>
+                                  </div>
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </LockedOverlay>
+          </TabsContent>
+
           {/* Nigeria vs Global Tab */}
           <TabsContent value="nigeria-vs-global" className="space-y-6">
             <LockedOverlay title="Nigeria vs Global Comparison">
@@ -321,77 +591,6 @@ const CourseDetail = () => {
             </LockedOverlay>
           </TabsContent>
 
-          {/* Career Path Tab */}
-          <TabsContent value="career" className="space-y-6">
-            <LockedOverlay title="Career Path Details">
-              <div className="space-y-6">
-                <Card variant="elevated">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Briefcase className="h-5 w-5 text-primary" />
-                      Day-to-Day Work
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{course.careerPath.dayToDay}</p>
-                  </CardContent>
-                </Card>
-
-                <Card variant="elevated">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Star className="h-5 w-5 text-primary" />
-                      Typical Employers
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {course.careerPath.typicalEmployers.map((employer) => (
-                        <Badge key={employer} variant="secondary" className="text-sm py-2 px-4">
-                          {employer}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Card variant="elevated">
-                    <CardHeader>
-                      <CardTitle>Recommended Projects</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {course.successPathway.projects.map((project) => (
-                          <li key={project} className="flex items-center gap-2 text-muted-foreground">
-                            <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                            {project}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-
-                  <Card variant="elevated">
-                    <CardHeader>
-                      <CardTitle>Volunteering Opportunities</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {course.successPathway.volunteering.map((vol) => (
-                          <li key={vol} className="flex items-center gap-2 text-muted-foreground">
-                            <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
-                            {vol}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </LockedOverlay>
-          </TabsContent>
-
           {/* Curriculum Tab */}
           <TabsContent value="curriculum" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
@@ -420,12 +619,34 @@ const CourseDetail = () => {
 
           {/* Schools Tab */}
           <TabsContent value="schools" className="space-y-8">
-            <LockedOverlay title="University Options">
+            {course.nigerianAvailable === false && (
+              <Card className="bg-yellow-50 border-yellow-200">
+                <CardContent className="p-6">
+                  <p className="text-yellow-900 font-semibold">
+                    ⚠️ This course is not currently offered as a standalone degree in Nigerian universities.
+                  </p>
+                  <p className="text-yellow-800 text-sm mt-2">
+                    Consider related courses or explore international universities.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            <div className="flex justify-center">
+              <Link to={`/course/${courseId}/universities`}>
+                <Button size="lg" className="gap-2">
+                  <MapPin className="h-5 w-5" />
+                  View All Universities Offering This Course
+                </Button>
+              </Link>
+            </div>
+
+            <LockedOverlay title="University Preview">
               <div className="space-y-8">
                 {[
-                  { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "With WAEC/JAMB Requirements" },
-                  { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "With International Certifications" },
-                  { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "With International Certifications" },
+                  { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "Ranked by program quality" },
+                  { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "Outside Nigeria" },
+                  { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "World-class institutions" },
                 ].map(({ location, emoji, title, subtitle }) => {
                   const locationSchools = course.schools
                     .filter(s => s.location === location)
@@ -436,12 +657,14 @@ const CourseDetail = () => {
                   
                   return (
                     <div key={location}>
-                      <div className="mb-4">
-                        <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
-                          <span className="text-2xl">{emoji}</span>
-                          {title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+                      <div className="mb-4 flex items-center justify-between">
+                        <div>
+                          <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                            <span className="text-2xl">{emoji}</span>
+                            {title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+                        </div>
                       </div>
                       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                         {locationSchools.map((school, index) => (

@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import Assessment from "./pages/Assessment";
 import Results from "./pages/Results";
 import CourseDetail from "./pages/CourseDetail";
+import CourseUniversities from "./pages/CourseUniversities";
 import Courses from "./pages/Courses";
 import NotFound from "./pages/NotFound";
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/results" element={<Results />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:courseId" element={<CourseDetail />} />
+          <Route path="/course/:courseId/universities" element={<CourseUniversities />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
