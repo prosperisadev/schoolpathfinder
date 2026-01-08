@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,10 +8,15 @@ import { allCourses } from "@/data/courses";
 import { nigerianUniversities } from "@/data/universities";
 import { getCourseUniversityRankings } from "@/data/universityRankings";
 import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
+import { useAccessStore } from "@/store/accessStore";
+import { PaywallBlocker } from "@/components/payment/PaywallBlocker";
+import PaywallModal from "@/components/payment/PaywallModal";
 import type { School } from "@/types";
 
 export default function AllNigerianUniversities() {
   const { courseId } = useParams<{ courseId: string }>();
+  const [showPaywall, setShowPaywall] = useState(false);
+  const isUnlocked = useAccessStore((state) => state.isUnlocked);
   
   const course = allCourses.find((c) => c.id === courseId);
 
@@ -33,6 +39,10 @@ export default function AllNigerianUniversities() {
   
   // Get ALL rankings (not just top 5)
   const allRankings = getCourseUniversityRankings(courseId || "", "nigeria");
+  // Apply Paywall Logic
+  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
+  const isPaywalled = !isUnlocked && validRankings.length > 3;
+
   
   // Filter to only include universities that actually offer the course
   const validRankings = allRankings.filter(ranking => 
@@ -134,8 +144,13 @@ export default function AllNigerianUniversities() {
 
         {/* University Grid */}
         {validRankings.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {validRankings.map((ranking) => renderUniversityCard(ranking))}
+          <div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {displayedRankings.map((ranking) => renderUniversityCard(ranking))}
+            </div>
+            {isPaywalled && (
+              <PaywallBlocker onUnlock={() => setShowPaywall(true)} />
+            )}
           </div>
         ) : (
           <Card className="bg-yellow-50 border-yellow-200">
@@ -153,6 +168,12 @@ export default function AllNigerianUniversities() {
           </Card>
         )}
       </div>
+
+      <PaywallModal 
+        isOpen={showPaywall} 
+        onClose={() => setShowPaywall(false)} 
+        onSuccess={() => setShowPaywall(false)} 
+      />
     </div>
   );
 }

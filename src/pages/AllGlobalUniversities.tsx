@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,10 +8,15 @@ import { allCourses } from "@/data/courses";
 import { globalUniversities } from "@/data/universities";
 import { getCourseUniversityRankings } from "@/data/universityRankings";
 import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
+import { useAccessStore } from "@/store/accessStore";
+import { PaywallBlocker } from "@/components/payment/PaywallBlocker";
+import PaywallModal from "@/components/payment/PaywallModal";
 import type { School } from "@/types";
 
 export default function AllGlobalUniversities() {
   const { courseId } = useParams<{ courseId: string }>();
+  const [showPaywall, setShowPaywall] = useState(false);
+  const isUnlocked = useAccessStore((state) => state.isUnlocked);
   
   const course = allCourses.find((c) => c.id === courseId);
 
@@ -38,6 +44,10 @@ export default function AllGlobalUniversities() {
   const validRankings = allRankings.filter(ranking => 
     globalUniversityIds.includes(ranking.universityId)
   );
+
+  // Apply Paywall Logic
+  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
+  const isPaywalled = !isUnlocked && validRankings.length > 3;
 
   const getGlobalUniversityDetails = (universityId: string): School | undefined => {
     return globalUniversities.find(u => u.id === universityId);
@@ -134,8 +144,13 @@ export default function AllGlobalUniversities() {
 
         {/* University Grid */}
         {validRankings.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {validRankings.map((ranking) => renderUniversityCard(ranking))}
+          <div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {displayedRankings.map((ranking) => renderUniversityCard(ranking))}
+            </div>
+            {isPaywalled && (
+              <PaywallBlocker onUnlock={() => setShowPaywall(true)} />
+            )}
           </div>
         ) : (
           <Card className="bg-yellow-50 border-yellow-200">
@@ -145,6 +160,12 @@ export default function AllGlobalUniversities() {
               </h3>
               <p className="text-gray-600">
                 We're working on adding comprehensive global university information for {course.name}.
+
+      <PaywallModal 
+        isOpen={showPaywall} 
+        onClose={() => setShowPaywall(false)} 
+        onSuccess={() => setShowPaywall(false)} 
+      />
               </p>
             </CardContent>
           </Card>

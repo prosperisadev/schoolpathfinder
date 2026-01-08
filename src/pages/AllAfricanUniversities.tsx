@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,10 +8,15 @@ import { allCourses } from "@/data/courses";
 import { africanUniversities } from "@/data/universities";
 import { getCourseUniversityRankings } from "@/data/universityRankings";
 import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
+import { useAccessStore } from "@/store/accessStore";
+import { PaywallBlocker } from "@/components/payment/PaywallBlocker";
+import PaywallModal from "@/components/payment/PaywallModal";
 import type { School } from "@/types";
 
 export default function AllAfricanUniversities() {
   const { courseId } = useParams<{ courseId: string }>();
+  const [showPaywall, setShowPaywall] = useState(false);
+  const isUnlocked = useAccessStore((state) => state.isUnlocked);
   
   const course = allCourses.find((c) => c.id === courseId);
 
@@ -38,6 +44,10 @@ export default function AllAfricanUniversities() {
   const validRankings = allRankings.filter(ranking => 
     africanUniversityIds.includes(ranking.universityId)
   );
+
+  // Apply Paywall Logic
+  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
+  const isPaywalled = !isUnlocked && validRankings.length > 3;
 
   const getAfricanUniversityDetails = (universityId: string): School | undefined => {
     return africanUniversities.find(u => u.id === universityId);
@@ -130,8 +140,13 @@ export default function AllAfricanUniversities() {
           <p className="text-lg text-gray-600">
             Complete list of {validRankings.length} African {validRankings.length === 1 ? 'university' : 'universities'} (excluding Nigeria) where you can study {course.name}
           </p>
-        </div>
-
+        </div>>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {displayedRankings.map((ranking) => renderUniversityCard(ranking))}
+            </div>
+            {isPaywalled && (
+              <PaywallBlocker onUnlock={() => setShowPaywall(true)} />
+            
         {/* University Grid */}
         {validRankings.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -148,6 +163,12 @@ export default function AllAfricanUniversities() {
               </p>
               <p className="text-gray-600">
                 Explore global universities for this course.
+
+      <PaywallModal 
+        isOpen={showPaywall} 
+        onClose={() => setShowPaywall(false)} 
+        onSuccess={() => setShowPaywall(false)} 
+      />
               </p>
             </CardContent>
           </Card>
