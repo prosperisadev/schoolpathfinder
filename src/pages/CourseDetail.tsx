@@ -383,9 +383,42 @@ const CourseDetail = () => {
           {/* Career Pathway Tab */}
           <TabsContent value="career-pathway" className="space-y-6">
             <LockedOverlay title="Career Pathway Journey">
-              {careerPathway && (
-                <div className="space-y-8">
-                  {/* Main Pathway */}
+              <div className="space-y-8">
+                {/* Day-to-Day Work and Employers Overview */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Briefcase className="h-5 w-5 text-primary" />
+                        Day-to-Day Work
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">{course.careerPath.dayToDay}</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Star className="h-5 w-5 text-primary" />
+                        Typical Employers
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2">
+                        {course.careerPath.typicalEmployers.map((employer) => (
+                          <Badge key={employer} variant="secondary" className="text-sm py-1 px-3">
+                            {employer}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Career Progression Timeline */}
+                {careerPathway && (
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
                       <Target className="h-6 w-6 text-primary" />
@@ -432,16 +465,22 @@ const CourseDetail = () => {
                                 {role.typicalSalaryNGN && (
                                   <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                      <p className="text-sm font-medium text-foreground mb-1">Nigeria Salary:</p>
+                                      <p className="text-sm font-medium text-foreground mb-1">Nigeria Monthly Salary:</p>
                                       <p className="text-lg font-semibold text-primary">
-                                        ₦{(role.typicalSalaryNGN.min / 1000000).toFixed(1)}M - ₦{(role.typicalSalaryNGN.max / 1000000).toFixed(1)}M
+                                        ₦{((role.typicalSalaryNGN.min / 12) / 1000).toFixed(0)}K - ₦{((role.typicalSalaryNGN.max / 12) / 1000).toFixed(0)}K/month
+                                      </p>
+                                      <p className="text-xs text-muted-foreground mt-1">
+                                        (₦{(role.typicalSalaryNGN.min / 1000000).toFixed(1)}M - ₦{(role.typicalSalaryNGN.max / 1000000).toFixed(1)}M per year)
                                       </p>
                                     </div>
                                     {role.typicalSalaryUSD && (
                                       <div>
-                                        <p className="text-sm font-medium text-foreground mb-1">Global Salary:</p>
+                                        <p className="text-sm font-medium text-foreground mb-1">Global Monthly Salary:</p>
                                         <p className="text-lg font-semibold text-accent">
-                                          ${(role.typicalSalaryUSD.min / 1000).toFixed(0)}K - ${(role.typicalSalaryUSD.max / 1000).toFixed(0)}K
+                                          ${((role.typicalSalaryUSD.min / 12) / 1000).toFixed(1)}K - ${((role.typicalSalaryUSD.max / 12) / 1000).toFixed(1)}K/month
+                                        </p>
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                          (${(role.typicalSalaryUSD.min / 1000).toFixed(0)}K - ${(role.typicalSalaryUSD.max / 1000).toFixed(0)}K per year)
                                         </p>
                                       </div>
                                     )}
@@ -480,35 +519,70 @@ const CourseDetail = () => {
                       </div>
                     </div>
                   </div>
+                )}
 
-                  {/* Alternative Pathways */}
-                  {careerPathway.alternativePathways && careerPathway.alternativePathways.length > 0 && (
-                    <div className="pt-8 border-t">
-                      <h3 className="text-xl font-semibold text-foreground mb-4">Alternative Career Tracks</h3>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {careerPathway.alternativePathways.map((altPath) => (
-                          <Card key={altPath.name} variant="elevated" className="border-l-4 border-l-accent">
-                            <CardHeader>
-                              <CardTitle className="text-lg">{altPath.name}</CardTitle>
-                              <CardDescription>{altPath.description}</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                              <div className="space-y-3">
-                                {altPath.roles.map((role) => (
-                                  <div key={role.title} className="border-l-2 border-muted pl-3 py-2">
-                                    <p className="font-medium text-foreground">{role.title}</p>
-                                    <p className="text-sm text-muted-foreground">{role.yearsExperience}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            </CardContent>
-                          </Card>
+                {/* Projects and Volunteering */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle>Recommended Projects</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {course.successPathway.projects.map((project) => (
+                          <li key={project} className="flex items-center gap-2 text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                            {project}
+                          </li>
                         ))}
-                      </div>
-                    </div>
-                  )}
+                      </ul>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="elevated">
+                    <CardHeader>
+                      <CardTitle>Volunteering Opportunities</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        {course.successPathway.volunteering.map((vol) => (
+                          <li key={vol} className="flex items-center gap-2 text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
+                            {vol}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 </div>
-              )}
+
+                {/* Alternative Pathways */}
+                {careerPathway && careerPathway.alternativePathways && careerPathway.alternativePathways.length > 0 && (
+                  <div className="pt-8 border-t">
+                    <h3 className="text-xl font-semibold text-foreground mb-4">Alternative Career Tracks</h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {careerPathway.alternativePathways.map((altPath) => (
+                        <Card key={altPath.name} variant="elevated" className="border-l-4 border-l-accent">
+                          <CardHeader>
+                            <CardTitle className="text-lg">{altPath.name}</CardTitle>
+                            <CardDescription>{altPath.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-3">
+                              {altPath.roles.map((role) => (
+                                <div key={role.title} className="border-l-2 border-muted pl-3 py-2">
+                                  <p className="font-medium text-foreground">{role.title}</p>
+                                  <p className="text-sm text-muted-foreground">{role.yearsExperience}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </LockedOverlay>
           </TabsContent>
 
@@ -546,7 +620,10 @@ const CourseDetail = () => {
                         Salary Range
                       </h4>
                       <p className="text-lg font-semibold text-primary">
-                        {formatCurrency(course.nigeriaContext.salaryRange.min, "NGN")} - {formatCurrency(course.nigeriaContext.salaryRange.max, "NGN")}/year
+                        ₦{((course.nigeriaContext.salaryRange.min / 12) / 1000).toFixed(0)}K - ₦{((course.nigeriaContext.salaryRange.max / 12) / 1000).toFixed(0)}K/month
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        (₦{(course.nigeriaContext.salaryRange.min / 1000000).toFixed(1)}M - ₦{(course.nigeriaContext.salaryRange.max / 1000000).toFixed(1)}M per year)
                       </p>
                     </div>
                   </CardContent>
@@ -582,7 +659,10 @@ const CourseDetail = () => {
                         Salary Range
                       </h4>
                       <p className="text-lg font-semibold text-accent">
-                        ${(course.globalContext.salaryRange.min / 1000).toFixed(0)}K - ${(course.globalContext.salaryRange.max / 1000).toFixed(0)}K/year
+                        ${((course.globalContext.salaryRange.min / 12) / 1000).toFixed(1)}K - ${((course.globalContext.salaryRange.max / 12) / 1000).toFixed(1)}K/month
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        (${(course.globalContext.salaryRange.min / 1000).toFixed(0)}K - ${(course.globalContext.salaryRange.max / 1000).toFixed(0)}K per year)
                       </p>
                     </div>
                   </CardContent>

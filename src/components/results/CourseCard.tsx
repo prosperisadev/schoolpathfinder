@@ -1,9 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CourseRecommendation } from "@/types";
-import { ArrowRight, TrendingUp, MapPin, Star } from "lucide-react";
+import { ArrowRight, TrendingUp, MapPin, Star, ChevronDown, ChevronUp, Heart, User, Wallet, MapPinned, Rocket } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getUniversitiesForCourse, UniversityRecommendation } from "@/lib/api";
+import { Button } from "@/components/ui/button";
 
 interface CourseCardProps {
   recommendation: CourseRecommendation;
@@ -13,7 +14,8 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeria" }: CourseCardProps) => {
-  const { course, fitScore, whyFits } = recommendation;
+  const { course, fitScore, whyFits, interestScore, personalityScore, financialScore, locationScore, futureScore } = recommendation;
+  const [showBreakdown, setShowBreakdown] = useState(false);
   const [universities, setUniversities] = useState<UniversityRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,6 +53,128 @@ const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeri
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2">{course.name}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{whyFits}</p>
+                
+                {/* Fit Score Breakdown */}
+                <div className="mt-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowBreakdown(!showBreakdown);
+                    }}
+                    className="h-7 px-2 text-xs text-primary hover:text-primary/80"
+                  >
+                    {showBreakdown ? (
+                      <>
+                        <ChevronUp className="h-3 w-3 mr-1" />
+                        Hide why {fitScore}% fit
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="h-3 w-3 mr-1" />
+                        See why {fitScore}% fit
+                      </>
+                    )}
+                  </Button>
+                  
+                  {showBreakdown && (
+                    <div className="mt-3 space-y-2 p-3 bg-secondary/30 rounded-lg border border-secondary" onClick={(e) => e.stopPropagation()}>
+                      <p className="text-xs font-semibold text-muted-foreground mb-2">Match Breakdown:</p>
+                      
+                      <div className="space-y-1.5">
+                        {/* Interest Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Heart className="h-3.5 w-3.5 text-red-500" />
+                            <span className="text-xs font-medium">Interest Match</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-red-500 transition-all" 
+                                style={{ width: `${interestScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{interestScore}%</span>
+                          </div>
+                        </div>
+                        
+                        {/* Personality Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <User className="h-3.5 w-3.5 text-blue-500" />
+                            <span className="text-xs font-medium">Personality Fit</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-blue-500 transition-all" 
+                                style={{ width: `${personalityScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{personalityScore}%</span>
+                          </div>
+                        </div>
+                        
+                        {/* Financial Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Wallet className="h-3.5 w-3.5 text-green-500" />
+                            <span className="text-xs font-medium">Budget Match</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-green-500 transition-all" 
+                                style={{ width: `${financialScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{financialScore}%</span>
+                          </div>
+                        </div>
+                        
+                        {/* Location Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <MapPinned className="h-3.5 w-3.5 text-purple-500" />
+                            <span className="text-xs font-medium">Location Preference</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-purple-500 transition-all" 
+                                style={{ width: `${locationScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{locationScore}%</span>
+                          </div>
+                        </div>
+                        
+                        {/* Future Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Rocket className="h-3.5 w-3.5 text-orange-500" />
+                            <span className="text-xs font-medium">Future Relevance</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-orange-500 transition-all" 
+                                style={{ width: `${futureScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{futureScore}%</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-secondary">
+                        Your overall {fitScore}% match is calculated from these factors, weighted by importance.
+                      </p>
+                    </div>
+                  )}
+                </div>
                 
                 {/* University Recommendations */}
                 {!loading && universities.length > 0 && (
