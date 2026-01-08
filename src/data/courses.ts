@@ -1,6 +1,7 @@
 import { Course, School } from "@/types";
 import { additionalCourses } from "./additionalCourses";
 import { newGlobalCourses } from "./newGlobalCourses";
+import { NIGERIAN_AVAILABLE_COURSES } from "./courseAvailability";
 import { nigerianUniversities, africanUniversities, globalUniversities } from "./universities";
 
 // Use the comprehensive universities from universities.ts
@@ -453,11 +454,17 @@ export const courses: Course[] = [
 
 // Combine all courses including new global courses
 // Filter duplicates: if a course ID appears in multiple arrays, keep the first occurrence
+// Add nigerianAvailable flag based on verified source data
 const coursesMap = new Map<string, Course>();
 
 [...courses, ...additionalCourses, ...newGlobalCourses].forEach(course => {
   if (!coursesMap.has(course.id)) {
-    coursesMap.set(course.id, course);
+    // Add nigerianAvailable flag from verification data
+    const nigerianAvailable = NIGERIAN_AVAILABLE_COURSES[course.id as keyof typeof NIGERIAN_AVAILABLE_COURSES];
+    coursesMap.set(course.id, {
+      ...course,
+      nigerianAvailable: nigerianAvailable !== undefined ? nigerianAvailable : true, // Default true for legacy courses
+    });
   }
 });
 

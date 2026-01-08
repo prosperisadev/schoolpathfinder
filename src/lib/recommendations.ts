@@ -63,8 +63,56 @@ export function calculateRecommendations(profile: UserProfile): CourseRecommenda
     };
   });
 
-  // Sort by fit score (highest first) and return top 20
-  return recommendations.sort((a, b) => b.fitScore - a.fitScore).slice(0, 20);
+  // Sort by fit score (highest first)
+  const sortedRecommendations = recommendations.sort((a, b) => b.fitScore - a.fitScore);
+  
+  // CRITICAL: Enforce Nigerian vs Global-Only course limits
+  // Maximum 5 global-only courses, minimum 15 Nigerian-available courses
+  return enforceNigerianGlobalBalance(sortedRecommendations);
+}
+
+/**
+ * Enforces recommendation constraints:
+ * - Maximum 5 global-only courses (nigerianAvailable = false)
+ * - Prioritize Nigerian-available courses (nigerianAvailable = true)
+ * - Return exactly 20 recommendations
+ */
+function enforceNigerianGlobalBalance(recommendations: CourseRecommendation[]): CourseRecommendation[] {
+  const nigerianCourses: CourseRecommendation[] = [];
+  const globalOnlyCourses: CourseRecommendation[] = [];
+  
+  // Separate courses by availability
+  recommendations.forEach(rec => {
+    if (rec.course.nigerianAvailable === false) {
+      globalOnlyCourses.push(rec);
+    } else {
+      // Default true or explicitly true
+      nigerianCourses.push(rec);
+    }
+  });
+  
+  const MAX_GLOBAL_ONLY = 5;
+  const TARGET_TOTAL = 20;
+  
+  // Start with Nigerian-available courses (prioritized)
+  const finalRecommendations: CourseRecommendation[] = [];
+  
+  // Add Nigerian courses first (up to 15 minimum, or all if fewer than 15 global courses)
+  const nigerianToInclude = Math.min(nigerianCourses.length, Math.max(15, TARGET_TOTAL - MAX_GLOBAL_ONLY));
+  finalRecommendations.push(...nigerianCourses.slice(0, nigerianToInclude));
+  
+  // Fill remaining slots with global-only courses (max 5)
+  const remainingSlots = TARGET_TOTAL - finalRecommendations.length;
+  const globalToInclude = Math.min(globalOnlyCourses.length, Math.min(remainingSlots, MAX_GLOBAL_ONLY));
+  finalRecommendations.push(...globalOnlyCourses.slice(0, globalToInclude));
+  
+  // If we still don't have 20, add more Nigerian courses
+  if (finalRecommendations.length < TARGET_TOTAL) {
+    const additionalNigerian = nigerianCourses.slice(nigerianToInclude, nigerianToInclude + (TARGET_TOTAL - finalRecommendations.length));
+    finalRecommendations.push(...additionalNigerian);
+  }
+  
+  return finalRecommendations.slice(0, TARGET_TOTAL);
 }
 
 function calculateInterestScore(course: Course, profile: UserProfile): number {

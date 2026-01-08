@@ -75,6 +75,8 @@ export interface Course {
   // NEW FIELDS for matching logic
   academicTrackRequired?: ("science" | "art" | "commercial")[];
   difficultyLevel?: "low" | "medium" | "high";
+  department?: "Science" | "Art" | "Commercial"; // Nigerian university classification
+  nigerianAvailable?: boolean; // Whether course is offered in Nigerian universities (verified)
 }
 
 export interface AdmissionRequirements {
