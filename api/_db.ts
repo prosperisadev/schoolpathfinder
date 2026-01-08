@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import * as schema from "./_schema";
+import * as schema from "./_schema.js";
 
 // Create database connection for Vercel serverless
 export function getDatabase() {

@@ -31,6 +31,40 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+// Debug codes
+app.get("/api/debug-codes", async (req, res) => {
+  try {
+    // Get stats
+    const stats = await db.select({
+      total: sql<number>`count(*)`,
+      unused: sql<number>`count(*) filter (where is_used = false)`,
+      used: sql<number>`count(*) filter (where is_used = true)`
+    }).from(schema.accessCodesBank);
+    
+    // Get sample unused codes
+    const sampleCodes = await db.select({
+      code: schema.accessCodesBank.code
+    })
+    .from(schema.accessCodesBank)
+    .where(eq(schema.accessCodesBank.isUsed, false))
+    .limit(5);
+
+    res.json({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      database: {
+        connected: true,
+        stats: stats[0],
+        sampleUnusedCodes: sampleCodes.map(c => c.code)
+      },
+      message: "Use these codes for testing on the frontend"
+    });
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    res.status(500).json({ error: "Database error", details: errorMessage });
+  }
+});
+
 // ==================== ACCESS CODE ROUTES ====================
 
 // Validate access code

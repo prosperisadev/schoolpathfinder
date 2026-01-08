@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Code Validator - School Pathfinder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .result.success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        .result.error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        .result h3 {
+            margin-bottom: 8px;
+        }
+        .sample-codes {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .sample-codes h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .code-list {
+            display: grid;
+            gap: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .code-item {
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .code-item:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Access Code Validator</h1>
+        <p class="subtitle">Test your School Pathfinder access code</p>
+        
+        <form id="validateForm">
+            <div class="form-group">
+                <label for="code">Access Code</label>
+                <input 
+                    type="text" 
+                    id="code" 
+                    placeholder="e.g., 0O5MQM53W3Z3" 
+                    required
+                    maxlength="12"
+                    style="text-transform: uppercase;">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="your.email@example.com" 
+                    required>
+            </div>
+            
+            <button type="submit" id="submitBtn">Validate Code</button>
+        </form>
+        
+        <div id="result" class="result"></div>
+        
+        <div class="sample-codes">
+            <h4>📋 Sample Valid Codes (click to use):</h4>
+            <div class="code-list">
+                <div class="code-item" onclick="useCode('0O5MQM53W3Z3')">0O5MQM53W3Z3</div>
+                <div class="code-item" onclick="useCode('0RW9O16QW0SI')">0RW9O16QW0SI</div>
+                <div class="code-item" onclick="useCode('0UAIMXL61WEW')">0UAIMXL61WEW</div>
+                <div class="code-item" onclick="useCode('1DQ23QMT7Y2I')">1DQ23QMT7Y2I</div>
+                <div class="code-item" onclick="useCode('1LX5BTPMRNQC')">1LX5BTPMRNQC</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('validateForm');
+        const codeInput = document.getElementById('code');
+        const emailInput = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
+        const result = document.getElementById('result');
+
+        function useCode(code) {
+            codeInput.value = code;
+            codeInput.focus();
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const code = codeInput.value.trim().toUpperCase();
+            const email = emailInput.value.trim();
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Validating...';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('https://schoolpathfinder.vercel.app/api/validate-access-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code, email })
+                });
+                
+                const data = await response.json();
+                
+                result.style.display = 'block';
+                
+                if (data.valid) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <h3>✅ Success!</h3>
+                        <p>${data.message}</p>
+                        <p><strong>Expires:</strong> ${new Date(data.expiresAt).toLocaleString()}</p>
+                        <p style="margin-top: 10px; font-size: 14px;">This code is now linked to: <strong>${email}</strong></p>
+                    `;
+                } else {
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <h3>❌ Validation Failed</h3>
+                        <p>${data.error}</p>
+                    `;
+                }
+            } catch (error) {
+                result.style.display = 'block';
+                result.className = 'result error';
+                result.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>Failed to connect to the API. Please try again.</p>
+                    <p style="font-size: 12px; margin-top: 5px;">${error.message}</p>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Validate Code';
+            }
+        });
+
+        // Auto-uppercase code input
+        codeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+    </script>
+</body>
+</html>

@@ -198,20 +198,20 @@ const UniversityCard = ({ school, rank }: UniversityCardProps) => {
         )}
 
         {/* Pros & Cons */}
-        <div className="grid grid-cols-2 gap-2 pt-1 border-t">
+        <div className="grid grid-cols-2 gap-3 pt-2 border-t">
           <div>
-            <span className="text-xs font-medium text-primary">Pros</span>
-            <ul className="text-xs text-muted-foreground space-y-0.5">
-              {school.pros.slice(0, 2).map((pro) => (
-                <li key={pro} className="truncate">+ {pro}</li>
+            <span className="text-xs font-medium text-primary block mb-1">Pros</span>
+            <ul className="text-xs text-muted-foreground space-y-1">
+              {school.pros.slice(0, 3).map((pro) => (
+                <li key={pro} className="leading-tight break-words">+ {pro}</li>
               ))}
             </ul>
           </div>
           <div>
-            <span className="text-xs font-medium text-destructive">Cons</span>
-            <ul className="text-xs text-muted-foreground space-y-0.5">
-              {school.cons.slice(0, 2).map((con) => (
-                <li key={con} className="truncate">- {con}</li>
+            <span className="text-xs font-medium text-destructive block mb-1">Cons</span>
+            <ul className="text-xs text-muted-foreground space-y-1">
+              {school.cons.slice(0, 3).map((con) => (
+                <li key={con} className="leading-tight break-words">- {con}</li>
               ))}
             </ul>
           </div>

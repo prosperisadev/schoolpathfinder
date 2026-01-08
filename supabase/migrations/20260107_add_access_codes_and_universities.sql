@@ -25,6 +25,13 @@ ON public.access_codes_bank
 FOR SELECT
 USING (true);
 
+-- Policy: Service role can insert codes (required for seeding)
+DROP POLICY IF EXISTS "Service role can insert codes" ON public.access_codes_bank;
+CREATE POLICY "Service role can insert codes"
+ON public.access_codes_bank
+FOR INSERT
+WITH CHECK (true);
+
 -- Policy: Service role can update codes
 DROP POLICY IF EXISTS "Service role can update codes" ON public.access_codes_bank;
 CREATE POLICY "Service role can update codes"

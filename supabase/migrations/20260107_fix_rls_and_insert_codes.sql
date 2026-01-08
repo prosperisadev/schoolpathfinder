@@ -1,0 +1,124 @@
+-- Fix RLS policies and insert all access codes
+-- This migration addresses the missing INSERT policy that prevents seeding codes
+
+-- Step 1: Add INSERT policy for access_codes_bank (missing from original migration)
+-- This is required to allow inserting the 100 access codes
+DROP POLICY IF EXISTS "Service role can insert codes" ON public.access_codes_bank;
+CREATE POLICY "Service role can insert codes"
+ON public.access_codes_bank
+FOR INSERT
+WITH CHECK (true);
+
+-- Step 2: Insert 100 Generated Access Codes
+-- These codes can be used only once to unlock premium access
+INSERT INTO public.access_codes_bank (code) VALUES
+('TE3BWHHULREV'),
+('YTPPQF0TUTR3'),
+('UF3FI11VRJJ4'),
+('MCF9CFPZIBW5'),
+('XGQWAR8AEWU8'),
+('WQYMLXBNEG7U'),
+('530EZ9K5H1ME'),
+('8LYET27JC5VM'),
+('RKWB3W0Y81L1'),
+('CEWDOEO0WXVB'),
+('PIOI4HNRC9B2'),
+('CQEZNCL7B13J'),
+('LAV3CNFDMEYZ'),
+('2UG1A6VXQLR4'),
+('TMQSCLD0YTGP'),
+('J7KF36SU4HGE'),
+('0UAIMXL61WEW'),
+('JMOG08V6BK8T'),
+('CZW4MGVOMXMY'),
+('1LX5BTPMRNQC'),
+('Q1NFT9HGOJ2J'),
+('MKBQ7IVA0DEQ'),
+('OXUIQRBH4EAL'),
+('6C217YN38G1P'),
+('VVYRLJB5KQVU'),
+('DKTRFZF7BB6B'),
+('MY93MG8TWZ6R'),
+('E45W2HCCDSX9'),
+('8VRR2HDW1ARJ'),
+('8P8B1IY5C5H3'),
+('9PKCCOQWSVNS'),
+('7CT2Z0NVFQKV'),
+('CJV8ZTY6ZKWV'),
+('DYAANJVL4GHB'),
+('LTRG4EBO9H3P'),
+('OJOX0S8KX83V'),
+('J0FAHPHIILCQ'),
+('GGKYZ7SR2YI8'),
+('9ZOV70KVLJ4J'),
+('1DQ23QMT7Y2I'),
+('BOAL5NAMV5I7'),
+('S9ISBBGYQUL7'),
+('K5TW3NXRHP3F'),
+('BB3PB1ZFQIEX'),
+('QURKDZEQNF5F'),
+('O0NB3ZV44CKB'),
+('YPEBM1LNLQJQ'),
+('OOVQRNX8M7RB'),
+('SJLBVNMGFM71'),
+('J4RBB7SKMF1R'),
+('0RW9O16QW0SI'),
+('0O5MQM53W3Z3'),
+('XTHKZEFCQ7OX'),
+('EAUXFZ48QUU7'),
+('8EV2KXVAZZ0S'),
+('4MMRPRJ7ZJOL'),
+('22CY2GJVFZH1'),
+('OYJ2G0IVSB9F'),
+('STTDFWVUDMKO'),
+('ZJSZ8R2I6HFP'),
+('7PMBXDMBW1SU'),
+('BNMGCNQP5FWW'),
+('F9VXMGWEVV1N'),
+('I00XVPUXFCM5'),
+('4HCDQ4RNXTDF'),
+('BPR7R6RMXR33'),
+('AXJZ4NY5TRLR'),
+('LN1SG37GDZX8'),
+('P7WGPFKHJ5BV'),
+('NV21Q6ET6MPF'),
+('A6I03RM07CXJ'),
+('5YK5KSN5HG41'),
+('TDHHGGXUJJOG'),
+('MLUFWHX3NCGB'),
+('LZ4A1OGG0B1T'),
+('UFQK4UCEXQR9'),
+('UD6GPSMWG0IW'),
+('52QNAQMZC0LV'),
+('P8Z5F7EWEMCY'),
+('ZW5GWZZOVGC1'),
+('FBYUIBPKKDIC'),
+('ZNJB8VE1GFOG'),
+('WBFDDVQXD8HC'),
+('5EQZP10L53AZ'),
+('21CCHQK4KRVS'),
+('74N2VHL0R7VX'),
+('S4MC9JKLX02S'),
+('JFKH53QI5N14'),
+('HGGMLPB2A53K'),
+('6J8U3P4N5MZN'),
+('A7S8GGGP6SWL'),
+('6WCNV0TQ21YL'),
+('JBCFPOHCGC8U'),
+('JRJKDEXZMX7M'),
+('Y8F7F8F0D37E'),
+('HB1GNM8R8NZY'),
+('R32W75MBJZT6'),
+('TLDNGGDZ8P49'),
+('VCC6LZLBRGFT'),
+('G50JQMWPQZZ9')
+ON CONFLICT (code) DO NOTHING;
+
+-- Verify the insert
+DO $$
+DECLARE
+  code_count INTEGER;
+BEGIN
+  SELECT COUNT(*) INTO code_count FROM public.access_codes_bank;
+  RAISE NOTICE 'Total access codes in database: %', code_count;
+END $$;

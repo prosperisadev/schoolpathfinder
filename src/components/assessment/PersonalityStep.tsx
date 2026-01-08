@@ -13,12 +13,15 @@ const PersonalityStep = () => {
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20">
+      <div className="text-center mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-2">
         <p className="text-foreground font-medium mb-1">
           👆 Drag the slider to where you best fit
         </p>
         <p className="text-sm text-muted-foreground">
           There are no right or wrong answers - just be honest about your preferences
+        </p>
+        <p className="text-sm text-foreground font-medium border-t border-primary/20 pt-2 mt-2">
+          You can keep the slider at the center if you feel you are in-between both personality types, or move it closer to the side that describes you better.
         </p>
       </div>
       {PERSONALITY_TRAITS.map((trait) => (

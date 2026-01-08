@@ -12,9 +12,15 @@ const InterestStep = () => {
 
   return (
     <div className="space-y-4">
-      <p className="text-muted-foreground text-center mb-6">
-        Rate your interest in each area (select at least 3)
-      </p>
+      <div className="text-center mb-6 space-y-2">
+        <p className="text-muted-foreground">
+          Rate your interest in each area (select at least 3)
+        </p>
+        <p className="text-sm font-medium text-foreground bg-primary/10 border border-primary/20 rounded-lg px-4 py-2 inline-block">
+          5 means you are highly interested in this industry.<br />
+          1 means you have little or no interest.
+        </p>
+      </div>
       <div className="grid gap-4">
         {INDUSTRIES.map((industry) => (
           <Card 
