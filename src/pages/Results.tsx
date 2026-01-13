@@ -189,6 +189,12 @@ const Results = () => {
     defaultTab: "invite" | "results" | "email" = "results",
     emailOverride?: string
   ): Promise<string | null> => {
+    // If we don't have an email yet, open modal on email tab and stop
+    if (!email && !emailOverride) {
+      setShareDefaultTab("email");
+      setShowShareModal(true);
+      return null;
+    }
     // Use existing shareId if present (e.g., when already on a shared link), otherwise generate client UUID
     let token = shareId || shareToken || currentShareToken;
     if (!token && typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -249,9 +255,10 @@ const Results = () => {
       return `${window.location.origin}/assessment/${token}`;
     } catch (error) {
       console.error("Error preparing share link:", error);
+      const message = error instanceof Error ? error.message : "We couldn't prepare your share link. Please try again.";
       toast({
         title: "Share Failed",
-        description: "We couldn't prepare your share link. Please try again.",
+        description: message,
         variant: "destructive",
       });
       return null;

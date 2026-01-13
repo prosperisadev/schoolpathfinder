@@ -108,6 +108,9 @@ export async function saveSession(sessionData: Partial<Session>): Promise<Sessio
     method: "POST",
     body: JSON.stringify(sessionData),
   });
+  if (response.error) {
+    throw new Error(response.error);
+  }
   return response.data || null;
 }
 
