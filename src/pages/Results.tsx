@@ -12,6 +12,7 @@ import ShareModal from "@/components/results/ShareModal";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePersonalizedSummary } from "@/lib/recommendations";
+import { calculateRecommendationsV2 } from "@/lib/recommendationsV2";
 import { CourseRecommendation, UserProfile } from "@/types";
 import { getSessionByShareToken, saveSession } from "@/lib/api";
 import { useTrackAssessment } from "@/hooks/useTrackAssessment";
@@ -85,10 +86,12 @@ const Results = () => {
           }
 
           // Load the shared data into stores so we can render in incognito
-          if (session.assessmentData?.profile || session.recommendations) {
+          if (session.assessmentData?.profile) {
+            const profileFromShare = session.assessmentData.profile as UserProfile;
+            const recsFromShare = (session.recommendations as CourseRecommendation[]) || calculateRecommendationsV2(profileFromShare);
             hydrateFromShare({
-              profile: session.assessmentData?.profile as Partial<UserProfile>,
-              recommendations: (session.recommendations as CourseRecommendation[]) || [],
+              profile: profileFromShare,
+              recommendations: recsFromShare,
             });
           }
 
@@ -207,6 +210,7 @@ const Results = () => {
       if (emailOverride) {
         setEmail(emailOverride);
       }
+      // Keep payload lightweight for serverless limits; recompute recs on load
       const payload = {
         email: sessionEmail,
         fullName: profile.fullName || fullName,
@@ -214,7 +218,6 @@ const Results = () => {
         isShared: true,
         shareCreatedAt: new Date().toISOString(),
         assessmentData: { profile },
-        recommendations,
         paymentStatus: "shared",
       };
 
@@ -267,7 +270,7 @@ const Results = () => {
             
             <div className="flex items-center gap-2">
               {accessValid && (
-                <Button variant="outline" onClick={handleShare} className="gap-2">
+                <Button variant="outline" onClick={() => handleShare("results")} className="gap-2">
                   {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
                   {copied ? "Copied!" : "Share"}
                 </Button>
