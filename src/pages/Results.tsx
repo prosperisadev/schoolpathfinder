@@ -316,13 +316,8 @@ const Results = () => {
       </section>
 
       {/* Content based on access status */}
-              {accessValid && (
-                <Button
-                  variant="outline"
-                  onClick={() => handleShare("results")}
-                  className="gap-2"
-                  disabled={savingShare}
-                >
+      {accessValid ? (
+        <>
           {/* Filters - Only for unlocked users */}
           <section className="border-b bg-card">
             <div className="container py-4">
