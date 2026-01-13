@@ -210,8 +210,8 @@ const Results = () => {
       if (emailOverride) {
         setEmail(emailOverride);
       }
-      // Keep payload lightweight for serverless limits; recompute recs on load
-      const payload = {
+
+      const payloadFull = {
         email: sessionEmail,
         fullName: profile.fullName || fullName,
         shareToken: token,
@@ -221,7 +221,22 @@ const Results = () => {
         paymentStatus: "shared",
       };
 
-      const saved = await saveSession(payload);
+      const payloadMinimal = {
+        email: sessionEmail,
+        fullName: profile.fullName || fullName,
+        shareToken: token,
+        isShared: true,
+        shareCreatedAt: new Date().toISOString(),
+        paymentStatus: "shared",
+      };
+
+      const trySave = async () => {
+        const savedFull = await saveSession(payloadFull);
+        if (savedFull) return savedFull;
+        return await saveSession(payloadMinimal);
+      };
+
+      const saved = await trySave();
 
       if (!saved) {
         throw new Error("Failed to save share session");
