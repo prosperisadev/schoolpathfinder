@@ -44,9 +44,9 @@ export default function AllNigerianUniversities() {
     nigerianUniversityIds.includes(ranking.universityId)
   );
   
-  // Apply Paywall Logic
-  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
-  const isPaywalled = !isUnlocked && validRankings.length > 3;
+  // Apply Paywall Logic (DISABLED)
+  const displayedRankings = validRankings; // Show all rankings
+  const isPaywalled = false; // Paywall disabled
 
   const getNigerianUniversityDetails = (universityId: string): School | undefined => {
     return nigerianUniversities.find(u => u.id === universityId);

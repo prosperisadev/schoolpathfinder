@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { randomUUID } from "crypto";
 import { getDatabase } from "../_db.js";
 import { eq, and } from "drizzle-orm";
 import { assessmentSessions } from "../_schema.js";
@@ -26,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const db = getDatabase();
-    const shareToken = `share_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const shareToken = randomUUID();
 
     const [updated] = await db
       .update(assessmentSessions)

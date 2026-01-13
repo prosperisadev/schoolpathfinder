@@ -14,10 +14,14 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeria" }: CourseCardProps) => {
-  const { course, fitScore, whyFits, interestScore, personalityScore, financialScore, locationScore, futureScore } = recommendation;
+  const { course, fitScore, whyFits, interestScore, personalityScore, financialScore, futureScore } = recommendation;
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [universities, setUniversities] = useState<UniversityRecommendation[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // V2 Enhancement: Check if we have enhanced metadata
+  const hasEnhancedData = 'scoringBreakdown' in recommendation;
+  const academicScore = hasEnhancedData ? (recommendation as any).scoringBreakdown?.academicStrength : 0;
 
   useEffect(() => {
     const fetchUniversities = async () => {
@@ -87,7 +91,7 @@ const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeri
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Heart className="h-3.5 w-3.5 text-red-500" />
-                            <span className="text-xs font-medium">Interest Match</span>
+                            <span className="text-xs font-medium">Interest Match (35%)</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
@@ -104,7 +108,7 @@ const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeri
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <User className="h-3.5 w-3.5 text-blue-500" />
-                            <span className="text-xs font-medium">Personality Fit</span>
+                            <span className="text-xs font-medium">Personality Fit (20%)</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
@@ -117,45 +121,30 @@ const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeri
                           </div>
                         </div>
                         
-                        {/* Financial Score */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Wallet className="h-3.5 w-3.5 text-green-500" />
-                            <span className="text-xs font-medium">Budget Match</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
-                              <div 
-                                className="h-full bg-green-500 transition-all" 
-                                style={{ width: `${financialScore}%` }}
-                              />
+                        {/* Academic Strength - V2 Enhancement */}
+                        {hasEnhancedData && academicScore > 0 && (
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Star className="h-3.5 w-3.5 text-yellow-500" />
+                              <span className="text-xs font-medium">Academic Match (15%)</span>
                             </div>
-                            <span className="text-xs font-semibold w-8 text-right">{financialScore}%</span>
-                          </div>
-                        </div>
-                        
-                        {/* Location Score */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <MapPinned className="h-3.5 w-3.5 text-purple-500" />
-                            <span className="text-xs font-medium">Location Preference</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
-                              <div 
-                                className="h-full bg-purple-500 transition-all" 
-                                style={{ width: `${locationScore}%` }}
-                              />
+                            <div className="flex items-center gap-2">
+                              <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                                <div 
+                                  className="h-full bg-yellow-500 transition-all" 
+                                  style={{ width: `${academicScore}%` }}
+                                />
+                              </div>
+                              <span className="text-xs font-semibold w-8 text-right">{academicScore}%</span>
                             </div>
-                            <span className="text-xs font-semibold w-8 text-right">{locationScore}%</span>
                           </div>
-                        </div>
+                        )}
                         
                         {/* Future Score */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Rocket className="h-3.5 w-3.5 text-orange-500" />
-                            <span className="text-xs font-medium">Future Relevance</span>
+                            <span className="text-xs font-medium">Future Relevance (15%)</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
@@ -167,10 +156,29 @@ const CourseCard = ({ recommendation, rank, onClick, preferredLocation = "nigeri
                             <span className="text-xs font-semibold w-8 text-right">{futureScore}%</span>
                           </div>
                         </div>
+                        
+                        {/* Financial Score */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Wallet className="h-3.5 w-3.5 text-green-500" />
+                            <span className="text-xs font-medium">Budget Match (15%)</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-green-500 transition-all" 
+                                style={{ width: `${financialScore}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold w-8 text-right">{financialScore}%</span>
+                          </div>
+                        </div>
                       </div>
                       
                       <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-secondary">
-                        Your overall {fitScore}% match is calculated from these factors, weighted by importance.
+                        {hasEnhancedData 
+                          ? "Powered by V2 Algorithm: Interest (35%), Personality (20%), Academic Fit (15%), Future (15%), Budget (15%)"
+                          : "Your overall match is calculated from these factors, weighted by importance."}
                       </p>
                     </div>
                   )}

@@ -9,12 +9,15 @@ const InterestStep = () => {
   const handleInterestChange = (industryId: string, value: number) => {
     updateProfile({ interests: { ...interests, [industryId]: value } });
   };
+  
+  // Count how many industries have interest > 2
+  const selectedCount = Object.values(interests).filter(score => (score as number) > 2).length;
 
   return (
     <div className="space-y-4">
       <div className="text-center mb-6 space-y-2">
         <p className="text-muted-foreground">
-          Rate your interest in each area (select at least 3)
+          Rate your interest in each area (select at least 3 with score 3+)
         </p>
         <p className="text-sm font-medium text-foreground bg-primary/10 border border-primary/20 rounded-lg px-4 py-2 inline-block">
           5 means you are highly interested in this industry.<br />

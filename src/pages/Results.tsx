@@ -1,37 +1,59 @@
 import { motion } from "framer-motion";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Compass, RefreshCw, Filter, Share2, Copy, Check } from "lucide-react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Compass, RefreshCw, Filter, Share2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAssessmentStore } from "@/store/assessmentStore";
 import { useAccessStore } from "@/store/accessStore";
 import CourseCard from "@/components/results/CourseCard";
 import PreviewResults from "@/components/results/PreviewResults";
 import AccessCodeModal from "@/components/payment/AccessCodeModal";
+import ShareModal from "@/components/results/ShareModal";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePersonalizedSummary } from "@/lib/recommendations";
-import { UserProfile } from "@/types";
-import { getSessionByShareToken } from "@/lib/api";
+import { CourseRecommendation, UserProfile } from "@/types";
+import { getSessionByShareToken, saveSession } from "@/lib/api";
+import { useTrackAssessment } from "@/hooks/useTrackAssessment";
+import { useAssessmentStore } from "@/store/assessmentStore";
 
 const Results = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const params = useParams();
   const { toast } = useToast();
-  const { recommendations, resetAssessment, profile } = useAssessmentStore();
-  const { isUnlocked, checkAccess, generateShareToken, shareToken, loadFromShareToken, fullName } = useAccessStore();
+  const { recommendations, resetAssessment, profile, hydrateFromShare } = useAssessmentStore();
+  const { isUnlocked, checkAccess, shareToken, loadFromShareToken, fullName, email, setEmail } = useAccessStore();
   const [filterLocation, setFilterLocation] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("fit");
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [accessValid, setAccessValid] = useState(false);
   const [loadingSharedResults, setLoadingSharedResults] = useState(false);
+  const [currentShareToken, setCurrentShareToken] = useState<string>('');
+  const [hasAutoShown, setHasAutoShown] = useState(false);
+  const [shareDefaultTab, setShareDefaultTab] = useState<"invite" | "results" | "email">("invite");
+  const [savingShare, setSavingShare] = useState(false);
+
+  // Resolve share token from query or path
+  const shareId = searchParams.get('share') || params.shareId;
+  
+  // Track assessment completion
+  const trackAssessment = useTrackAssessment();
+
+  // Track completion when results are loaded (not from shared link)
+  useEffect(() => {
+    const isSharedLink = searchParams.get('share');
+    if (recommendations.length > 0 && !isSharedLink) {
+      trackAssessment();
+    }
+  }, [recommendations.length, searchParams]);
 
   // Handle shareable link - reload-resilient approach
   useEffect(() => {
     const handleShareToken = async () => {
-      const token = searchParams.get('share');
+      const token = shareId;
       if (token) {
         setLoadingSharedResults(true);
         try {
@@ -62,7 +84,15 @@ const Results = () => {
             }
           }
 
-          // Load the shared data
+          // Load the shared data into stores so we can render in incognito
+          if (session.assessmentData?.profile || session.recommendations) {
+            hydrateFromShare({
+              profile: session.assessmentData?.profile as Partial<UserProfile>,
+              recommendations: (session.recommendations as CourseRecommendation[]) || [],
+            });
+          }
+
+          // Load the shared data for access unlock state
           await loadFromShareToken(token);
           setLoadingSharedResults(false);
         } catch (error) {
@@ -78,12 +108,26 @@ const Results = () => {
     };
 
     handleShareToken();
-  }, [searchParams]);
+  }, [shareId]);
 
   // Check access status on mount
   useEffect(() => {
     setAccessValid(checkAccess());
   }, [isUnlocked]);
+
+  // Auto-show share modal when results first load (not from shared link)
+  useEffect(() => {
+    const isSharedLink = shareId;
+    if (!isSharedLink && accessValid && recommendations.length > 0 && !hasAutoShown && !loadingSharedResults) {
+      // Small delay to let the results render first
+      const timer = setTimeout(() => {
+        void handleShare("invite");
+        setHasAutoShown(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accessValid, recommendations.length, hasAutoShown, loadingSharedResults, shareId]);
 
   // Redirect if no recommendations and not loading shared results
   if (recommendations.length === 0 && !loadingSharedResults) {
@@ -138,22 +182,68 @@ const Results = () => {
     setAccessValid(true);
   };
 
-  const handleShare = async () => {
-    let token = shareToken;
+  const handleShare = async (
+    defaultTab: "invite" | "results" | "email" = "results",
+    emailOverride?: string
+  ): Promise<string | null> => {
+    // Use existing shareId if present (e.g., when already on a shared link), otherwise generate client UUID
+    let token = shareId || shareToken || currentShareToken;
+    if (!token && typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      token = crypto.randomUUID();
+    }
+
     if (!token) {
-      token = await generateShareToken();
-    }
-    
-    if (token) {
-      const shareUrl = `${window.location.origin}/results?share=${token}`;
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
       toast({
-        title: "Link Copied!",
-        description: "Share this link with others. It's valid for 24 hours.",
+        title: "Error",
+        description: "Unable to create share link. Please try again.",
+        variant: "destructive",
       });
-      setTimeout(() => setCopied(false), 2000);
+      return;
     }
+
+    try {
+      setSavingShare(true);
+      const sessionEmail = emailOverride || email || `share+${token}@pathfinder.link`;
+      if (emailOverride) {
+        setEmail(emailOverride);
+      }
+      const payload = {
+        email: sessionEmail,
+        fullName: profile.fullName || fullName,
+        shareToken: token,
+        isShared: true,
+        shareCreatedAt: new Date().toISOString(),
+        assessmentData: { profile },
+        recommendations,
+        paymentStatus: "shared",
+      };
+
+      const saved = await saveSession(payload);
+
+      if (!saved) {
+        throw new Error("Failed to save share session");
+      }
+
+      setCurrentShareToken(token);
+      const nextTab = emailOverride || email ? defaultTab : "email";
+      setShareDefaultTab(nextTab);
+      setShowShareModal(true);
+      return `${window.location.origin}/assessment/${token}`;
+    } catch (error) {
+      console.error("Error preparing share link:", error);
+      toast({
+        title: "Share Failed",
+        description: "We couldn't prepare your share link. Please try again.",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setSavingShare(false);
+    }
+  };
+
+  const handleEmailCapture = async (capturedEmail: string) => {
+    return handleShare("results", capturedEmail);
   };
 
   const userName = profile.fullName?.split(' ')[0] || fullName?.split(' ')[0] || 'there';
@@ -226,8 +316,13 @@ const Results = () => {
       </section>
 
       {/* Content based on access status */}
-      {accessValid ? (
-        <>
+              {accessValid && (
+                <Button
+                  variant="outline"
+                  onClick={() => handleShare("results")}
+                  className="gap-2"
+                  disabled={savingShare}
+                >
           {/* Filters - Only for unlocked users */}
           <section className="border-b bg-card">
             <div className="container py-4">
@@ -318,6 +413,16 @@ const Results = () => {
         isOpen={showAccessModal}
         onClose={() => setShowAccessModal(false)}
         onSuccess={handleAccessSuccess}
+      />
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        shareToken={currentShareToken || shareToken}
+        studentName={profile.fullName || fullName}
+        defaultTab={shareDefaultTab}
+        onEmailCapture={handleEmailCapture}
       />
     </div>
   );

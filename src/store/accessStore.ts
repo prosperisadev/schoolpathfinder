@@ -27,7 +27,7 @@ interface AccessState {
 export const useAccessStore = create<AccessState>()(
   persist(
     (set, get) => ({
-      isUnlocked: false,
+      isUnlocked: true, // Paywall disabled - full access for all users
       unlockedAt: null,
       expiresAt: null,
       email: '',
@@ -66,17 +66,8 @@ export const useAccessStore = create<AccessState>()(
       },
 
       checkAccess: () => {
-        const { isUnlocked, expiresAt } = get();
-        if (!isUnlocked || !expiresAt) return false;
-        
-        const expires = new Date(expiresAt);
-        const isValid = expires > new Date();
-        
-        if (!isValid) {
-          set({ isUnlocked: false, unlockedAt: null, expiresAt: null });
-        }
-        
-        return isValid;
+        // Paywall disabled - always grant access
+        return true;
       },
 
       generateShareToken: async () => {
@@ -105,25 +96,16 @@ export const useAccessStore = create<AccessState>()(
             set({ isLoading: false });
             return false;
           }
-
-          // Check if access is still valid (within 24 hours of payment)
-          if (session.expiresAt) {
-            const expiresAt = new Date(session.expiresAt);
-            if (expiresAt > new Date()) {
-              set({
-                isUnlocked: true,
-                expiresAt: session.expiresAt,
-                email: session.email,
-                fullName: session.fullName || '',
-                shareToken: token,
-                isLoading: false,
-              });
-              return true;
-            }
-          }
-
-          set({ isLoading: false });
-          return false;
+          // Grant access for shared sessions regardless of expiry so the results can be viewed
+          set({
+            isUnlocked: true,
+            expiresAt: session.expiresAt || null,
+            email: session.email,
+            fullName: session.fullName || '',
+            shareToken: token,
+            isLoading: false,
+          });
+          return true;
         } catch (error) {
           console.error('Error loading from share token:', error);
           set({ isLoading: false });

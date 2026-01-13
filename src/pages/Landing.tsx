@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Compass, Target, Sparkles, GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import LiveImpactMetrics from "@/components/metrics/LiveImpactMetrics";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -210,6 +211,9 @@ const Landing = () => {
             ))}
           </div>
         </section>
+
+        {/* Live Impact Metrics */}
+        <LiveImpactMetrics />
 
         {/* CTA Section */}
         <section className="py-16 md:py-24">

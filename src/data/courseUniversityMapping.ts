@@ -27,8 +27,8 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "computer-science",
     nigerianUniversityIds: [
-      "unilag", "ui", "covenant", "abu", "unn", "oau", "futa", "futo", 
-      "uniben", "unilorin", "babcock", "landmark", "lasu", "uniport"
+      "unilag", "ui", "cu", "abu", "unn", "oau", "futa", "futmin", 
+      "uniben", "unilorin", "bu", "lu", "lasu", "uniport"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "nairobi", "legon", "pretoria"],
     globalUniversityIds: ["mit", "stanford", "cmu", "oxford", "cambridge", "toronto", "ucl", "eth", "nus"]
@@ -38,7 +38,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "medicine",
     nigerianUniversityIds: [
-      "unilag", "ui", "abu", "unn", "oau", "uniben", "uniport", "unilorin", "babcock"
+      "unilag", "ui", "abu", "unn", "oau", "uniben", "uniport", "unilorin", "bu"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "makerere", "cairo", "nairobi", "pretoria"],
     globalUniversityIds: ["harvard", "oxford", "cambridge", "stanford", "toronto", "melbourne", "ucl"]
@@ -48,8 +48,8 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "law",
     nigerianUniversityIds: [
-      "unilag", "ui", "abu", "unn", "oau", "covenant", "uniben", "unilorin", 
-      "lasu", "uniport", "afe-babalola", "babcock"
+      "unilag", "ui", "abu", "unn", "oau", "cu", "uniben", "unilorin", 
+      "lasu", "uniport", "afe-babalola", "bu"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "nairobi", "pretoria"],
     globalUniversityIds: ["harvard", "oxford", "cambridge", "stanford", "yale", "toronto", "ucl"]
@@ -59,8 +59,8 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "economics",
     nigerianUniversityIds: [
-      "unilag", "ui", "abu", "unn", "oau", "covenant", "uniben", "unilorin", 
-      "lasu", "uniport", "babcock", "landmark"
+      "unilag", "ui", "abu", "unn", "oau", "cu", "uniben", "unilorin", 
+      "lasu", "uniport", "bu", "lu"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "nairobi", "pretoria"],
     globalUniversityIds: ["mit", "harvard", "stanford", "oxford", "cambridge", "toronto", "ucl", "nus"]
@@ -70,8 +70,8 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "accounting",
     nigerianUniversityIds: [
-      "unilag", "ui", "covenant", "abu", "unn", "oau", "uniben", "unilorin", 
-      "lasu", "uniport", "babcock", "landmark", "lbs"
+      "unilag", "ui", "cu", "abu", "unn", "oau", "uniben", "unilorin", 
+      "lasu", "uniport", "bu", "lu", "lbs"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "nairobi", "pretoria"],
     globalUniversityIds: ["toronto", "melbourne", "ucl", "nus"]
@@ -81,7 +81,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "mass-communication",
     nigerianUniversityIds: [
-      "unilag", "ui", "unn", "covenant", "uniben", "lasu", "babcock"
+      "unilag", "ui", "unn", "cu", "uniben", "lasu", "bu"
     ],
     africanUniversityIds: ["legon", "nairobi", "wits"],
     globalUniversityIds: ["oxford", "stanford", "columbia", "nus"]
@@ -91,7 +91,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "mechanical-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "covenant", "oau", "futa", "futo", "uniben", "unilorin", "uniport", "landmark"
+      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin", "uniport", "lu"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo", "pretoria"],
     globalUniversityIds: ["mit", "stanford", "cambridge", "eth", "toronto", "melbourne"]
@@ -101,7 +101,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "nursing",
     nigerianUniversityIds: [
-      "unilag", "ui", "oau", "uniben", "lasu", "babcock"
+      "unilag", "ui", "oau", "uniben", "lasu", "bu"
     ],
     africanUniversityIds: ["uct", "wits", "makerere", "nairobi"],
     globalUniversityIds: ["toronto", "melbourne", "ucl"]
@@ -121,7 +121,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "electrical-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "covenant", "oau", "futa", "futo", "uniben", "unilorin"
+      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
     globalUniversityIds: ["mit", "stanford", "cambridge", "eth", "toronto"]
@@ -131,7 +131,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "civil-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "covenant", "futa", "futo", "unilorin"
+      "unilag", "abu", "cu", "futa", "futmin", "unilorin"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
     globalUniversityIds: ["mit", "cambridge", "eth", "toronto"]
@@ -140,7 +140,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== PETROLEUM ENGINEERING ==========
   {
     courseId: "petroleum-engineering",
-    nigerianUniversityIds: ["uniport", "abu", "covenant"],
+    nigerianUniversityIds: ["uniport", "abu", "cu"],
     africanUniversityIds: ["uct", "wits"],
     globalUniversityIds: ["stanford", "texas-austin"]
   },
@@ -148,7 +148,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== CHEMICAL ENGINEERING ==========
   {
     courseId: "chemical-engineering",
-    nigerianUniversityIds: ["unilag", "abu", "uniport", "landmark"],
+    nigerianUniversityIds: ["unilag", "abu", "uniport", "lu"],
     africanUniversityIds: ["uct", "wits", "stellenbosch"],
     globalUniversityIds: ["mit", "cambridge", "eth"]
   },
@@ -157,7 +157,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "business-administration",
     nigerianUniversityIds: [
-      "unilag", "ui", "covenant", "unn", "uniben", "lasu", "babcock", "landmark", "lbs"
+      "unilag", "ui", "cu", "unn", "uniben", "lasu", "bu", "lu", "lbs"
     ],
     africanUniversityIds: ["uct", "wits", "legon", "nairobi"],
     globalUniversityIds: ["harvard", "stanford", "oxford", "toronto", "nus"]
@@ -176,7 +176,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== INTERNATIONAL RELATIONS ==========
   {
     courseId: "international-relations",
-    nigerianUniversityIds: ["unilag", "ui", "covenant", "abu", "oau"],
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "oau"],
     africanUniversityIds: ["uct", "wits", "legon"],
     globalUniversityIds: ["oxford", "cambridge", "harvard", "stanford", "georgetown"]
   },
@@ -184,7 +184,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== PSYCHOLOGY ==========
   {
     courseId: "psychology",
-    nigerianUniversityIds: ["unilag", "ui", "covenant", "unn", "babcock"],
+    nigerianUniversityIds: ["unilag", "ui", "cu", "unn", "bu"],
     africanUniversityIds: ["uct", "wits", "stellenbosch"],
     globalUniversityIds: ["stanford", "harvard", "oxford", "cambridge", "toronto"]
   },
@@ -192,7 +192,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== BANKING & FINANCE ==========
   {
     courseId: "banking-finance",
-    nigerianUniversityIds: ["unilag", "covenant", "babcock", "lbs"],
+    nigerianUniversityIds: ["unilag", "cu", "bu", "lbs"],
     africanUniversityIds: ["uct", "wits", "legon"],
     globalUniversityIds: ["oxford", "cambridge", "toronto", "nus"]
   },
@@ -216,7 +216,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== ARCHITECTURE ==========
   {
     courseId: "architecture",
-    nigerianUniversityIds: ["covenant", "futa", "unilag"],
+    nigerianUniversityIds: ["cu", "futa", "unilag"],
     africanUniversityIds: ["uct", "wits"],
     globalUniversityIds: ["mit", "eth", "ucl"]
   },
@@ -224,7 +224,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== PUBLIC HEALTH ==========
   {
     courseId: "public-health",
-    nigerianUniversityIds: ["babcock", "unilag", "ui"],
+    nigerianUniversityIds: ["bu", "unilag", "ui"],
     africanUniversityIds: ["uct", "makerere", "nairobi"],
     globalUniversityIds: ["harvard", "johns-hopkins", "toronto"]
   },
@@ -232,7 +232,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== AGRICULTURAL SCIENCE ==========
   {
     courseId: "agricultural-science",
-    nigerianUniversityIds: ["abu", "landmark", "futa", "ui"],
+    nigerianUniversityIds: ["abu", "lu", "futa", "ui"],
     africanUniversityIds: ["makerere", "nairobi", "pretoria"],
     globalUniversityIds: ["cornell", "wageningen"]
   },
@@ -240,7 +240,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== BIOCHEMISTRY ==========
   {
     courseId: "biochemistry",
-    nigerianUniversityIds: ["unilag", "ui", "abu", "futa", "landmark"],
+    nigerianUniversityIds: ["unilag", "ui", "abu", "futa", "lu"],
     africanUniversityIds: ["uct", "wits", "cairo"],
     globalUniversityIds: ["cambridge", "mit", "stanford"]
   },
@@ -248,7 +248,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== MICROBIOLOGY ==========
   {
     courseId: "microbiology",
-    nigerianUniversityIds: ["unilag", "ui", "oau", "landmark"],
+    nigerianUniversityIds: ["unilag", "ui", "oau", "lu"],
     africanUniversityIds: ["uct", "wits"],
     globalUniversityIds: ["cambridge", "oxford"]
   },
@@ -282,7 +282,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // SOFTWARE ENGINEERING - Not offered as standalone degree in Nigerian universities
   {
     courseId: "software-engineering",
-    nigerianUniversityIds: ["covenant"], // Only Covenant offers it
+    nigerianUniversityIds: ["cu"], // Only Covenant offers it
     africanUniversityIds: ["uct", "wits"],
     globalUniversityIds: ["mit", "stanford", "waterloo", "toronto", "nus"]
   },
@@ -380,7 +380,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     courseId: "climate-sustainability",
     nigerianUniversityIds: [], // Not offered in Nigeria yet
     africanUniversityIds: ["uct"],
-    globalUniversityIds: ["stanford", "oxford", "yale", "eth"]
+    globalUniversityIds: ["stanford", "oxford", "eth"]
   },
   
   // HEALTH INFORMATICS - Not offered as standalone degree in Nigerian universities
@@ -388,7 +388,199 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     courseId: "health-informatics",
     nigerianUniversityIds: [], // Not offered in Nigeria yet
     africanUniversityIds: [],
-    globalUniversityIds: ["johns-hopkins", "stanford", "toronto"]
+    globalUniversityIds: ["stanford", "toronto"]
+  },
+  
+  // ========== EDUCATION ==========
+  {
+    courseId: "education",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "unilorin", "uniben", "lasu"],
+    africanUniversityIds: ["uct", "wits", "legon", "makerere", "nairobi"],
+    globalUniversityIds: ["oxford", "cambridge", "stanford", "toronto", "melbourne", "ucl"]
+  },
+  
+  // ========== ENVIRONMENTAL SCIENCE ==========
+  {
+    courseId: "environmental-science",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "oau", "futa", "unn"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "nairobi"],
+    globalUniversityIds: ["oxford", "cambridge", "stanford", "eth", "melbourne"]
+  },
+  
+  // ========== ESTATE MANAGEMENT ==========
+  {
+    courseId: "estate-management",
+    nigerianUniversityIds: ["unilag", "oau", "cu", "abu", "unn", "uniben"],
+    africanUniversityIds: ["uct", "wits", "nairobi"],
+    globalUniversityIds: ["ucl", "cambridge", "melbourne"]
+  },
+  
+  // ========== FASHION DESIGN ==========
+  {
+    courseId: "fashion-design",
+    nigerianUniversityIds: ["ysu", "lasu"],
+    africanUniversityIds: ["uct", "wits"],
+    globalUniversityIds: ["ucl", "nus"]
+  },
+  
+  // ========== FILM & TELEVISION ==========
+  {
+    courseId: "film-television",
+    nigerianUniversityIds: ["unilag", "ui", "oau", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "legon"],
+    globalUniversityIds: ["ucl", "nus", "melbourne"]
+  },
+  
+  // ========== FINANCE ==========
+  {
+    courseId: "finance",
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "unn", "oau", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "legon"],
+    globalUniversityIds: ["mit", "harvard", "stanford", "oxford", "cambridge", "nus", "toronto"]
+  },
+  
+  // ========== GRAPHIC DESIGN ==========
+  {
+    courseId: "graphic-design",
+    nigerianUniversityIds: ["ysu", "unilag", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "legon"],
+    globalUniversityIds: ["ucl", "nus", "melbourne"]
+  },
+  
+  // ========== INFORMATION TECHNOLOGY ==========
+  {
+    courseId: "information-technology",
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "futa", "futmin", "uniben", "unilorin"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "nairobi", "legon"],
+    globalUniversityIds: ["mit", "stanford", "toronto", "melbourne", "nus", "eth"]
+  },
+  
+  // ========== MARKETING ==========
+  {
+    courseId: "marketing",
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "unn", "oau", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "legon"],
+    globalUniversityIds: ["harvard", "stanford", "oxford", "nus", "melbourne"]
+  },
+  
+  // ========== MATHEMATICS ==========
+  {
+    courseId: "mathematics",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "futa", "unilorin", "uniben"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "cairo"],
+    globalUniversityIds: ["mit", "cambridge", "oxford", "stanford", "eth", "toronto"]
+  },
+  
+  // ========== MEDICAL LABORATORY SCIENCE ==========
+  {
+    courseId: "medical-laboratory",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "oau", "unn", "uniben", "uniport"],
+    africanUniversityIds: ["uct", "wits", "makerere", "nairobi"],
+    globalUniversityIds: ["toronto", "melbourne", "ucl"]
+  },
+  
+  // ========== MUSIC ==========
+  {
+    courseId: "music",
+    nigerianUniversityIds: ["ui", "unilag", "oau", "unn", "lasu"],
+    africanUniversityIds: ["uct", "wits", "legon"],
+    globalUniversityIds: ["oxford", "cambridge", "ucl", "nus"]
+  },
+  
+  // ========== PHYSICS ==========
+  {
+    courseId: "physics",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "futa", "unilorin", "uniben"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
+    globalUniversityIds: ["mit", "cambridge", "oxford", "stanford", "eth", "toronto"]
+  },
+  
+  // ========== PHYSIOTHERAPY ==========
+  {
+    courseId: "physiotherapy",
+    nigerianUniversityIds: ["ui", "unilag", "oau", "unn", "uniben"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch"],
+    globalUniversityIds: ["toronto", "melbourne", "ucl"]
+  },
+  
+  // ========== PUBLIC ADMINISTRATION ==========
+  {
+    courseId: "public-administration",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "unilorin", "lasu"],
+    africanUniversityIds: ["uct", "wits", "legon", "nairobi"],
+    globalUniversityIds: ["harvard", "oxford", "cambridge", "toronto"]
+  },
+  
+  // ========== SOCIAL WORK ==========
+  {
+    courseId: "social-work",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "oau", "unn"],
+    africanUniversityIds: ["uct", "wits", "makerere", "legon"],
+    globalUniversityIds: ["toronto", "melbourne", "ucl", "oxford"]
+  },
+  
+  // ========== STATISTICS ==========
+  {
+    courseId: "statistics",
+    nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "futa", "unilorin"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "legon"],
+    globalUniversityIds: ["mit", "cambridge", "oxford", "stanford", "toronto"]
+  },
+  
+  // ========== THEATRE ARTS ==========
+  {
+    courseId: "theatre-arts",
+    nigerianUniversityIds: ["ui", "unilag", "oau", "unn", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "legon"],
+    globalUniversityIds: ["ucl", "oxford", "cambridge"]
+  },
+  
+  // ========== TOURISM & HOSPITALITY ==========
+  {
+    courseId: "tourism-hospitality",
+    nigerianUniversityIds: ["unilag", "oau", "bu", "cu", "lasu"],
+    africanUniversityIds: ["uct", "wits", "legon", "nairobi"],
+    globalUniversityIds: ["nus", "melbourne", "toronto"]
+  },
+  
+  // ========== HUMAN RESOURCE MANAGEMENT ==========
+  {
+    courseId: "human-resource-management",
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "unn", "lasu", "bu"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "legon"],
+    globalUniversityIds: ["harvard", "stanford", "oxford", "toronto", "nus"]
+  },
+  
+  // ========== INVESTMENT BANKING ==========
+  {
+    courseId: "investment-banking",
+    nigerianUniversityIds: [], // Not offered as standalone in Nigeria
+    africanUniversityIds: ["uct", "wits"],
+    globalUniversityIds: ["mit", "harvard", "stanford", "oxford", "cambridge"]
+  },
+  
+  // ========== MUSIC PRODUCTION ==========
+  {
+    courseId: "music-production",
+    nigerianUniversityIds: [], // Not offered as standalone in Nigeria
+    africanUniversityIds: ["uct"],
+    globalUniversityIds: ["ucl", "nus"]
+  },
+  
+  // ========== NUTRITION & DIETETICS ==========
+  {
+    courseId: "nutrition-dietetics",
+    nigerianUniversityIds: ["ui", "unilag", "oau", "unn", "bu"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "makerere"],
+    globalUniversityIds: ["toronto", "melbourne", "ucl"]
+  },
+  
+  // ========== SUPPLY CHAIN & LOGISTICS ==========
+  {
+    courseId: "supply-chain-logistics",
+    nigerianUniversityIds: ["unilag", "cu", "bu", "lasu"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch"],
+    globalUniversityIds: ["mit", "stanford", "toronto", "nus", "melbourne"]
   },
 ];
 

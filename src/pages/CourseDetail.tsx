@@ -21,7 +21,8 @@ import {
   Target,
   ArrowRight,
   TrendingDown,
-  Minus
+  Minus,
+  ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,10 @@ import { useAccessStore } from "@/store/accessStore";
 import { useAssessmentStore } from "@/store/assessmentStore";
 import { getCareerPathway, getCareerTrends } from "@/data/careerPathways";
 import { generatePeerComparison, getSimilarStudentChoices } from "@/data/peerInsights";
+import { getTopUniversities } from "@/data/universityRankings";
+import { nigerianUniversities, africanUniversities, globalUniversities } from "@/data/universities";
+import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
+import type { School } from "@/types";
 
 const WHATSAPP_LINK = "https://wa.me/2347031279128";
 
@@ -71,6 +76,20 @@ const CourseDetail = () => {
       return `₦${(amount / 1000000).toFixed(1)}M`;
     }
     return `$${(amount / 1000).toFixed(0)}K`;
+  };
+
+  // Format monthly salary (NGN)
+  const formatMonthlySalaryNGN = (annualAmount: number) => {
+    const monthly = annualAmount / 12;
+    if (monthly >= 1000000) {
+      return `₦${(monthly / 1000000).toFixed(1)}M`;
+    }
+    return `₦${(monthly / 1000).toFixed(0)}K`;
+  };
+
+  // Format annual salary (NGN)
+  const formatAnnualSalaryNGN = (annualAmount: number) => {
+    return `₦${(annualAmount / 1000000).toFixed(1)}M`;
   };
 
   // Locked content overlay component
@@ -467,10 +486,10 @@ const CourseDetail = () => {
                                     <div>
                                       <p className="text-sm font-medium text-foreground mb-1">Nigeria Monthly Salary:</p>
                                       <p className="text-lg font-semibold text-primary">
-                                        ₦{((role.typicalSalaryNGN.min / 12) / 1000).toFixed(0)}K - ₦{((role.typicalSalaryNGN.max / 12) / 1000).toFixed(0)}K/month
+                                        {formatMonthlySalaryNGN(role.typicalSalaryNGN.min)} - {formatMonthlySalaryNGN(role.typicalSalaryNGN.max)}/month
                                       </p>
                                       <p className="text-xs text-muted-foreground mt-1">
-                                        (₦{(role.typicalSalaryNGN.min / 1000000).toFixed(1)}M - ₦{(role.typicalSalaryNGN.max / 1000000).toFixed(1)}M per year)
+                                        ({formatAnnualSalaryNGN(role.typicalSalaryNGN.min)} - {formatAnnualSalaryNGN(role.typicalSalaryNGN.max)} per year)
                                       </p>
                                     </div>
                                     {role.typicalSalaryUSD && (
@@ -620,10 +639,10 @@ const CourseDetail = () => {
                         Salary Range
                       </h4>
                       <p className="text-lg font-semibold text-primary">
-                        ₦{((course.nigeriaContext.salaryRange.min / 12) / 1000).toFixed(0)}K - ₦{((course.nigeriaContext.salaryRange.max / 12) / 1000).toFixed(0)}K/month
+                        {formatMonthlySalaryNGN(course.nigeriaContext.salaryRange.min)} - {formatMonthlySalaryNGN(course.nigeriaContext.salaryRange.max)}/month
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        (₦{(course.nigeriaContext.salaryRange.min / 1000000).toFixed(1)}M - ₦{(course.nigeriaContext.salaryRange.max / 1000000).toFixed(1)}M per year)
+                        ({formatAnnualSalaryNGN(course.nigeriaContext.salaryRange.min)} - {formatAnnualSalaryNGN(course.nigeriaContext.salaryRange.max)} per year)
                       </p>
                     </div>
                   </CardContent>
@@ -699,44 +718,86 @@ const CourseDetail = () => {
 
           {/* Schools Tab */}
           <TabsContent value="schools" className="space-y-8">
-            {course.nigerianAvailable === false && (
-              <Card className="bg-yellow-50 border-yellow-200">
-                <CardContent className="p-6">
-                  <p className="text-yellow-900 font-semibold">
-                    ⚠️ This course is not currently offered as a standalone degree in Nigerian universities.
-                  </p>
-                  <p className="text-yellow-800 text-sm mt-2">
-                    Consider related courses or explore international universities.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-
-            <div className="flex justify-center">
-              <Link to={`/course/${courseId}/universities`}>
-                <Button size="lg" className="gap-2">
-                  <MapPin className="h-5 w-5" />
-                  View All Universities Offering This Course
-                </Button>
-              </Link>
-            </div>
-
-            <LockedOverlay title="University Preview">
-              <div className="space-y-8">
-                {[
-                  { location: "nigeria", emoji: "🇳🇬", title: "Top 5 Nigerian Universities", subtitle: "Ranked by program quality" },
-                  { location: "africa", emoji: "🌍", title: "Top 5 African Universities", subtitle: "Outside Nigeria" },
-                  { location: "global", emoji: "🌐", title: "Top 5 Global Universities", subtitle: "World-class institutions" },
-                ].map(({ location, emoji, title, subtitle }) => {
-                  const locationSchools = course.schools
-                    .filter(s => s.location === location)
-                    .sort((a, b) => (a.ranking || 999) - (b.ranking || 999))
-                    .slice(0, 5);
+            <LockedOverlay title="University Rankings">
+              <div className="space-y-10">
+                {/* Dynamically fetch top 5 universities for each region */}
+                {(() => {
+                  // Get the centralized course-university mapping
+                  const courseMapping = getUniversitiesForCourse(courseId || "");
                   
-                  if (locationSchools.length === 0) return null;
+                  return ([
+                    { 
+                      region: "nigeria" as const, 
+                      emoji: "🇳🇬", 
+                      title: "Top 5 Nigerian Universities", 
+                      subtitle: "Ranked by program quality for this course",
+                      universities: nigerianUniversities,
+                      allowedIds: courseMapping?.nigerianUniversityIds || []
+                    },
+                    { 
+                      region: "africa" as const, 
+                      emoji: "🌍", 
+                      title: "Top 5 African Universities", 
+                      subtitle: "Outside Nigeria",
+                      universities: africanUniversities,
+                      allowedIds: courseMapping?.africanUniversityIds || []
+                    },
+                    { 
+                      region: "global" as const, 
+                      emoji: "🌐", 
+                      title: "Top 5 Global Universities", 
+                      subtitle: "World-class institutions",
+                      universities: globalUniversities,
+                      allowedIds: courseMapping?.globalUniversityIds || []
+                    },
+                  ]).map(({ region, emoji, title, subtitle, universities, allowedIds }) => {
+                    // Get top universities with rankings for this specific course
+                    const topRankings = getTopUniversities(courseId || "", region, 10);
+                  
+                    // Helper function to get university details
+                    const getUniversityDetails = (universityId: string): School | undefined => {
+                      return universities.find(u => u.id === universityId);
+                    };
+                  
+                    // Filter rankings to ONLY include universities from the courseUniversityMapping
+                    // This is the centralized source of truth
+                    const validRankings = topRankings
+                      .filter(ranking => {
+                        // Must exist in database AND be in the allowed list for this course
+                        const universityExists = getUniversityDetails(ranking.universityId) !== undefined;
+                        const courseOffered = allowedIds.includes(ranking.universityId);
+                        return universityExists && courseOffered;
+                      })
+                      .slice(0, 5);
+                  
+                    if (validRankings.length === 0) {
+                    return (
+                      <div key={region}>
+                        <div className="mb-4">
+                          <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
+                            <span className="text-2xl">{emoji}</span>
+                            {title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+                        </div>
+                        <Card className="bg-yellow-50 border-yellow-200">
+                          <CardContent className="p-6">
+                            <p className="text-yellow-900">
+                              This course is not currently offered in {region === "nigeria" ? "Nigerian" : region === "africa" ? "African (non-Nigerian)" : "Global"} universities in our database.
+                            </p>
+                            {region === "nigeria" && (
+                              <p className="text-yellow-800 mt-2 text-sm">
+                                Consider related courses or explore international universities.
+                              </p>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </div>
+                    );
+                  }
                   
                   return (
-                    <div key={location}>
+                    <div key={region}>
                       <div className="mb-4 flex items-center justify-between">
                         <div>
                           <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
@@ -747,13 +808,37 @@ const CourseDetail = () => {
                         </div>
                       </div>
                       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                        {locationSchools.map((school, index) => (
-                          <UniversityCard key={school.id} school={school} rank={index + 1} />
-                        ))}
+                        {validRankings.map((ranking, index) => {
+                          const university = getUniversityDetails(ranking.universityId)!;
+                          
+                          return (
+                            <UniversityCard key={ranking.universityId} school={university} rank={index + 1} />
+                          );
+                        })}
+                      </div>
+                      
+                      {/* Button below each section */}
+                      <div className="flex justify-center pt-4">
+                        <Button
+                          variant="outline"
+                          className="gap-2"
+                          onClick={() => {
+                            const routeMap: Record<string, string> = {
+                              'nigeria': 'nigerian',
+                              'africa': 'african',
+                              'global': 'global'
+                            };
+                            navigate(`/universities/${routeMap[region]}/${courseId}`);
+                          }}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          View All {region === "nigeria" ? "Nigerian" : region === "africa" ? "African" : "Global"} Universities
+                        </Button>
                       </div>
                     </div>
                   );
-                })}
+                  });
+                })()}
               </div>
             </LockedOverlay>
           </TabsContent>

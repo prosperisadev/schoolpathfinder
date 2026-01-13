@@ -32,7 +32,10 @@ const Assessment = () => {
                profile.preferredLocation && 
                profile.budgetRange;
       case 1:
-        return Object.keys(profile.interests || {}).length >= 3;
+        // Require at least 3 industries with interest score > 2
+        const interests = profile.interests || {};
+        const highInterestCount = Object.values(interests).filter(score => (score as number) > 2).length;
+        return highInterestCount >= 3;
       case 2:
         return true;
       case 3:

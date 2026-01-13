@@ -45,9 +45,9 @@ export default function AllAfricanUniversities() {
     africanUniversityIds.includes(ranking.universityId)
   );
 
-  // Apply Paywall Logic
-  const displayedRankings = isUnlocked ? validRankings : validRankings.slice(0, 3);
-  const isPaywalled = !isUnlocked && validRankings.length > 3;
+  // Apply Paywall Logic (DISABLED)
+  const displayedRankings = validRankings; // Show all rankings
+  const isPaywalled = false; // Paywall disabled
 
   const getAfricanUniversityDetails = (universityId: string): School | undefined => {
     return africanUniversities.find(u => u.id === universityId);
@@ -140,12 +140,7 @@ export default function AllAfricanUniversities() {
           <p className="text-lg text-gray-600">
             Complete list of {validRankings.length} African {validRankings.length === 1 ? 'university' : 'universities'} (excluding Nigeria) where you can study {course.name}
           </p>
-        </div>>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {displayedRankings.map((ranking) => renderUniversityCard(ranking))}
-            </div>
-            {isPaywalled && (
-              <PaywallBlocker onUnlock={() => setShowPaywall(true)} />
+        </div>
             
         {/* University Grid */}
         {validRankings.length > 0 ? (
@@ -163,17 +158,17 @@ export default function AllAfricanUniversities() {
               </p>
               <p className="text-gray-600">
                 Explore global universities for this course.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       <PaywallModal 
         isOpen={showPaywall} 
         onClose={() => setShowPaywall(false)} 
         onSuccess={() => setShowPaywall(false)} 
       />
-              </p>
-            </CardContent>
-          </Card>
-        )}
-      </div>
     </div>
   );
 }
