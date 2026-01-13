@@ -237,8 +237,13 @@ const Results = () => {
       };
 
       const trySave = async () => {
-        const savedFull = await saveSession(payloadFull);
-        if (savedFull) return savedFull;
+        try {
+          const savedFull = await saveSession(payloadFull);
+          if (savedFull) return savedFull;
+        } catch (e) {
+          console.warn("Full payload failed, trying minimal:", e);
+        }
+        // Try minimal payload as fallback
         return await saveSession(payloadMinimal);
       };
 
