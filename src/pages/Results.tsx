@@ -399,13 +399,15 @@ const Results = () => {
         </>
       ) : (
         /* Preview Results for locked users */
-        <main className="container py-8 md:py-12 max-w-4xl">
-          <PreviewResults 
-            recommendations={recommendations}
-            profile={profile}
-            onUnlock={() => setShowAccessModal(true)}
-          />
-        </main>
+        <>
+          <main className="container py-8 md:py-12 max-w-4xl">
+            <PreviewResults 
+              recommendations={recommendations}
+              profile={profile}
+              onUnlock={() => setShowAccessModal(true)}
+            />
+          </main>
+        </>
       )}
 
       {/* Access Code Modal */}
