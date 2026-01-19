@@ -26,7 +26,8 @@ dist-ssr
 # Environment variables
 .env
 .env.local
+.env.vercel
+.env*.local
 
 scripts/generated/**
 .vercel
-.env*.local
