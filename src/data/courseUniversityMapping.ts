@@ -582,6 +582,22 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     africanUniversityIds: ["uct", "wits", "stellenbosch"],
     globalUniversityIds: ["mit", "stanford", "toronto", "nus", "melbourne"]
   },
+
+  // ========== MECHATRONICS ENGINEERING ==========
+  {
+    courseId: "mechatronics-engineering",
+    nigerianUniversityIds: ["pau"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch"],
+    globalUniversityIds: ["mit", "stanford", "eth", "toronto", "singapore"]
+  },
+
+  // ========== DIGITAL MEDIA ==========
+  {
+    courseId: "digital-media",
+    nigerianUniversityIds: ["pau", "cu", "lasu"],
+    africanUniversityIds: ["uct", "legon", "wits"],
+    globalUniversityIds: ["stanford", "nyu", "usc", "ucl", "toronto"]
+  },
 ];
 
 /**

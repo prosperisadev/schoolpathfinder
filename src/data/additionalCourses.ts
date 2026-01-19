@@ -2013,4 +2013,96 @@ export const additionalCourses: Course[] = [
     interestMatch: ["technology", "health"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: 1 },
   },
+
+  // MECHATRONICS ENGINEERING
+  {
+    id: "mechatronics-engineering",
+    name: "Mechatronics Engineering",
+    category: "Engineering",
+    overview: "Mechatronics Engineering combines mechanical engineering, electronics, computer science, and control systems to design intelligent products and automated systems. Students learn to create smart machines, robots, and automated manufacturing systems.",
+    coreSkills: ["Mechanical Design", "Electronics & Circuits", "Programming (C/C++, Python)", "Control Systems", "Robotics", "Automation", "CAD/CAM"],
+    nigeriaContext: {
+      description: "Emerging field in Nigeria with demand from manufacturing, oil & gas automation, and smart systems. Pan-Atlantic University is pioneering this program. Growing opportunities in industrial automation and robotics.",
+      teachingStyle: "Hands-on approach with lab work, robotics projects, and industry partnerships. Strong emphasis on practical skills and interdisciplinary thinking.",
+      careerOpportunities: ["Automation Engineer", "Robotics Engineer", "Control Systems Engineer", "Maintenance Engineer", "Product Design Engineer"],
+      salaryRange: { min: 2800000, max: 12000000, currency: "NGN" },
+    },
+    globalContext: {
+      description: "One of the fastest-growing engineering fields globally. Mechatronics engineers design everything from autonomous vehicles to surgical robots, smart factories to consumer electronics.",
+      teachingStyle: "Project-based learning with cutting-edge labs. Integration of AI, IoT, and Industry 4.0 concepts. Strong industry collaboration.",
+      careerOpportunities: ["Robotics Engineer", "Automation Specialist", "Mechatronics R&D Engineer", "Systems Integration Engineer", "Smart Manufacturing Engineer"],
+      salaryRange: { min: 75000, max: 150000, currency: "USD" },
+    },
+    careerPath: {
+      dayToDay: "Design and program automated systems, troubleshoot robots, integrate sensors and actuators, collaborate with cross-functional teams, test prototypes, and optimize manufacturing processes.",
+      typicalEmployers: ["Manufacturing Companies", "Automotive Industry", "Robotics Firms", "Oil & Gas", "Aerospace", "Consumer Electronics", "Smart Home Tech"],
+    },
+    curriculum: {
+      year1: ["Engineering Mathematics", "Physics", "Introduction to Mechatronics", "Programming Fundamentals", "Engineering Drawing"],
+      year2: ["Mechanics of Machines", "Electronics & Circuits", "Digital Systems", "Materials Science", "Control Theory"],
+      year3: ["Robotics", "Automation Systems", "Microcontrollers & Embedded Systems", "Sensors & Actuators", "PLC Programming"],
+      year4: ["Advanced Robotics", "Industrial Automation", "Capstone Project", "AI in Mechatronics", "Industry Internship"],
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "Industry 4.0, AI, and IoT are transforming manufacturing. Demand for mechatronics engineers will skyrocket as automation becomes essential across all industries.",
+      trends: ["Industry 4.0", "Collaborative Robots (Cobots)", "Smart Manufacturing", "Autonomous Systems", "IoT Integration", "AI-Powered Automation"],
+    },
+    successPathway: {
+      internships: ["Manufacturing plants", "Robotics companies", "Automotive firms", "Research labs", "Tech startups"],
+      certifications: ["Certified Automation Professional (CAP)", "FANUC Robotics Certification", "Siemens PLC Certification", "SolidWorks CAD", "Arduino/Raspberry Pi Projects"],
+      projects: ["Build a robot from scratch", "Automate a manufacturing process", "Create smart home system", "Drone design and control", "3D printer assembly"],
+      volunteering: ["STEM education", "Robotics clubs", "Maker spaces", "Engineering competitions"],
+    },
+    schools: allSchools,
+    interestMatch: ["technology", "building"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: 1, riskVsStability: 0 },
+  },
+
+  // DIGITAL MEDIA & COMMUNICATION
+  {
+    id: "digital-media",
+    name: "Digital Media & Communication",
+    category: "Arts & Media",
+    overview: "Digital Media combines storytelling, technology, and creativity to produce content for digital platforms. Students learn video production, social media strategy, content creation, digital journalism, and multimedia design for the modern media landscape.",
+    coreSkills: ["Video Production", "Content Creation", "Social Media Management", "Digital Storytelling", "Graphic Design", "SEO & Analytics", "Multimedia Journalism"],
+    nigeriaContext: {
+      description: "Booming field in Nigeria with the rise of content creators, digital marketing agencies, and online media. Pan-Atlantic University offers cutting-edge programs. High demand from brands, media houses, and entertainment industry.",
+      teachingStyle: "Project-based learning with real client work. Students produce content, manage campaigns, and build portfolios. Strong industry mentorship from leading Nigerian media professionals.",
+      careerOpportunities: ["Content Creator", "Social Media Manager", "Digital Journalist", "Video Producer", "Brand Strategist", "Multimedia Designer"],
+      salaryRange: { min: 1800000, max: 10000000, currency: "NGN" },
+    },
+    globalContext: {
+      description: "Digital media professionals are in high demand globally as brands shift to digital-first strategies. Opportunities span entertainment, marketing, journalism, and tech companies worldwide.",
+      teachingStyle: "Hands-on production with industry-standard tools (Adobe Creative Suite, Final Cut Pro). Focus on storytelling, analytics, and emerging platforms like TikTok, YouTube, podcasting.",
+      careerOpportunities: ["Content Strategist", "Digital Producer", "Social Media Director", "Multimedia Journalist", "UX Content Writer", "Podcast Producer"],
+      salaryRange: { min: 50000, max: 120000, currency: "USD" },
+    },
+    careerPath: {
+      dayToDay: "Create engaging content, edit videos, manage social media campaigns, analyze metrics, collaborate with creative teams, pitch stories, and stay ahead of digital trends.",
+      typicalEmployers: ["Media Houses", "Digital Agencies", "Tech Companies", "Brands", "Entertainment Studios", "News Outlets", "Startups", "Freelance/Self-Employed"],
+    },
+    curriculum: {
+      year1: ["Introduction to Digital Media", "Writing for Digital Platforms", "Photography Basics", "Communication Theory", "Media Ethics"],
+      year2: ["Video Production", "Graphic Design", "Social Media Strategy", "Digital Journalism", "Audio Production"],
+      year3: ["Advanced Video Editing", "Content Marketing", "Data Analytics", "Multimedia Storytelling", "Brand Communication"],
+      year4: ["Portfolio Development", "Media Entrepreneurship", "Emerging Platforms", "Capstone Project", "Industry Internship"],
+    },
+    futureOutlook: {
+      relevanceToday: 10,
+      relevanceIn5Years: 10,
+      techImpact: "AI tools are transforming content creation, but human creativity and storytelling remain irreplaceable. New platforms and formats emerge constantly, creating endless opportunities.",
+      trends: ["Short-Form Video (TikTok, Reels)", "AI-Assisted Content Creation", "Podcasting", "Live Streaming", "Interactive Media", "Virtual Production", "Creator Economy"],
+    },
+    successPathway: {
+      internships: ["Media houses", "Digital agencies", "Content studios", "Tech companies", "Influencer agencies"],
+      certifications: ["Google Digital Marketing", "HubSpot Content Marketing", "Adobe Certified Professional", "YouTube Creator Academy", "Meta Blueprint"],
+      projects: ["Start a YouTube channel/podcast", "Build a content portfolio", "Freelance for local businesses", "Launch a blog/newsletter", "Create viral social campaigns"],
+      volunteering: ["Community storytelling", "NGO media work", "Student media organizations", "Film festivals"],
+    },
+    schools: allSchools,
+    interestMatch: ["creative", "communication", "technology"],
+    personalityMatch: { analyticalVsCreative: 1, structuredVsFlexible: 1, peopleVsTask: -1, riskVsStability: 1 },
+  },
 ];
