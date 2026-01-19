@@ -197,14 +197,6 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     globalUniversityIds: ["oxford", "cambridge", "toronto", "nus"]
   },
   
-  // ========== DENTISTRY ==========
-  {
-    courseId: "dentistry",
-    nigerianUniversityIds: ["ui", "unn", "oau", "uniport"],
-    africanUniversityIds: ["uct", "wits", "cairo"],
-    globalUniversityIds: ["harvard", "ucl", "toronto"]
-  },
-  
   // ========== VETERINARY MEDICINE ==========
   {
     courseId: "veterinary-medicine",
@@ -263,10 +255,10 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   
   // ========== GLOBAL-ONLY COURSES (NOT OFFERED IN NIGERIA) ==========
   
-  // DATA SCIENCE - Not offered as standalone degree in Nigerian universities
+  // DATA SCIENCE
   {
     courseId: "data-science",
-    nigerianUniversityIds: [], // Not offered in Nigeria yet
+    nigerianUniversityIds: ["unilag", "cu", "futa", "ui", "abu"],
     africanUniversityIds: ["uct", "wits"],
     globalUniversityIds: ["mit", "stanford", "harvard", "oxford", "cambridge", "toronto", "ucl", "nus"]
   },
@@ -493,14 +485,6 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     nigerianUniversityIds: ["ui", "unilag", "abu", "unn", "oau", "futa", "unilorin", "uniben"],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
     globalUniversityIds: ["mit", "cambridge", "oxford", "stanford", "eth", "toronto"]
-  },
-  
-  // ========== PHYSIOTHERAPY ==========
-  {
-    courseId: "physiotherapy",
-    nigerianUniversityIds: ["ui", "unilag", "oau", "unn", "uniben"],
-    africanUniversityIds: ["uct", "wits", "stellenbosch"],
-    globalUniversityIds: ["toronto", "melbourne", "ucl"]
   },
   
   // ========== PUBLIC ADMINISTRATION ==========

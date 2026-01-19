@@ -79,7 +79,7 @@ const Landing = () => {
 
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">114</div>
+                  <div className="text-2xl font-bold text-foreground">96</div>
                   <div className="text-sm text-muted-foreground">Courses</div>
                 </div>
                 <div className="h-8 w-px bg-border" />
