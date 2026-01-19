@@ -176,20 +176,20 @@ const CourseDetail = () => {
         <Tabs defaultValue="overview" className="space-y-8">
           <TabsList className="grid w-full grid-cols-2 md:grid-cols-6 h-auto gap-2 bg-transparent p-0">
             {[
-              { value: "overview", label: "Overview", icon: BookOpen },
-              { value: "peer-insights", label: "Peer Insights", icon: Users },
-              { value: "career-pathway", label: "Career Journey", icon: Target },
-              { value: "nigeria-vs-global", label: "Nigeria vs Global", icon: Globe },
-              { value: "curriculum", label: "Curriculum", icon: GraduationCap },
-              { value: "schools", label: "Schools", icon: MapPin },
+              { value: "overview", label: "Overview", icon: BookOpen, mobileLabel: "Overview" },
+              { value: "peer-insights", label: "Peer Insights", icon: Users, mobileLabel: "Students Like You" },
+              { value: "career-pathway", label: "Career Journey", icon: Target, mobileLabel: "Career Path" },
+              { value: "nigeria-vs-global", label: "Nigeria vs Global", icon: Globe, mobileLabel: "Compare" },
+              { value: "curriculum", label: "Curriculum", icon: GraduationCap, mobileLabel: "What You'll Learn" },
+              { value: "schools", label: "Schools", icon: MapPin, mobileLabel: "Universities" },
             ].map((tab) => (
               <TabsTrigger 
                 key={tab.value}
                 value={tab.value}
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground bg-secondary text-secondary-foreground rounded-lg py-3 gap-2"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground bg-secondary text-secondary-foreground rounded-lg py-3 px-2 md:px-4 gap-1 md:gap-2 flex flex-col md:flex-row items-center justify-center min-h-[3.5rem] md:min-h-0"
               >
-                <tab.icon className="h-4 w-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
+                <tab.icon className="h-4 w-4 flex-shrink-0" />
+                <span className="text-[0.65rem] md:text-sm leading-tight text-center md:text-left">{tab.mobileLabel}</span>
               </TabsTrigger>
             ))}
           </TabsList>

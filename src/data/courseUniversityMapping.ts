@@ -28,7 +28,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     courseId: "computer-science",
     nigerianUniversityIds: [
       "unilag", "ui", "cu", "abu", "unn", "oau", "futa", "futmin", 
-      "uniben", "unilorin", "bu", "lu", "lasu", "uniport"
+      "uniben", "unilorin", "bu", "lu", "lasu", "uniport", "pau"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "nairobi", "legon", "pretoria"],
     globalUniversityIds: ["mit", "stanford", "cmu", "oxford", "cambridge", "toronto", "ucl", "eth", "nus"]
@@ -60,7 +60,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     courseId: "economics",
     nigerianUniversityIds: [
       "unilag", "ui", "abu", "unn", "oau", "cu", "uniben", "unilorin", 
-      "lasu", "uniport", "bu", "lu"
+      "lasu", "uniport", "bu", "lu", "pau", "futa"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "nairobi", "pretoria"],
     globalUniversityIds: ["mit", "harvard", "stanford", "oxford", "cambridge", "toronto", "ucl", "nus"]
@@ -71,7 +71,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     courseId: "accounting",
     nigerianUniversityIds: [
       "unilag", "ui", "cu", "abu", "unn", "oau", "uniben", "unilorin", 
-      "lasu", "uniport", "bu", "lu", "lbs"
+      "lasu", "uniport", "bu", "lu", "lbs", "pau", "futa"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "legon", "nairobi", "pretoria"],
     globalUniversityIds: ["toronto", "melbourne", "ucl", "nus"]
@@ -81,7 +81,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "mass-communication",
     nigerianUniversityIds: [
-      "unilag", "ui", "unn", "cu", "uniben", "lasu", "bu"
+      "unilag", "ui", "unn", "cu", "uniben", "lasu", "bu", "pau", "lu", "unilorin"
     ],
     africanUniversityIds: ["legon", "nairobi", "wits"],
     globalUniversityIds: ["oxford", "stanford", "columbia", "nus"]
@@ -91,7 +91,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "mechanical-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin", "uniport", "lu"
+      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin", "uniport", "lu", "pau"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo", "pretoria"],
     globalUniversityIds: ["mit", "stanford", "cambridge", "eth", "toronto", "melbourne"]
@@ -121,7 +121,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "electrical-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin"
+      "unilag", "abu", "cu", "oau", "futa", "futmin", "uniben", "unilorin", "pau"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
     globalUniversityIds: ["mit", "stanford", "cambridge", "eth", "toronto"]
@@ -131,7 +131,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "civil-engineering",
     nigerianUniversityIds: [
-      "unilag", "abu", "cu", "futa", "futmin", "unilorin"
+      "unilag", "abu", "cu", "futa", "futmin", "unilorin", "oau"
     ],
     africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
     globalUniversityIds: ["mit", "cambridge", "eth", "toronto"]
@@ -148,7 +148,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== CHEMICAL ENGINEERING ==========
   {
     courseId: "chemical-engineering",
-    nigerianUniversityIds: ["unilag", "abu", "uniport", "lu"],
+    nigerianUniversityIds: ["unilag", "abu", "uniport", "lu", "futa", "oau", "unilorin", "cu"],
     africanUniversityIds: ["uct", "wits", "stellenbosch"],
     globalUniversityIds: ["mit", "cambridge", "eth"]
   },
@@ -157,7 +157,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "business-administration",
     nigerianUniversityIds: [
-      "unilag", "ui", "cu", "unn", "uniben", "lasu", "bu", "lu", "lbs"
+      "unilag", "ui", "cu", "unn", "uniben", "lasu", "bu", "lu", "lbs", "pau", "oau", "unilorin"
     ],
     africanUniversityIds: ["uct", "wits", "legon", "nairobi"],
     globalUniversityIds: ["harvard", "stanford", "oxford", "toronto", "nus"]
@@ -167,7 +167,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   {
     courseId: "political-science",
     nigerianUniversityIds: [
-      "unilag", "ui", "abu", "unn", "oau", "lasu"
+      "unilag", "ui", "abu", "unn", "oau", "lasu", "lu", "cu", "unilorin"
     ],
     africanUniversityIds: ["uct", "wits", "legon", "nairobi"],
     globalUniversityIds: ["harvard", "oxford", "cambridge", "stanford"]
@@ -176,7 +176,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== INTERNATIONAL RELATIONS ==========
   {
     courseId: "international-relations",
-    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "oau"],
+    nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "oau", "lu"],
     africanUniversityIds: ["uct", "wits", "legon"],
     globalUniversityIds: ["oxford", "cambridge", "harvard", "stanford", "georgetown"]
   },
@@ -184,7 +184,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== PSYCHOLOGY ==========
   {
     courseId: "psychology",
-    nigerianUniversityIds: ["unilag", "ui", "cu", "unn", "bu"],
+    nigerianUniversityIds: ["unilag", "ui", "cu", "unn", "bu", "oau", "unilorin"],
     africanUniversityIds: ["uct", "wits", "stellenbosch"],
     globalUniversityIds: ["stanford", "harvard", "oxford", "cambridge", "toronto"]
   },
@@ -192,7 +192,7 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
   // ========== BANKING & FINANCE ==========
   {
     courseId: "banking-finance",
-    nigerianUniversityIds: ["unilag", "cu", "bu", "lbs"],
+    nigerianUniversityIds: ["unilag", "cu", "bu", "lbs", "lu", "unilorin"],
     africanUniversityIds: ["uct", "wits", "legon"],
     globalUniversityIds: ["oxford", "cambridge", "toronto", "nus"]
   },

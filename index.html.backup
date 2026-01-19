@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- TODO: Set the document title to the name of your application -->
+    <title>School Pathfinder</title>
+    <meta name="description" content="Africa’s first career-to-university intelligence platform, helping students discover what and where to study">
+    <meta name="author" content="School Pathfinder" />
+
+    <!-- TODO: Update og:title to match your application name -->
+    
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
+    <meta property="og:title" content="School Pathfinder - Find Your Perfect University Course">
+  <meta name="twitter:title" content="School Pathfinder - Find Your Perfect University Course">
+  <meta property="og:description" content="Discover courses that match your interests, personality, and career goals. Get personalized recommendations for universities in Nigeria, Africa, and worldwide.">
+  <meta name="twitter:description" content="Discover courses that match your interests, personality, and career goals. Get personalized recommendations for universities in Nigeria, Africa, and worldwide.">
+</head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
