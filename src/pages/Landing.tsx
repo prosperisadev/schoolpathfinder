@@ -79,12 +79,12 @@ const Landing = () => {
 
               <div className="flex items-center gap-8 pt-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">50+</div>
+                  <div className="text-2xl font-bold text-foreground">75+</div>
                   <div className="text-sm text-muted-foreground">Courses</div>
                 </div>
                 <div className="h-8 w-px bg-border" />
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">100+</div>
+                  <div className="text-2xl font-bold text-foreground">190+</div>
                   <div className="text-sm text-muted-foreground">Universities</div>
                 </div>
                 <div className="h-8 w-px bg-border" />

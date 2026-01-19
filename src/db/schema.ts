@@ -129,6 +129,50 @@ export const universityCourseOfferingsRelations = relations(
   })
 );
 
+// Assessment Results - stores complete assessment data (MOST VALUABLE DATA)
+export const assessmentResults = pgTable(
+  "assessment_results",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    email: text("email").notNull(),
+    fullName: text("full_name"),
+    
+    // Profile data (critical for analysis)
+    academicTrack: text("academic_track"),
+    waecEstimate: text("waec_estimate"),
+    jambEstimate: text("jamb_estimate"),
+    learningStyle: text("learning_style"),
+    
+    // Complete assessment data
+    interests: jsonb("interests"),
+    personality: jsonb("personality"),
+    preferences: jsonb("preferences"),
+    
+    // Recommendations (what we calculated)
+    recommendations: jsonb("recommendations"),
+    topCourse: text("top_course"),
+    topCourseScore: integer("top_course_score"),
+    
+    // Session metadata
+    sessionId: text("session_id"),
+    completedAt: timestamp("completed_at", { withTimezone: true }).notNull().defaultNow(),
+    durationSeconds: integer("duration_seconds"),
+    
+    // Access & engagement
+    accessCode: text("access_code"),
+    hasUnlocked: boolean("has_unlocked").notNull().default(false),
+    
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("idx_assessment_results_email").on(table.email),
+    index("idx_assessment_results_academic_track").on(table.academicTrack),
+    index("idx_assessment_results_top_course").on(table.topCourse),
+    index("idx_assessment_results_completed_at").on(table.completedAt),
+    index("idx_assessment_results_has_unlocked").on(table.hasUnlocked),
+  ]
+);
+
 // Type exports
 export type AccessCodeBank = typeof accessCodesBank.$inferSelect;
 export type NewAccessCodeBank = typeof accessCodesBank.$inferInsert;
@@ -138,3 +182,5 @@ export type UniversityComprehensive = typeof universitiesComprehensive.$inferSel
 export type NewUniversityComprehensive = typeof universitiesComprehensive.$inferInsert;
 export type UniversityCourseOffering = typeof universityCourseOfferings.$inferSelect;
 export type NewUniversityCourseOffering = typeof universityCourseOfferings.$inferInsert;
+export type AssessmentResult = typeof assessmentResults.$inferSelect;
+export type NewAssessmentResult = typeof assessmentResults.$inferInsert;

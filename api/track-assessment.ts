@@ -26,7 +26,6 @@
  * 5. Return success confirmation
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { kv } from '@vercel/kv';
 import { KV_KEYS, METRICS_CONFIG, type LiveMetrics } from './_types';
 import {
@@ -47,20 +46,24 @@ interface AssessmentTrackingRequest {
   assessmentId?: string;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: Request) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { 
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   try {
     // Parse request body
-    const body: AssessmentTrackingRequest = typeof req.body === 'string' 
-      ? JSON.parse(req.body) 
-      : req.body;
+    const body: AssessmentTrackingRequest = await req.json();
 
     if (!body.completedAt) {
-      return res.status(400).json({
+      return new Response(JSON.stringify({
         error: 'Missing required field: completedAt'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -70,24 +73,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const fiveMinutesAgo = now - (5 * 60 * 1000);
 
     if (completedTime < fiveMinutesAgo || completedTime > now) {
-      return res.status(400).json({
+      return new Response(JSON.stringify({
         error: 'Invalid completion timestamp',
         message: 'Assessment must be completed within the last 5 minutes'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
     // Generate session ID
-    const sessionId = await generateSessionId(req as unknown as Request);
+    const sessionId = await generateSessionId(req);
     
     // Apply stricter rate limit for assessments (prevent spam)
     const rateLimitKey = `assessment:${sessionId}`;
     const rateLimit = await checkRateLimit(kv, rateLimitKey);
     
     if (!rateLimit.allowed) {
-      return res.status(429).json({
+      return new Response(JSON.stringify({
         error: 'Too many assessments',
         message: 'Please wait before completing another assessment',
         retryAfter: 3600
+      }), {
+        status: 429,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -99,10 +108,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const alreadyRecorded = await kv.get(idempotencyKey);
     
     if (alreadyRecorded) {
-      return res.status(200).json({
+      return new Response(JSON.stringify({
         success: true,
         alreadyCounted: true,
         message: 'Assessment already recorded'
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -122,18 +134,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       kv.set(idempotencyKey, 1, { ex: METRICS_CONFIG.SESSION_TTL_SECONDS })
     ]);
 
-    return res.status(200).json({
+    return new Response(JSON.stringify({
       success: true,
       alreadyCounted: false,
       message: 'Assessment completion tracked'
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
     console.error('[track-assessment] Error:', error);
     
-    return res.status(500).json({
+    return new Response(JSON.stringify({
       error: 'Internal server error',
       message: 'Failed to track assessment'
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }

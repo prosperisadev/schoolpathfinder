@@ -2,6 +2,7 @@
 
 export interface UserProfile {
   fullName: string;
+  email: string;
   age: number;
   country: string;
   academicBackground: string;

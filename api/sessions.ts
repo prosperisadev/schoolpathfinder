@@ -25,6 +25,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Email is required" });
     }
 
+    // Convert date strings to Date objects for Drizzle
+    const processedData = {
+      ...sessionData,
+      shareCreatedAt: sessionData.shareCreatedAt ? new Date(sessionData.shareCreatedAt) : undefined,
+      paidAt: sessionData.paidAt ? new Date(sessionData.paidAt) : undefined,
+      expiresAt: sessionData.expiresAt ? new Date(sessionData.expiresAt) : undefined,
+    };
+
     const db = getDatabase();
 
     // Check if session exists
@@ -39,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const [updated] = await db
         .update(assessmentSessions)
         .set({
-          ...sessionData,
+          ...processedData,
           updatedAt: new Date(),
         })
         .where(eq(assessmentSessions.email, sessionData.email))
@@ -50,13 +58,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Create new session
       const [created] = await db
         .insert(assessmentSessions)
-        .values(sessionData)
+        .values(processedData)
         .returning();
 
       return res.json(created);
     }
   } catch (error) {
     console.error("Error saving session:", error);
-    return res.status(500).json({ error: "Server error" });
+    const message = error instanceof Error ? error.message : "Unknown error";
+    // Check for unique constraint violation
+    if (message.includes("unique") || message.includes("duplicate")) {
+      return res.status(409).json({ error: "Session already exists" });
+    }
+    return res.status(500).json({ error: message });
   }
 }

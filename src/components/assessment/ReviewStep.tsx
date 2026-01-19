@@ -60,6 +60,7 @@ const ReviewStep = () => {
           </h3>
           <div className="grid md:grid-cols-2 gap-4 text-sm">
             <div><span className="text-muted-foreground">Name:</span> <strong>{profile.fullName || "Not provided"}</strong></div>
+            <div><span className="text-muted-foreground">Email:</span> <strong>{profile.email || "Not provided"}</strong></div>
             <div><span className="text-muted-foreground">Age:</span> <strong>{profile.age || "Not provided"}</strong></div>
             <div><span className="text-muted-foreground">Country:</span> <strong>{profile.country || "Not provided"}</strong></div>
             <div><span className="text-muted-foreground">Study Location:</span> <strong className="capitalize">{profile.preferredLocation || "Not selected"}</strong></div>

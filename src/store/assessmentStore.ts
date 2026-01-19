@@ -26,6 +26,7 @@ export const useAssessmentStore = create<AssessmentState>()(
       totalSteps: 4,
       profile: {
         fullName: '',
+        email: '',
         academicTrack: undefined,
         waecEstimate: undefined,
         jambEstimate: undefined,
@@ -74,6 +75,7 @@ export const useAssessmentStore = create<AssessmentState>()(
         step: 0,
         profile: {
           fullName: '',
+          email: '',
           academicTrack: undefined,
           waecEstimate: undefined,
           jambEstimate: undefined,

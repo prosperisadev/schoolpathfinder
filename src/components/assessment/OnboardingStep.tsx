@@ -31,6 +31,20 @@ const OnboardingStep = () => {
             <p className="text-xs text-muted-foreground">For personalizing your results</p>
           </div>
 
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email">Email Address *</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="e.g., chinedu@example.com"
+              value={profile.email || ""}
+              onChange={(e) => updateProfile({ email: e.target.value })}
+              required
+            />
+            <p className="text-xs text-muted-foreground">We'll send your results here</p>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="age">Your Age</Label>

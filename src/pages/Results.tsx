@@ -9,13 +9,14 @@ import CourseCard from "@/components/results/CourseCard";
 import PreviewResults from "@/components/results/PreviewResults";
 import AccessCodeModal from "@/components/payment/AccessCodeModal";
 import ShareModal from "@/components/results/ShareModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { generatePersonalizedSummary } from "@/lib/recommendations";
 import { calculateRecommendationsV2 } from "@/lib/recommendationsV2";
 import { CourseRecommendation, UserProfile } from "@/types";
 import { getSessionByShareToken, saveSession } from "@/lib/api";
 import { useTrackAssessment } from "@/hooks/useTrackAssessment";
+import { useSaveAssessmentResult } from "@/hooks/useSaveAssessmentResult";
 import { useAssessmentStore } from "@/store/assessmentStore";
 
 const Results = () => {
@@ -42,14 +43,27 @@ const Results = () => {
   
   // Track assessment completion
   const trackAssessment = useTrackAssessment();
+  
+  // Save full assessment results to database
+  const { saveResult } = useSaveAssessmentResult();
+  const hasSavedResult = useRef(false);
 
-  // Track completion when results are loaded (not from shared link)
+  // Save assessment result when results are loaded (not from shared link)
   useEffect(() => {
     const isSharedLink = searchParams.get('share');
-    if (recommendations.length > 0 && !isSharedLink) {
+    if (recommendations.length > 0 && !isSharedLink && !hasSavedResult.current && profile.email) {
+      // Track completion count
       trackAssessment();
+      
+      // Save full assessment data to database (THE MOST VALUABLE DATA)
+      saveResult(profile as UserProfile, recommendations, {
+        hasUnlocked: accessValid,
+      });
+      
+      hasSavedResult.current = true;
+      console.log('[Results] Assessment result saved to database');
     }
-  }, [recommendations.length, searchParams]);
+  }, [recommendations.length, searchParams, profile.email, accessValid]);
 
   // Handle shareable link - reload-resilient approach
   useEffect(() => {
@@ -224,6 +238,7 @@ const Results = () => {
         isShared: true,
         shareCreatedAt: new Date().toISOString(),
         assessmentData: { profile },
+        recommendations: recommendations,
         paymentStatus: "shared",
       };
 
@@ -244,7 +259,12 @@ const Results = () => {
           console.warn("Full payload failed, trying minimal:", e);
         }
         // Try minimal payload as fallback
-        return await saveSession(payloadMinimal);
+        try {
+          return await saveSession(payloadMinimal);
+        } catch (e) {
+          console.error("Minimal payload also failed:", e);
+          throw e;
+        }
       };
 
       const saved = await trySave();
