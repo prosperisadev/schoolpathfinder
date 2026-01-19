@@ -1,12 +1,7 @@
-/**
- * Auto-generated course-to-university mappings
- * Generated from: universityRankings.ts
- * DO NOT EDIT MANUALLY - Run scripts/generate-course-mappings.cjs to regenerate
- */
+// Auto-generated from universityRankings.ts
+import { CourseUniversityMapping } from "./courseUniversityMapping.types";
 
-import { CourseUniversityMapping } from '@/types';
-
-export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
+export const courseUniversityMappings: CourseUniversityMapping[] = [
   {
     courseId: "accounting",
     nigerianUniversityIds: ["unilag", "ui", "cu", "abu", "unn", "atbu", "aefunai", "buk", "funaab", "fuask", "fubk", "fud", "fudm", "fugashua", "fugus", "fuk", "ful", "fulafia", "fupre", "futmin", "fuo", "fuoye", "fuw", "mouau", "mau", "noun", "unizik", "uniabuja", "uam", "uniben", "unical", "unilorin", "unijos", "unimaid", "uniport", "uniuyo", "udus", "afit", "nmu", "polac", "nuab", "nda", "akum", "absu", "adsu", "aaua", "aksu", "adustech", "aau", "basug", "bmu", "bsu", "bosu", "ysu", "ansu", "unicross", "delsu", "dspz", "dou", "ebsu", "edsu", "eksu", "esut", "gsu", "gsust", "ibbul", "iaue", "imsu", "kasu", "ksusta", "paau", "kwasu", "lautech", "lasu", "lasued", "lasust", "nsuk", "ndu", "oou", "oaust", "uniosun", "plasu", "rivsu", "slu", "tasued", "tsu", "umyu", "ssu", "unidel", "yumsuk", "zsu", "ac", "aue", "abuad", "aust", "apu", "acu", "aum", "ahu", "auk", "anchor-university", "aju", "amu", "baze", "but", "biu", "bhu", "cul", "caritas-university", "cetep-city-university", "clu", "christopher-university", "ccu", "crawford-university", "crescent-university", "dui", "ecu", "eu", "eua", "gou", "gfu", "guu", "hallmark-university", "hezekiah-university", "iuo", "jabu", "kum", "ku", "kwararafa-university", "lu", "lcu", "madonna-university", "mcu", "mewar-university", "mciu", "mtu", "mudiame-university", "nun", "nuk", "novena-university", "obong-university", "oui", "pamo-university-of-medical-sciences", "pau", "paul-university", "pue", "pcu", "run", "renaissance-university", "rhema-university", "ritman-university", "salem-university", "smu", "sau", "sun", "summit-university", "vuna", "wuo", "wdu", "wui", "university-of-mkar", "jhu"],
