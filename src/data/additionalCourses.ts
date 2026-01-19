@@ -2105,4 +2105,1184 @@ export const additionalCourses: Course[] = [
     interestMatch: ["creative", "communication", "technology"],
     personalityMatch: { analyticalVsCreative: 1, structuredVsFlexible: 1, peopleVsTask: -1, riskVsStability: 1 },
   },
+
+  // ACTUARIAL SCIENCE
+  {
+    id: "actuarial-science",
+    name: "Actuarial Science",
+    category: "Finance & Business",
+    overview: "Actuarial Science combines mathematics, statistics, and financial theory to assess risk in insurance, finance, and other industries. Actuaries are the mathematicians of the financial world, using data and probability to predict future events and help organizations make informed decisions about risk management, pricing, and financial security.",
+    coreSkills: ["Advanced Statistics & Probability", "Risk Modeling & Analysis", "Financial Mathematics", "Data Analysis (R, Python, Excel)", "Insurance Principles", "Econometrics", "Programming & Database Management"],
+    nigeriaContext: {
+      description: "Nigeria's insurance and pension industries are rapidly growing, creating strong demand for qualified actuaries. UNILAG and OAU offer top programs. Local actuaries work in insurance companies, pension fund administrators, and financial institutions, earning among the highest salaries in the country.",
+      teachingStyle: "Theory-heavy with professional exam preparation. Focus on passing international actuarial exams (SOA, IFoA) alongside degree requirements.",
+      careerOpportunities: [
+        "Actuarial Analyst (Insurance, Pensions)",
+        "Risk Management Specialist",
+        "Investment Analyst",
+        "Data Scientist (Finance/Insurance)",
+        "Pension Fund Manager",
+        "Underwriting Manager",
+        "Consulting Actuary"
+      ],
+      salaryRange: "NGN 3,600,000 - NGN 18,000,000/year (varies greatly with exam progress and experience)"
+    },
+    globalContext: {
+      description: "Actuaries are in high demand globally, particularly in developed insurance markets. The profession requires passing rigorous international exams (SOA, CAS, IFoA), which can take 5-10 years. Actuaries enjoy excellent job security, high salaries, and intellectual challenge.",
+      teachingStyle: "Heavy emphasis on mathematical theory, statistical modeling, and professional exam preparation. Many programs integrate VEE credits and exam prep.",
+      careerOpportunities: [
+        "Life/Health/Property & Casualty Actuary",
+        "Pension Actuary",
+        "Enterprise Risk Manager",
+        "Quantitative Analyst",
+        "Insurance Product Developer",
+        "Chief Risk Officer"
+      ],
+      salaryRange: "USD 70,000 - USD 200,000+/year (depends heavily on exam progress)"
+    },
+    careerPath: {
+      dayToDay: "Analyzing mortality data and claims patterns, building financial models in Excel/R/Python, calculating insurance premiums and reserves, presenting risk assessments to management, studying for professional exams (evenings/weekends), collaborating with underwriters and product teams.",
+      typicalEmployers: ["Insurance companies (Life, Health, P&C)", "Consulting firms (EY, Deloitte, Milliman)", "Pension administrators", "Investment banks", "Government regulatory bodies", "Rating agencies"]
+    },
+    curriculum: {
+      year1: ["Calculus I & II", "Linear Algebra", "Probability Theory", "Statistics I", "Economics I & II", "Introduction to Actuarial Science"],
+      year2: ["Advanced Probability", "Statistical Inference", "Life Contingencies I", "Financial Mathematics", "Risk Theory", "Exam P/1 Preparation"],
+      year3: ["Life Contingencies II", "Survival Models", "Financial Economics", "Time Series Analysis", "Stochastic Processes", "Exam FM/2 Preparation"],
+      year4: ["Credibility Theory", "Loss Models", "Pension Mathematics", "Advanced Financial Models", "Capstone Project", "Professional Exam Prep"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "AI and machine learning are augmenting actuarial work, not replacing it. Actuaries who master data science tools (Python, R, SQL) will be even more valuable. The core judgment and regulatory expertise remain irreplaceable.",
+      trends: ["Predictive Analytics & Machine Learning", "Climate Risk Modeling", "Cyber Insurance", "Pandemic Risk Assessment", "ESG Risk Integration", "Automated Modeling Tools", "Big Data in Insurance"]
+    },
+    successPathway: {
+      internships: ["Insurance companies (actuarial departments)", "Pension administrators", "Consulting firms", "Central Bank/NAICOM"],
+      certifications: ["SOA Exams (ASA, FSA)", "IFoA Exams (UK)", "CAS Exams (Property & Casualty)", "VEE Credits", "Excel/R/Python Certifications"],
+      projects: ["Build mortality/claims models", "Pricing projects for insurance products", "Pension fund valuation exercises", "Risk simulation studies", "Kaggle competitions"],
+      volunteering: ["Financial literacy programs", "Math tutoring", "Actuarial society events", "Mentoring pre-actuarial students"]
+    },
+    schools: allSchools,
+    interestMatch: ["finance", "analytical", "technology"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: -1 }
+  },
+
+  // MARINE BIOLOGY
+  {
+    id: "marine-biology",
+    name: "Marine Biology",
+    category: "Science & Research",
+    overview: "Marine Biology is the scientific study of ocean life, ecosystems, and marine environments. Students explore marine organisms from microscopic plankton to massive whales, coral reef ecology, oceanography, conservation, and the impact of human activity on marine ecosystems. This field combines biology, chemistry, ecology, and environmental science.",
+    coreSkills: ["Marine Ecology & Biodiversity", "Oceanography", "Fish Biology & Aquaculture", "Marine Conservation", "Scuba Diving & Field Research", "Data Collection & Analysis", "Environmental Impact Assessment"],
+    nigeriaContext: {
+      description: "Nigeria has over 850km of coastline with rich marine biodiversity, fisheries, and oil/gas activities affecting marine environments. UNILAG's marine biology program is the premier option. Careers focus on fisheries management, environmental consulting for oil/gas companies, aquaculture, and conservation NGOs.",
+      teachingStyle: "Combination of lectures, lab work, and field trips to Lagos lagoon, coastal areas, and marine research stations. Emphasis on practical skills in fish identification, water quality testing, and ecosystem surveys.",
+      careerOpportunities: [
+        "Fisheries Officer (Federal/State Ministries)",
+        "Environmental Consultant (Oil & Gas)",
+        "Marine Conservation Officer (NGOs)",
+        "Aquaculture Manager",
+        "Marine Research Scientist",
+        "Environmental Impact Assessor",
+        "Marine Park Ranger"
+      ],
+      salaryRange: "NGN 1,800,000 - NGN 8,000,000/year"
+    },
+    globalContext: {
+      description: "Marine biologists work worldwide studying ocean life, climate change impacts, conservation, and sustainable fisheries. Top opportunities exist in research institutions, environmental agencies, aquariums, and conservation organizations. Many careers require graduate degrees (MSc, PhD).",
+      teachingStyle: "Hands-on learning with extensive fieldwork, scuba diving certifications, research vessel expeditions, and laboratory analysis. Strong emphasis on research methods and scientific writing.",
+      careerOpportunities: [
+        "Marine Research Scientist",
+        "Oceanographer",
+        "Fisheries Biologist",
+        "Conservation Biologist",
+        "Aquarium Curator",
+        "Marine Policy Advisor",
+        "Coastal Zone Manager"
+      ],
+      salaryRange: "USD 45,000 - USD 100,000/year"
+    },
+    careerPath: {
+      dayToDay: "Conducting fieldwork (boat surveys, diving, sampling), analyzing water/tissue samples in the lab, tagging and tracking fish/turtles, monitoring coral reef health, writing research reports, collaborating with fishermen and coastal communities, presenting findings at conferences.",
+      typicalEmployers: ["Research institutions (universities, NIOMR)", "Environmental consulting firms", "Oil and gas companies", "NGOs (WWF, Oceana, local conservation groups)", "Government fisheries departments", "Aquaculture companies", "Marine parks and aquariums"]
+    },
+    curriculum: {
+      year1: ["General Biology", "Chemistry for Biologists", "Physics", "Mathematics/Statistics", "Introduction to Oceanography", "Cell Biology"],
+      year2: ["Marine Ecology", "Fish Biology", "Marine Invertebrates", "Organic Chemistry", "Genetics", "Scuba Diving Certification"],
+      year3: ["Oceanography", "Marine Mammals", "Coral Reef Ecology", "Fisheries Science", "Marine Conservation", "Aquaculture", "Research Methods"],
+      year4: ["Marine Pollution & Toxicology", "Coastal Zone Management", "Advanced Marine Ecology", "Research Project", "Field Course", "Environmental Impact Assessment"]
+    },
+    futureOutlook: {
+      relevanceToday: 7,
+      relevanceIn5Years: 8,
+      techImpact: "Technology is revolutionizing marine research through satellite tracking, DNA barcoding, underwater drones (ROVs), and big data analysis. Climate change research is driving demand.",
+      trends: ["Climate Change & Ocean Acidification Research", "Marine Protected Areas Expansion", "Sustainable Aquaculture", "Blue Economy", "Ocean Plastic Pollution", "Deep Sea Exploration", "Marine Genomics"]
+    },
+    successPathway: {
+      internships: ["NIOMR (Nigerian Institute for Oceanography and Marine Research)", "Environmental consulting firms", "Conservation NGOs", "Aquaculture farms", "Oil company environmental departments"],
+      certifications: ["PADI/SSI Scuba Diving (Open Water to Rescue Diver)", "GIS for Conservation", "Marine First Aid", "Boat Handling", "Scientific Diving"],
+      projects: ["Species surveys in Lagos lagoon", "Fish breeding experiments", "Coral restoration projects", "Water quality monitoring", "Publish in student research journals"],
+      volunteering: ["Beach cleanups", "Turtle conservation projects", "Community fisheries education", "Marine science outreach to schools"]
+    },
+    schools: allSchools,
+    interestMatch: ["environment", "science", "research"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 1, peopleVsTask: 0, riskVsStability: 0 }
+  },
+
+  // MEDICAL RADIOGRAPHY
+  {
+    id: "medical-radiography",
+    name: "Medical Radiography & Radiation Science",
+    category: "Health & Medicine",
+    overview: "Medical Radiography (also called Diagnostic Imaging or Radiologic Technology) trains professionals to use X-rays, CT scans, MRI, ultrasound, and other imaging technologies to help diagnose diseases and injuries. Radiographers are vital members of healthcare teams, working closely with doctors to produce high-quality medical images for diagnosis and treatment planning.",
+    coreSkills: ["Medical Imaging Techniques (X-ray, CT, MRI, Ultrasound)", "Radiation Safety & Protection", "Patient Care & Positioning", "Anatomy & Physiology", "Image Quality & Analysis", "Equipment Operation & Maintenance", "Medical Ethics & Communication"],
+    nigeriaContext: {
+      description: "Nigeria has a critical shortage of trained radiographers, with only ~3,000 professionals serving 200+ million people. UNILAG offers Nigeria's premier radiography program. Radiographers are in very high demand in hospitals nationwide, with excellent job security and opportunities to specialize (CT, MRI, ultrasound, interventional radiology).",
+      teachingStyle: "Balanced theory and clinical practice. Students spend 50% of training in hospital radiology departments, learning hands-on with real patients and equipment. Strong focus on radiation safety and patient care.",
+      careerOpportunities: [
+        "Diagnostic Radiographer (Hospitals)",
+        "CT/MRI Technologist",
+        "Ultrasound Specialist (Sonographer)",
+        "Interventional Radiographer",
+        "Radiation Therapist",
+        "Equipment Application Specialist",
+        "Radiology Manager"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 9,600,000/year"
+    },
+    globalContext: {
+      description: "Radiographers are in demand globally, particularly in UK, Canada, Australia, Middle East, and USA. The profession offers work-life balance, job security, and good salaries. Many countries have shortage occupation lists including radiographers. Licensing/registration required in most countries.",
+      teachingStyle: "Heavy clinical training (60-70% of program) in hospital settings, learning all imaging modalities. Theory covers anatomy, pathology, physics of imaging, and radiation safety.",
+      careerOpportunities: [
+        "Diagnostic Radiographer",
+        "MRI/CT Specialist",
+        "Interventional Radiology Technologist",
+        "Nuclear Medicine Technologist",
+        "Mammography Specialist",
+        "Radiation Therapist",
+        "PACS Administrator"
+      ],
+      salaryRange: "USD 55,000 - USD 90,000/year"
+    },
+    careerPath: {
+      dayToDay: "Explaining procedures to patients and positioning them correctly, operating X-ray/CT/MRI machines, ensuring radiation safety protocols, capturing high-quality diagnostic images, collaborating with radiologists and doctors, maintaining equipment, managing electronic records (PACS), handling emergency trauma cases.",
+      typicalEmployers: ["Hospitals (public and private)", "Diagnostic imaging centers", "Cancer treatment centers", "Medical equipment companies", "Sports medicine clinics", "Mobile imaging services", "Research institutions"]
+    },
+    curriculum: {
+      year1: ["Human Anatomy & Physiology", "Radiographic Physics", "Introduction to Radiography", "Patient Care", "Medical Terminology", "Basic Life Support"],
+      year2: ["Radiographic Techniques I (X-ray)", "Radiation Protection", "Pathology", "Clinical Practice I", "Image Quality & Evaluation", "Medical Ethics"],
+      year3: ["Advanced Imaging (CT, MRI)", "Fluoroscopy & Interventional Procedures", "Ultrasound Basics", "Clinical Practice II", "Radiographic Techniques II", "Equipment Maintenance"],
+      year4: ["Specialized Imaging Techniques", "Radiation Therapy Basics", "Quality Assurance", "Clinical Practice III", "Research Project", "Professional Practice"]
+    },
+    futureOutlook: {
+      relevanceToday: 10,
+      relevanceIn5Years: 10,
+      techImpact: "AI is assisting with image analysis and initial screening, but human radiographers remain essential for patient care, positioning, quality control, and specialized procedures. New technologies (3D imaging, hybrid scanners) create opportunities.",
+      trends: ["AI-Assisted Image Analysis", "3D & 4D Imaging", "Point-of-Care Ultrasound", "Interventional Radiology Growth", "Dose Reduction Technologies", "Portable Imaging Devices", "Tele-Radiology"]
+    },
+    successPathway: {
+      internships: ["Teaching hospital radiology departments", "Private diagnostic centers", "Cancer treatment centers", "Equipment vendors (Siemens, GE, Philips)"],
+      certifications: ["ARRT (American Registry)", "SOR (UK Society of Radiographers)", "SONM (Nigeria)", "CT/MRI Specialization", "Ultrasound Certification", "BLS/ACLS"],
+      projects: ["Image quality improvement studies", "Radiation dose optimization research", "Patient satisfaction initiatives", "Equipment evaluation reports"],
+      volunteering: ["Health screening outreaches", "Cancer awareness campaigns", "Medical missions to underserved areas", "Professional association activities"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "technology", "helping-others"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // SYSTEMS ENGINEERING
+  {
+    id: "systems-engineering",
+    name: "Systems Engineering",
+    category: "Engineering",
+    overview: "Systems Engineering is an interdisciplinary field focused on designing, integrating, and managing complex systems over their life cycles. Systems engineers take a holistic view, ensuring all components (hardware, software, people, processes) work together effectively. This field is critical in aerospace, defense, telecommunications, energy, and large-scale infrastructure projects.",
+    coreSkills: ["Systems Thinking & Analysis", "Requirements Engineering", "Systems Architecture & Design", "Integration & Testing", "Project Management", "Risk & Reliability Engineering", "Modeling & Simulation (MATLAB, Simulink)"],
+    nigeriaContext: {
+      description: "Systems Engineering is relatively new in Nigeria but growing rapidly due to complex infrastructure projects (power, telecom, transportation). UNILAG is pioneering this field. Opportunities exist in telecommunications companies, oil & gas megaprojects, infrastructure development, and defense. Systems engineers command premium salaries due to rarity.",
+      teachingStyle: "Project-based learning focused on real-world complex systems. Heavy emphasis on teamwork, communication, and multidisciplinary collaboration. Students learn to integrate mechanical, electrical, software, and human factors.",
+      careerOpportunities: [
+        "Systems Integration Engineer",
+        "Telecommunications Systems Engineer",
+        "Oil & Gas Project Systems Engineer",
+        "Infrastructure Development Specialist",
+        "Defense Systems Engineer",
+        "Quality Assurance Engineer",
+        "Engineering Project Manager"
+      ],
+      salaryRange: "NGN 3,600,000 - NGN 15,000,000/year"
+    },
+    globalContext: {
+      description: "Systems engineers are highly sought after for complex projects: spacecraft, aircraft, autonomous vehicles, smart cities, military systems, and large IT infrastructures. Top employers include NASA, Boeing, Lockheed Martin, tech giants, and consulting firms. The field offers excellent career growth and very high salaries.",
+      teachingStyle: "Interdisciplinary approach integrating engineering fundamentals with management, economics, and decision science. Heavy use of case studies from aerospace, defense, and tech industries. Emphasis on standards (ISO 15288, INCOSE).",
+      careerOpportunities: [
+        "Aerospace Systems Engineer",
+        "Defense Systems Engineer",
+        "Automotive Systems Engineer (Autonomous Vehicles)",
+        "Smart City/IoT Systems Architect",
+        "Enterprise Systems Integration Consultant",
+        "Chief Technology Officer",
+        "Engineering Program Manager"
+      ],
+      salaryRange: "USD 80,000 - USD 160,000/year"
+    },
+    careerPath: {
+      dayToDay: "Defining system requirements with stakeholders, creating system architectures and interface specifications, coordinating across engineering teams (software, hardware, mechanical), conducting integration testing and verification, managing technical risk, leading design reviews, creating simulation models, ensuring projects meet performance, cost, and schedule targets.",
+      typicalEmployers: ["Aerospace companies (Boeing, Airbus, NASA)", "Defense contractors (Lockheed Martin, Northrop Grumman)", "Telecommunications (MTN, Airtel, Nokia, Ericsson)", "Oil & gas companies", "Automotive (Tesla, GM)", "Consulting firms (Booz Allen, Accenture)", "Tech giants (Google, Amazon, Microsoft)"]
+    },
+    curriculum: {
+      year1: ["Engineering Mathematics", "Physics", "Chemistry", "Introduction to Systems Engineering", "Programming (Python/C++)", "Engineering Drawing"],
+      year2: ["Systems Thinking", "Requirements Engineering", "Circuits & Electronics", "Mechanics", "Statistics", "Engineering Economics"],
+      year3: ["Systems Architecture & Design", "Control Systems", "Operations Research", "Reliability Engineering", "Project Management", "Modeling & Simulation"],
+      year4: ["Systems Integration & Testing", "Risk Management", "Human Factors Engineering", "Capstone Systems Project", "Professional Practice", "Advanced Topics"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "The complexity of modern systems (autonomous vehicles, smart cities, space missions, AI systems) is increasing demand exponentially. Systems engineers who understand AI/ML integration, cybersecurity, and sustainability will be invaluable.",
+      trends: ["Autonomous Systems (Vehicles, Drones)", "Digital Twins & Simulation", "System-of-Systems Engineering", "Model-Based Systems Engineering (MBSE)", "AI/ML System Integration", "Cybersecurity for Complex Systems", "Sustainable Systems Design"]
+    },
+    successPathway: {
+      internships: ["Telecommunications companies", "Oil & gas engineering departments", "Aerospace/defense contractors", "Consulting firms", "Government infrastructure agencies"],
+      certifications: ["INCOSE Certifications (ASEP, CSEP)", "PMP (Project Management)", "Six Sigma", "MATLAB/Simulink Certification", "Cloud Architecture Certifications"],
+      projects: ["Design a complex system (satellite, drone, smart building)", "Capstone multidisciplinary team projects", "Simulation modeling exercises", "Hackathons focused on system integration"],
+      volunteering: ["STEM education outreach", "Engineering competition mentoring", "Professional society activities (INCOSE chapter)"]
+    },
+    schools: allSchools,
+    interestMatch: ["technology", "engineering", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 0, riskVsStability: -1 }
+  },
+
+  // GEOPHYSICS
+  {
+    id: "geophysics",
+    name: "Geophysics",
+    category: "Science & Engineering",
+    overview: "Geophysics applies physics principles to study the Earth's structure, composition, and processes. Geophysicists use seismic waves, magnetic fields, gravity, and electrical methods to explore what lies beneath the Earth's surface. This field is critical for oil and gas exploration, mining, earthquake studies, groundwater detection, and environmental assessment.",
+    coreSkills: ["Seismic Data Acquisition & Interpretation", "Gravity & Magnetic Surveying", "Electrical & Electromagnetic Methods", "Geophysical Data Processing (MATLAB, Python)", "Well Logging & Reservoir Analysis", "GIS & Remote Sensing", "Geology Fundamentals"],
+    nigeriaContext: {
+      description: "Nigeria's oil and gas industry creates massive demand for geophysicists. Programs at UNILAG, OAU, FUTA, and UNILORIN produce graduates who work for oil majors (Shell, Chevron, ExxonMobil), service companies (Schlumberger, Halliburton), and exploration firms. Geophysicists are among the highest-paid STEM graduates. Opportunities also exist in mining, groundwater exploration, and seismic hazard assessment.",
+      teachingStyle: "Strong theoretical foundation in physics and mathematics, combined with hands-on fieldwork and computer-based data processing. Students conduct seismic surveys, gravity measurements, and use industry-standard software.",
+      careerOpportunities: [
+        "Exploration Geophysicist (Oil & Gas)",
+        "Seismic Data Processor/Interpreter",
+        "Reservoir Geophysicist",
+        "Mining Geophysicist",
+        "Groundwater/Environmental Geophysicist",
+        "Geophysical Surveyor",
+        "Research Scientist (Earthquakes, Earth Structure)"
+      ],
+      salaryRange: "NGN 3,600,000 - NGN 18,000,000/year (oil & gas pays highest)"
+    },
+    globalContext: {
+      description: "Geophysicists work globally in energy (oil, gas, renewables), mining, environmental consulting, and research. The energy transition is creating new opportunities in geothermal energy, carbon capture monitoring, and offshore wind site surveys. Strong demand in Canada, USA, Australia, Middle East, and Latin America.",
+      teachingStyle: "Field-intensive with camps for seismic surveys, gravity/magnetic measurements, and electrical resistivity studies. Heavy computational work with specialized software (Petrel, Kingdom, OpendTect). Research-focused at graduate level.",
+      careerOpportunities: [
+        "Exploration Geophysicist",
+        "Seismic Imaging Specialist",
+        "Geothermal Resource Analyst",
+        "Mining Exploration Geophysicist",
+        "Earthquake Seismologist",
+        "Carbon Sequestration Specialist",
+        "Geophysics Professor/Researcher"
+      ],
+      salaryRange: "USD 70,000 - USD 150,000/year"
+    },
+    careerPath: {
+      dayToDay: "Analyzing seismic data to locate oil/gas reservoirs or mineral deposits, planning and conducting geophysical surveys in the field, processing data using specialized software, interpreting results and creating 3D subsurface models, presenting findings to exploration teams, collaborating with geologists and engineers, optimizing drilling locations.",
+      typicalEmployers: ["Oil & gas companies (Shell, Chevron, Total, independents)", "Service companies (Schlumberger, Halliburton, Baker Hughes)", "Mining companies", "Environmental consulting firms", "Geothermal energy companies", "Research institutions", "Government geological surveys"]
+    },
+    curriculum: {
+      year1: ["Physics I & II", "Mathematics (Calculus, Vectors)", "General Geology", "Chemistry", "Introduction to Geophysics", "Computer Programming"],
+      year2: ["Geophysical Field Methods", "Potential Fields (Gravity & Magnetics)", "Electrical Methods", "Mathematics for Geophysics", "Structural Geology", "Mineralogy"],
+      year3: ["Seismic Exploration", "Well Logging", "Geophysical Data Processing", "Seismology", "Petroleum Geology", "Field Camp"],
+      year4: ["Seismic Interpretation", "Reservoir Geophysics", "Environmental Geophysics", "Advanced Data Analysis", "Research Project", "Integrated Geoscience"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 8,
+      techImpact: "AI and machine learning are revolutionizing seismic interpretation and data processing, but expert geophysicists are still needed to validate results and make critical decisions. New applications in renewable energy (geothermal, offshore wind) and carbon storage are emerging.",
+      trends: ["AI/ML for Seismic Interpretation", "Geothermal Energy Exploration", "Carbon Capture & Storage Monitoring", "4D Seismic for Reservoir Monitoring", "Fiber Optic Sensing (DAS)", "Offshore Wind Site Characterization", "Critical Minerals Exploration"]
+    },
+    successPathway: {
+      internships: ["Oil & gas companies (intern geophysicist)", "Service companies (field/office roles)", "Geological surveys", "Mining companies", "Research institutions"],
+      certifications: ["Professional Geophysicist (APEGN)", "Petrel/Kingdom Software", "Python/MATLAB for Geophysics", "HSE Certifications", "GIS Certification"],
+      projects: ["Seismic data interpretation projects", "Gravity/magnetic surveys", "Groundwater exploration studies", "Publish in geophysics journals", "Competition teams (SEG challenges)"],
+      volunteering: ["Science education outreach", "Geohazard awareness campaigns", "Geophysical society activities"]
+    },
+    schools: allSchools,
+    interestMatch: ["science", "technology", "analytical"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: 0 }
+  },
+
+  // METEOROLOGY AND CLIMATE SCIENCE
+  {
+    id: "meteorology-climate-science",
+    name: "Meteorology & Climate Science",
+    category: "Science & Environment",
+    overview: "Meteorology is the study of weather and atmospheric phenomena, while climate science examines long-term climate patterns and changes. Students learn to forecast weather, understand climate systems, analyze atmospheric data, and assess climate change impacts. This field combines physics, mathematics, computer modeling, and environmental science.",
+    coreSkills: ["Weather Forecasting & Analysis", "Climate Modeling", "Atmospheric Physics", "Remote Sensing & Satellite Data", "Statistical Climate Analysis", "Programming (Python, R, Fortran)", "Data Visualization & Communication"],
+    nigeriaContext: {
+      description: "UNILAG and FUTA offer meteorology programs. Nigeria's vulnerability to climate variability (floods, droughts, extreme heat) drives demand for meteorologists. Career paths include NIMET (Nigerian Meteorological Agency), aviation weather services, agricultural meteorology, climate consulting, and environmental agencies. Growing opportunities in climate change adaptation and renewable energy forecasting.",
+      teachingStyle: "Combination of theoretical atmospheric science, computer modeling, and practical forecasting exercises. Students learn to use weather stations, radiosondes, satellite imagery, and numerical weather prediction models.",
+      careerOpportunities: [
+        "Weather Forecaster (NIMET, Aviation)",
+        "Climate Analyst/Consultant",
+        "Agricultural Meteorologist",
+        "Environmental Impact Assessor",
+        "Renewable Energy Analyst (Solar/Wind)",
+        "Broadcast Meteorologist",
+        "Research Scientist (Climate Change)"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 9,600,000/year"
+    },
+    globalContext: {
+      description: "Meteorologists work in government weather services, aviation, military, media (TV/online weather presenters), renewable energy companies, and climate research. Climate scientists are increasingly important in policy, sustainability consulting, and disaster preparedness. Strong growth due to climate change urgency.",
+      teachingStyle: "Heavy computational focus using weather/climate models (WRF, GCMs), satellite data processing, and programming. Fieldwork includes launching weather balloons and operating weather stations. Graduate programs emphasize specialized research.",
+      careerOpportunities: [
+        "Operational Meteorologist (National Weather Service equivalents)",
+        "Climate Scientist/Researcher",
+        "Broadcast Meteorologist",
+        "Aviation Meteorologist",
+        "Renewable Energy Forecaster",
+        "Climate Risk Analyst (Finance/Insurance)",
+        "Environmental Consultant"
+      ],
+      salaryRange: "USD 50,000 - USD 110,000/year"
+    },
+    careerPath: {
+      dayToDay: "Analyzing weather data from satellites, radar, and ground stations, running computer forecast models, issuing weather forecasts and warnings, creating weather graphics and maps, briefing pilots or emergency managers, conducting climate research, communicating with media or public, analyzing climate trends for reports.",
+      typicalEmployers: ["National meteorological agencies", "Aviation authorities (airports, airlines)", "Military weather services", "TV stations and media companies", "Renewable energy companies", "Agricultural agencies", "Climate consulting firms", "Research institutions"]
+    },
+    curriculum: {
+      year1: ["Physics I & II", "Calculus & Differential Equations", "Chemistry", "Introduction to Atmospheric Science", "Programming (Python)", "Statistics"],
+      year2: ["Atmospheric Thermodynamics", "Atmospheric Dynamics", "Synoptic Meteorology I", "Remote Sensing", "Numerical Methods", "Climatology"],
+      year3: ["Weather Forecasting", "Atmospheric Physics", "Climate Modeling", "Tropical Meteorology", "Radar & Satellite Meteorology", "Field Methods"],
+      year4: ["Severe Weather & Mesoscale Meteorology", "Climate Change Science", "Air Quality & Atmospheric Chemistry", "Advanced Forecasting", "Research Project", "Operational Meteorology"]
+    },
+    futureOutlook: {
+      relevanceToday: 8,
+      relevanceIn5Years: 9,
+      techImpact: "AI and machine learning are improving weather forecast accuracy and climate predictions. However, human expertise is critical for communicating risk, interpreting model uncertainties, and advising on weather-sensitive decisions. Climate change is driving unprecedented demand.",
+      trends: ["AI/ML Weather Forecasting", "Climate Change Impact Assessment", "Renewable Energy Forecasting", "Climate Risk for Finance", "Extreme Weather Early Warning Systems", "Urban Heat Island Studies", "Agricultural Weather Services"]
+    },
+    successPathway: {
+      internships: ["NIMET (forecasting divisions)", "Aviation weather services", "Climate research institutes", "Environmental consulting firms", "TV weather departments"],
+      certifications: ["American Meteorological Society (AMS) Seal", "WMO Training", "Remote Sensing Certifications", "Python for Atmospheric Science", "GIS for Climate Analysis"],
+      projects: ["Weather forecasting exercises", "Climate trend analysis for Nigeria", "Renewable energy site assessments", "Extreme weather case studies", "Publish research papers"],
+      volunteering: ["Climate awareness campaigns", "School weather education programs", "Disaster preparedness outreach", "Environmental NGO activities"]
+    },
+    schools: allSchools,
+    interestMatch: ["science", "environment", "technology"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 0, peopleVsTask: 0, riskVsStability: -1 }
+  },
+
+  // CYBER SECURITY
+  {
+    id: "cyber-security",
+    name: "Cyber Security",
+    category: "Technology",
+    overview: "Cyber Security is the practice of protecting computer systems, networks, programs, and data from digital attacks, unauthorized access, and damage. Students learn ethical hacking, network security, cryptography, incident response, security architecture, and risk management. This field is critical as cyber threats grow exponentially worldwide.",
+    coreSkills: ["Ethical Hacking & Penetration Testing", "Network Security", "Cryptography", "Security Operations (SOC)", "Incident Response & Forensics", "Security Compliance (ISO 27001, NIST)", "Programming (Python, C, Assembly)"],
+    nigeriaContext: {
+      description: "Cyber threats are surging in Nigeria with increased digital banking, fintech, and e-commerce. FUTA is pioneering dedicated cyber security programs. Massive demand from banks, telcos, fintech companies, and government agencies. Cyber security professionals command premium salaries due to critical shortage. Many work remotely for international companies.",
+      teachingStyle: "Hands-on labs with Kali Linux, virtual hacking environments, capture-the-flag competitions, and real-world security tools. Strong emphasis on ethical hacking certifications (CEH, OSCP) alongside degree.",
+      careerOpportunities: [
+        "Security Analyst/Engineer",
+        "Penetration Tester (Ethical Hacker)",
+        "Security Operations Center (SOC) Analyst",
+        "Information Security Manager",
+        "Cyber Forensics Investigator",
+        "Cloud Security Specialist",
+        "Chief Information Security Officer (CISO)"
+      ],
+      salaryRange: "NGN 3,600,000 - NGN 24,000,000/year (top talent earns significantly more)"
+    },
+    globalContext: {
+      description: "Cyber security is one of the fastest-growing and highest-paying tech fields globally. Chronic talent shortage worldwide creates opportunities. Remote work is common. Top professionals earn 6-7 figures. Strong career growth potential from analyst to CISO. Certifications are highly valued, sometimes more than degrees.",
+      teachingStyle: "Heavy practical focus with labs, simulations, bug bounty programs, and hands-on projects. Industry certifications integrated into curriculum. Emphasis on staying current with evolving threats.",
+      careerOpportunities: [
+        "Security Engineer/Analyst",
+        "Penetration Tester",
+        "Security Architect",
+        "Incident Response Specialist",
+        "Threat Intelligence Analyst",
+        "Application Security Engineer",
+        "Compliance/GRC Specialist"
+      ],
+      salaryRange: "USD 80,000 - USD 250,000+/year"
+    },
+    careerPath: {
+      dayToDay: "Monitoring security alerts and logs, conducting vulnerability assessments and penetration tests, analyzing malware and security incidents, implementing security controls and patches, configuring firewalls and intrusion detection systems, writing security policies and procedures, conducting security awareness training, responding to breaches, staying updated on latest threats and tools.",
+      typicalEmployers: ["Banks and fintech companies", "Telecommunications companies", "Consulting firms (Big 4, Accenture)", "Tech companies (Google, Microsoft, Meta)", "Cyber security vendors (Palo Alto, CrowdStrike)", "Government agencies (NSA, GCHQ, DSS)", "Cyber insurance companies"]
+    },
+    curriculum: {
+      year1: ["Programming (Python, C)", "Networking Fundamentals", "Operating Systems (Linux, Windows)", "Mathematics & Discrete Structures", "Computer Architecture", "Introduction to Cyber Security"],
+      year2: ["Network Security", "Cryptography", "Web Application Security", "Secure Programming", "Database Security", "Ethical Hacking Basics"],
+      year3: ["Penetration Testing", "Digital Forensics", "Malware Analysis", "Security Operations", "Cloud Security", "Mobile Security"],
+      year4: ["Advanced Penetration Testing", "Incident Response", "Security Architecture", "Threat Intelligence", "Capstone Security Project", "Legal & Ethical Issues"]
+    },
+    futureOutlook: {
+      relevanceToday: 10,
+      relevanceIn5Years: 10,
+      techImpact: "AI is being used both by attackers and defenders. Cyber security professionals who combine traditional skills with AI/ML knowledge will be unstoppable. Quantum computing threatens current encryption, creating new challenges. Demand will only increase.",
+      trends: ["AI/ML for Threat Detection", "Zero Trust Architecture", "Cloud Security (AWS, Azure, GCP)", "DevSecOps", "IoT/OT Security", "Ransomware Defense", "Supply Chain Security", "Quantum-Safe Cryptography"]
+    },
+    successPathway: {
+      internships: ["Bank security teams", "Cyber security consulting firms", "SOC analyst internships", "Bug bounty programs", "Government cyber units"],
+      certifications: ["CEH (Certified Ethical Hacker)", "OSCP (Offensive Security)", "CompTIA Security+", "CISSP", "AWS/Azure Security", "GIAC Certifications"],
+      projects: ["Capture The Flag (CTF) competitions", "Bug bounty hunting", "Build a home lab", "Security research blog", "Contribute to open-source security tools", "Hack The Box rankings"],
+      volunteering: ["Cyber security awareness for SMEs", "School cybersafety programs", "NGO security audits", "Security conference volunteering"]
+    },
+    schools: allSchools,
+    interestMatch: ["technology", "problem-solving", "analytical"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 1, peopleVsTask: 1, riskVsStability: 0 }
+  },
+
+  // MARINE SCIENCE AND TECHNOLOGY
+  {
+    id: "marine-science-technology",
+    name: "Marine Science & Technology",
+    category: "Science & Engineering",
+    overview: "Marine Science & Technology is an interdisciplinary field combining oceanography, marine engineering, maritime technology, and marine resource management. Students learn about ocean systems, marine vessels, offshore structures, underwater technology, fisheries, and sustainable ocean resource exploitation. This field supports the blue economy.",
+    coreSkills: ["Oceanography & Marine Systems", "Marine Engineering & Naval Architecture", "Offshore Technology", "Marine Resource Management", "Underwater Robotics (ROVs, AUVs)", "GIS & Remote Sensing", "Maritime Operations"],
+    nigeriaContext: {
+      description: "Nigeria's extensive coastline, offshore oil/gas industry, and growing maritime sector create demand for marine science professionals. FUTA's program is unique in Nigeria. Opportunities in offshore engineering, maritime shipping, fisheries management, environmental monitoring for oil companies, and navy/maritime security. Growing blue economy initiatives.",
+      teachingStyle: "Combination of marine science theory, engineering principles, and practical maritime skills. Field trips to ports, offshore platforms, and coastal areas. Training in ship operations, diving, and marine instrumentation.",
+      careerOpportunities: [
+        "Marine Engineer (Offshore/Maritime)",
+        "Oceanographic Surveyor",
+        "Offshore Installation Manager",
+        "Maritime Operations Officer",
+        "Fisheries Resource Manager",
+        "Marine Environmental Consultant",
+        "Naval Architect"
+      ],
+      salaryRange: "NGN 3,000,000 - NGN 15,000,000/year (offshore roles pay highest)"
+    },
+    globalContext: {
+      description: "The blue economy is expanding globally with offshore wind, deep-sea mining, aquaculture, and ocean conservation. Marine professionals work on ships, oil rigs, research vessels, and coastal management. Strong demand in maritime nations, offshore energy hubs, and island nations. Often involves working at sea for extended periods.",
+      teachingStyle: "Integrated marine science and engineering with strong practical component: sea time on vessels, diving certifications, ROV operations, and offshore safety training. Emphasis on international maritime standards (IMO, SOLAS).",
+      careerOpportunities: [
+        "Offshore Engineer (Oil/Gas/Wind)",
+        "Oceanographer",
+        "Subsea Engineer",
+        "Maritime Surveyor",
+        "ROV Pilot/Technician",
+        "Marine Renewable Energy Specialist",
+        "Ocean Policy Advisor"
+      ],
+      salaryRange: "USD 60,000 - USD 140,000/year (offshore premium pay)"
+    },
+    careerPath: {
+      dayToDay: "Operating or maintaining marine equipment and vessels, conducting oceanographic surveys and data collection, designing or managing offshore installations, monitoring marine environmental conditions, operating underwater robots (ROVs), analyzing ocean data, ensuring maritime safety compliance, coordinating with ship crews and engineers, troubleshooting marine systems.",
+      typicalEmployers: ["Oil & gas companies (offshore operations)", "Maritime shipping companies", "Offshore engineering contractors", "Research institutions (oceanography)", "Environmental consulting firms", "Navy and coast guard", "Renewable energy companies (offshore wind)", "Port authorities"]
+    },
+    curriculum: {
+      year1: ["Physics", "Mathematics", "Chemistry", "Introduction to Marine Science", "Engineering Drawing", "Computer Programming"],
+      year2: ["Oceanography", "Fluid Mechanics", "Marine Engineering I", "Naval Architecture Basics", "Marine Instrumentation", "Fishing Gear Technology"],
+      year3: ["Offshore Structures", "Marine Propulsion Systems", "Underwater Acoustics", "Marine Resources Management", "ROV/AUV Technology", "Marine Safety", "Field Course"],
+      year4: ["Advanced Marine Engineering", "Subsea Technology", "Marine Renewable Energy", "Coastal Engineering", "Research Project", "Maritime Operations"]
+    },
+    futureOutlook: {
+      relevanceToday: 7,
+      relevanceIn5Years: 9,
+      techImpact: "Autonomous vessels, underwater drones, AI for ocean monitoring, and offshore renewable energy are transforming the field. Climate change is increasing focus on ocean sustainability and coastal resilience.",
+      trends: ["Offshore Wind Energy", "Autonomous Ships & ROVs", "Deep-Sea Mining", "Ocean Plastic Cleanup Technology", "Blue Carbon & Marine Conservation", "Aquaculture Technology", "Digital Twins for Maritime"]
+    },
+    successPathway: {
+      internships: ["Offshore oil/gas companies", "Maritime shipping lines", "Navy maritime engineering", "Oceanographic research institutes", "Port engineering firms"],
+      certifications: ["STCW (Standards of Training, Certification and Watchkeeping)", "Offshore Safety (BOSIET, HUET)", "ROV Pilot Certification", "Diving Certifications", "Marine Engineering Licenses"],
+      projects: ["Design a marine vessel/structure", "Oceanographic data analysis", "ROV mission simulations", "Marine conservation projects", "Maritime safety research"],
+      volunteering: ["Beach and ocean cleanups", "Marine conservation NGOs", "Maritime safety awareness", "School STEM programs"]
+    },
+    schools: allSchools,
+    interestMatch: ["engineering", "environment", "adventure"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 0, peopleVsTask: 0, riskVsStability: 1 }
+  },
+
+  // MINING ENGINEERING
+  {
+    id: "mining-engineering",
+    name: "Mining Engineering",
+    category: "Engineering",
+    overview: "Mining Engineering involves the extraction of minerals, metals, and coal from the earth in a safe, efficient, and environmentally responsible manner. Mining engineers design mines, plan extraction operations, ensure worker safety, manage environmental impacts, and optimize mineral processing. This field combines geology, engineering, and business.",
+    coreSkills: ["Mine Design & Planning", "Rock Mechanics & Blasting", "Mineral Processing", "Mine Safety & Ventilation", "Surveying & Geospatial Technology", "Mining Equipment & Operations", "Environmental Management"],
+    nigeriaContext: {
+      description: "Nigeria has vast untapped mineral resources (gold, tin, coal, limestone, lead-zinc) but mining is underdeveloped compared to oil/gas. FUTA offers the leading mining engineering program. Government is pushing mining diversification, creating opportunities. Mining engineers work in solid minerals mining, quarrying, cement companies, and exploration. Opportunities to pioneer Nigeria's mining sector growth.",
+      teachingStyle: "Strong geological foundation combined with engineering principles. Field trips to mines and quarries. Focus on both small-scale and large-scale mining operations relevant to Nigeria's context.",
+      careerOpportunities: [
+        "Mine Engineer/Manager",
+        "Exploration Geologist/Engineer",
+        "Quarry Manager",
+        "Mineral Processing Engineer",
+        "Mining Equipment Specialist",
+        "Mine Safety Officer",
+        "Mining Consultant"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 12,000,000/year"
+    },
+    globalContext: {
+      description: "Mining is a global industry with strong demand for engineers in Australia, Canada, South Africa, Chile, and other resource-rich nations. The energy transition is creating huge demand for critical minerals (lithium, cobalt, rare earths) for batteries and renewables. High salaries, often in remote locations with fly-in/fly-out schedules.",
+      teachingStyle: "Comprehensive coverage of surface and underground mining, blasting, mineral processing, and mine safety. Extensive use of mine planning software. Internships at operating mines are essential. Focus on sustainable mining practices.",
+      careerOpportunities: [
+        "Mining Engineer",
+        "Mine Planning Engineer",
+        "Blasting Engineer",
+        "Metallurgist/Mineral Processor",
+        "Mine Geologist",
+        "Environmental Mining Engineer",
+        "Mining Consultant"
+      ],
+      salaryRange: "USD 70,000 - USD 150,000/year"
+    },
+    careerPath: {
+      dayToDay: "Planning mine layouts and extraction sequences, designing blasting patterns and supervising blasting operations, ensuring mine safety and regulatory compliance, managing mine ventilation and drainage, operating or overseeing heavy mining equipment, analyzing ore grades and processing efficiency, coordinating with geologists on ore body mapping, managing mine rehabilitation and closure.",
+      typicalEmployers: ["Mining companies (gold, coal, metals)", "Quarrying and aggregates companies", "Cement manufacturers", "Mining equipment manufacturers", "Consulting firms", "Government mining ministries", "Exploration companies"]
+    },
+    curriculum: {
+      year1: ["Mathematics", "Physics", "Chemistry", "Engineering Drawing", "Geology Basics", "Introduction to Mining"],
+      year2: ["Rock Mechanics", "Mine Surveying", "Mineral Processing I", "Mining Methods (Surface)", "Engineering Mechanics", "Thermodynamics"],
+      year3: ["Underground Mining", "Mine Ventilation", "Blasting Technology", "Mine Equipment", "Mine Safety", "Environmental Mining", "Mineral Processing II"],
+      year4: ["Mine Planning & Design", "Mine Economics", "Advanced Mining Technology", "Geotechnical Engineering", "Capstone Mine Design Project", "Mine Management"]
+    },
+    futureOutlook: {
+      relevanceToday: 7,
+      relevanceIn5Years: 9,
+      techImpact: "Automation (autonomous haul trucks, drills), AI for ore optimization, and remote operations are transforming mining. The green energy transition is driving huge demand for battery minerals, creating a mining boom for lithium, cobalt, and rare earths.",
+      trends: ["Critical Minerals for EV Batteries", "Automation & Autonomous Mining", "Sustainable Mining Practices", "Deep-Sea Mining Exploration", "Mine Electrification (Reducing Diesel)", "AI for Ore Grade Prediction", "Mine Closure & Rehabilitation"]
+    },
+    successPathway: {
+      internships: ["Mining companies (operations/planning)", "Quarries and cement plants", "Exploration companies", "Mining consultancies", "Government mining agencies"],
+      certifications: ["Mine Safety Certifications", "Blasting Licenses", "Mining Software (Surpac, MineSched, Vulcan)", "First Aid & Emergency Response", "Environmental Impact Assessment"],
+      projects: ["Mine design capstone projects", "Blast optimization studies", "Mineral processing experiments", "Mine safety audits", "Sustainability assessments"],
+      volunteering: ["Mining safety awareness campaigns", "Community engagement for mining areas", "STEM outreach", "Environmental restoration projects"]
+    },
+    schools: allSchools,
+    interestMatch: ["engineering", "environment", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 0, riskVsStability: 0 }
+  },
+
+  // INDUSTRIAL DESIGN
+  {
+    id: "industrial-design",
+    name: "Industrial Design",
+    category: "Creative & Design",
+    overview: "Industrial Design (also called Product Design) is the art and science of creating mass-produced products that are functional, aesthetically pleasing, user-friendly, and manufacturable. Industrial designers combine creativity, engineering, business, and user research to design everything from smartphones and furniture to cars and medical devices. This field bridges art and engineering.",
+    coreSkills: ["3D Modeling & CAD (SolidWorks, Rhino, Fusion 360)", "Sketching & Rendering", "Prototyping & Model Making", "User-Centered Design & Ergonomics", "Materials & Manufacturing Processes", "Design Thinking", "Adobe Creative Suite"],
+    nigeriaContext: {
+      description: "Industrial design is emerging in Nigeria with growth in manufacturing, consumer goods, and product development. FUTA is one of the few universities offering this program. Opportunities in manufacturing companies, furniture makers, consumer electronics, automotive, and design consultancies. Many Nigerian designers work remotely for international clients or start their own product design studios.",
+      teachingStyle: "Studio-based learning with hands-on projects. Students design actual products, build prototypes using workshops and fabrication labs, and present to industry critiques. Balance of aesthetics, functionality, and manufacturability.",
+      careerOpportunities: [
+        "Product Designer",
+        "Furniture Designer",
+        "Automotive Designer",
+        "Consumer Electronics Designer",
+        "Packaging Designer",
+        "UX/Industrial Design Hybrid",
+        "Design Entrepreneur"
+      ],
+      salaryRange: "NGN 1,800,000 - NGN 9,600,000/year"
+    },
+    globalContext: {
+      description: "Industrial designers are vital in tech companies (Apple, Google, Samsung), automotive (Tesla, BMW), furniture (IKEA, Herman Miller), consumer goods (Nike, P&G), and consultancies (IDEO, Frog Design). Strong portfolios matter more than grades. Many work freelance or start design studios. High demand for sustainable and inclusive design.",
+      teachingStyle: "Project-intensive with design studios, prototyping labs (3D printing, CNC, woodshop), and industry collaborations. Heavy emphasis on portfolio development, user research, and design process over final aesthetics alone.",
+      careerOpportunities: [
+        "Product Designer (Consumer Electronics, Furniture, etc.)",
+        "Automotive Designer",
+        "Design Researcher",
+        "Design Director",
+        "Industrial Design Consultant",
+        "Entrepreneur (Product Startups)",
+        "Design Educator"
+      ],
+      salaryRange: "USD 55,000 - USD 130,000/year"
+    },
+    careerPath: {
+      dayToDay: "Researching user needs and market trends, sketching product concepts by hand and digitally, creating 3D CAD models and renderings, building physical prototypes and testing them, collaborating with engineers and marketers, selecting materials and finishes, presenting design concepts to clients or stakeholders, refining designs based on feedback, preparing manufacturing specifications.",
+      typicalEmployers: ["Consumer electronics companies (Apple, Samsung, Google)", "Automotive companies (Tesla, GM, Toyota)", "Furniture manufacturers", "Product design consultancies (IDEO, Frog, Pentagram)", "Startups (hardware/IoT)", "Toy companies", "Medical device companies"]
+    },
+    curriculum: {
+      year1: ["Design Fundamentals", "Drawing & Sketching", "2D Design (Adobe Suite)", "Materials Science", "Workshop Practice", "Design History"],
+      year2: ["3D Modeling (CAD)", "Prototyping Techniques", "Ergonomics & Human Factors", "Manufacturing Processes", "Color & Form Theory", "Design Projects I"],
+      year3: ["Advanced CAD & Rendering", "User-Centered Design", "Product Development Process", "Sustainable Design", "Furniture/Product Design Projects", "Portfolio Development"],
+      year4: ["Design for Manufacturing", "Design Entrepreneurship", "Advanced Prototyping (3D Printing, CNC)", "Capstone Product Design Project", "Professional Practice", "Internship"]
+    },
+    futureOutlook: {
+      relevanceToday: 8,
+      relevanceIn5Years: 9,
+      techImpact: "AI tools (Midjourney, generative design) are accelerating ideation, but human designers are still needed for user empathy, strategic thinking, and refinement. 3D printing and rapid prototyping are democratizing product development. Sustainability is a major focus.",
+      trends: ["Sustainable & Circular Design", "AI-Assisted Design Tools", "3D Printing & Additive Manufacturing", "Smart Products & IoT Design", "Inclusive & Accessible Design", "Biomimicry", "Direct-to-Consumer Brands"]
+    },
+    successPathway: {
+      internships: ["Product design consultancies", "Manufacturing companies", "Consumer electronics firms", "Furniture makers", "Automotive design studios"],
+      certifications: ["CAD Software Certifications (SolidWorks, Rhino)", "UX Design Certifications", "3D Printing & Fabrication", "Adobe Creative Certifications"],
+      projects: ["Build a strong portfolio (10-15 diverse projects)", "Enter design competitions (Core77, Red Dot)", "Design products and sell online (Etsy, Kickstarter)", "Collaborate with engineering students", "Freelance design work"],
+      volunteering: ["Design for social good projects", "Assistive technology for disabled communities", "STEM/design education", "Sustainability initiatives"]
+    },
+    schools: allSchools,
+    interestMatch: ["creative", "technology", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: 1, structuredVsFlexible: 0, peopleVsTask: 0, riskVsStability: 0 }
+  },
+
+  // OPTOMETRY
+  {
+    id: "optometry",
+    name: "Optometry",
+    category: "Health & Medicine",
+    overview: "Optometry is a healthcare profession focused on eye and vision care. Optometrists (Doctors of Optometry) examine eyes, diagnose vision problems and eye diseases, prescribe corrective lenses (glasses/contacts), detect systemic diseases (diabetes, hypertension) through eye exams, and provide pre/post-operative care for eye surgeries. This field combines healthcare, patient interaction, and small business management.",
+    coreSkills: ["Eye Examination & Diagnosis", "Vision Testing & Refraction", "Contact Lens Fitting", "Ocular Disease Detection & Management", "Low Vision Rehabilitation", "Pediatric & Geriatric Eye Care", "Clinical Instrumentation (Autorefractors, OCT, Fundus Cameras)"],
+    nigeriaContext: {
+      description: "Nigeria has a critical shortage of optometrists with an estimated 1 optometrist per 50,000+ people (WHO recommends 1:10,000). UNILORIN is a leading optometry school. Optometrists enjoy excellent job security, high income, and respect. Many own private practices, work in hospitals, or join optical retail chains. Vision problems are widespread but undertreated, creating massive opportunity.",
+      teachingStyle: "Clinical training-heavy program (60-70% clinical) with rotations in hospitals, eye clinics, and community outreach. Students examine hundreds of patients, learning refraction, disease diagnosis, and patient management. Theory covers ocular anatomy, physiology, pathology, and pharmacology.",
+      careerOpportunities: [
+        "Private Practice Optometrist (Own Clinic)",
+        "Hospital Optometrist",
+        "Optical Retail Manager/Optometrist",
+        "Pediatric Optometry Specialist",
+        "Contact Lens Specialist",
+        "Low Vision Specialist",
+        "Optometry Lecturer/Researcher"
+      ],
+      salaryRange: "NGN 3,000,000 - NGN 18,000,000/year (private practice owners earn more)"
+    },
+    globalContext: {
+      description: "Optometry is a well-established, recession-proof profession globally. Strong demand in developed countries due to aging populations and digital eye strain. Optometrists enjoy work-life balance, autonomy (many own practices), and good income. Licensing exams required in most countries. Growing specializations in myopia management, dry eye, and sports vision.",
+      teachingStyle: "Doctorate-level clinical programs (OD or equivalent) with extensive patient care training. Students gain competency in comprehensive eye exams, contact lenses, and ocular disease. Research and evidence-based practice emphasized.",
+      careerOpportunities: [
+        "Private Practice Optometrist",
+        "Ophthalmology Co-Management",
+        "Pediatric/Geriatric Specialist",
+        "Cornea & Contact Lens Specialist",
+        "Vision Therapy Specialist",
+        "Refractive Surgery Consultant",
+        "Optometry Educator"
+      ],
+      salaryRange: "USD 100,000 - USD 200,000/year"
+    },
+    careerPath: {
+      dayToDay: "Conducting comprehensive eye exams (visual acuity, refraction, eye health), diagnosing conditions (myopia, glaucoma, cataracts, diabetic retinopathy), prescribing glasses and contact lenses, fitting specialty lenses, educating patients on eye health, referring complex cases to ophthalmologists, managing practice operations (if owner), staying updated on new technologies and treatments.",
+      typicalEmployers: ["Private practice (self-employed or group)", "Hospitals and eye clinics", "Optical retail chains (Vision Express, etc.)", "Government health facilities", "NGOs (vision screening programs)", "Optical manufacturers", "Universities (teaching/research)"]
+    },
+    curriculum: {
+      year1: ["Ocular Anatomy & Physiology", "General Physiology", "Biochemistry", "Physics of Vision", "Geometrical Optics", "Introduction to Clinical Optometry"],
+      year2: ["Visual Optics", "Ocular Pharmacology", "Microbiology & Immunology", "Clinical Refraction I", "Contact Lenses I", "Patient Care Basics"],
+      year3: ["Ocular Disease I (Anterior Segment)", "Binocular Vision & Pediatric Optometry", "Clinical Refraction II", "Contact Lenses II", "Low Vision", "Clinical Rotations I"],
+      year4: ["Ocular Disease II (Posterior Segment)", "Systemic Diseases & The Eye", "Advanced Clinical Optometry", "Community Optometry", "Practice Management", "Clinical Rotations II"],
+      year5: ["Specialty Clinics (Pediatrics, Low Vision, Contact Lens)", "Research Project", "Comprehensive Clinical Rotations", "Professional Practice & Ethics"]
+    },
+    futureOutlook: {
+      relevanceToday: 10,
+      relevanceIn5Years: 10,
+      techImpact: "Technology (tele-optometry, AI-assisted diabetic retinopathy screening, advanced imaging) enhances but doesn't replace optometrists. Growing screen time increases vision problems (digital eye strain, myopia epidemic in children), driving demand. Aging populations need more eye care.",
+      trends: ["Myopia Control (Specialty Lenses, Atropine)", "Tele-Optometry & Remote Consultations", "AI Retinal Screening", "Dry Eye Management (IPL, MGD Treatments)", "Scleral Contact Lenses", "Sports Vision Training", "Integrative Healthcare (Co-Management with MDs)"]
+    },
+    successPathway: {
+      internships: ["Teaching hospital eye clinics", "Private optometry practices", "Optical retail chains", "Vision screening NGOs", "Eye research institutes"],
+      certifications: ["Optometry Council of Nigeria License", "Specialty Certifications (Contact Lens, Low Vision)", "Practice Management", "CPR/First Aid", "Advanced Imaging (OCT, Fundus Photography)"],
+      projects: ["Community vision screening outreaches", "Clinical case presentations", "Research on eye disease prevalence", "Business plan for optometry practice"],
+      volunteering: ["Free eye screening camps", "Vision for schools programs", "World Sight Day activities", "Diabetic eye care awareness"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "helping-others", "entrepreneurship"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // PHYSIOTHERAPY
+  {
+    id: "physiotherapy",
+    name: "Physiotherapy (Physical Therapy)",
+    category: "Health & Medicine",
+    overview: "Physiotherapy is a healthcare profession focused on restoring and maintaining physical function, mobility, and quality of life through movement, exercise, manual therapy, education, and modalities. Physiotherapists treat injuries, chronic conditions, disabilities, and help with rehabilitation after surgery or illness. This field combines clinical knowledge, hands-on skills, and patient education.",
+    coreSkills: ["Musculoskeletal Assessment & Treatment", "Therapeutic Exercise Prescription", "Manual Therapy Techniques", "Electrotherapy & Modalities", "Neurological Rehabilitation", "Cardiopulmonary Physiotherapy", "Patient Education & Motivation"],
+    nigeriaContext: {
+      description: "Physiotherapy is growing rapidly in Nigeria with increasing awareness of non-surgical treatment options. UNILORIN, UNILAG, and OAU offer top programs. Physiotherapists work in hospitals, sports teams, private clinics, and rehabilitation centers. Growing sports industry and aging population drive demand. Many start successful private practices. Excellent job prospects and respect.",
+      teachingStyle: "Balanced theory and clinical practice (50/50). Students learn anatomy in detail, practice hands-on techniques on classmates, and do clinical rotations in hospitals treating real patients (orthopedics, neurology, pediatrics, sports). Heavy practical skills emphasis.",
+      careerOpportunities: [
+        "Hospital Physiotherapist (Orthopedics, Neurology, ICU)",
+        "Sports Physiotherapist (Football Clubs, Athletics)",
+        "Private Practice Owner",
+        "Rehabilitation Center Specialist",
+        "Occupational Health Physiotherapist",
+        "Pediatric Physiotherapist",
+        "Geriatric Care Specialist"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 12,000,000/year (private practice and sports physios earn more)"
+    },
+    globalContext: {
+      description: "Physiotherapists are in demand worldwide, especially in aging societies (Europe, North America, Australia). The profession offers excellent work-life balance, job security, and satisfaction from helping people recover. Many countries have shortage occupation lists including physiotherapists. Specializations in sports, pediatrics, and neurology are lucrative.",
+      teachingStyle: "Doctorate or Masters entry-level programs in many countries. Extensive clinical placements (1000+ hours) across diverse settings. Evidence-based practice, research skills, and autonomous decision-making emphasized. Many programs include sports rotations.",
+      careerOpportunities: [
+        "Hospital Physiotherapist",
+        "Sports Team Physiotherapist",
+        "Private Practice Owner",
+        "Orthopedic/Manual Therapy Specialist",
+        "Neurological Rehabilitation Specialist",
+        "Pediatric Physiotherapist",
+        "Researcher/Educator"
+      ],
+      salaryRange: "USD 60,000 - USD 110,000/year"
+    },
+    careerPath: {
+      dayToDay: "Assessing patients (taking history, physical examination, functional tests), diagnosing movement problems and creating treatment plans, providing hands-on manual therapy (joint mobilization, soft tissue massage), designing and supervising therapeutic exercises, using modalities (ultrasound, electrical stimulation, heat/cold), educating patients on injury prevention and self-management, tracking progress and adjusting treatments, collaborating with doctors and other healthcare professionals.",
+      typicalEmployers: ["Hospitals (orthopedics, neurology, ICU, outpatient)", "Sports teams (football, basketball, athletics)", "Private physiotherapy clinics", "Rehabilitation centers", "Nursing homes and geriatric facilities", "Corporate wellness programs", "Universities (research/teaching)"]
+    },
+    curriculum: {
+      year1: ["Anatomy (Musculoskeletal, Neurological)", "Physiology", "Biochemistry", "Biomechanics", "Introduction to Physiotherapy", "Communication Skills"],
+      year2: ["Kinesiology", "Pathology", "Therapeutic Exercise", "Electrotherapy", "Manual Therapy Basics", "Clinical Practice I (Musculoskeletal)"],
+      year3: ["Neurological Physiotherapy", "Cardiopulmonary Physiotherapy", "Pediatric Physiotherapy", "Sports Physiotherapy", "Clinical Practice II", "Research Methods"],
+      year4: ["Advanced Musculoskeletal Therapy", "Geriatric Physiotherapy", "Occupational Health", "Evidence-Based Practice", "Clinical Practice III (Diverse Rotations)", "Professional Practice"],
+      year5: ["Specialized Clinical Rotations", "Capstone Research Project", "Advanced Manual Therapy", "Community Physiotherapy", "Internship"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "Technology (tele-physiotherapy, wearable sensors, VR rehabilitation) is enhancing physiotherapy but hands-on skills remain irreplaceable. Aging populations, sports growth, and chronic disease increase demand. AI may assist with assessment but human touch and motivation are essential.",
+      trends: ["Tele-Physiotherapy & Remote Monitoring", "Virtual Reality Rehabilitation", "Concussion Management", "Chronic Pain Management (Biopsychosocial Approach)", "Women's Health Physiotherapy", "Geriatric & Fall Prevention Programs", "Sports Performance Optimization"]
+    },
+    successPathway: {
+      internships: ["Hospital physiotherapy departments", "Sports team shadowing", "Private clinics", "Rehabilitation centers", "Community health centers"],
+      certifications: ["Medical Rehabilitation Therapists Board License", "Sports Physiotherapy Certification", "Manual Therapy Courses (Maitland, Mulligan)", "Dry Needling/Acupuncture", "CPR/First Aid"],
+      projects: ["Clinical case presentations", "Community health screening", "Sports injury prevention programs", "Research on treatment outcomes", "Volunteer rehabilitation camps"],
+      volunteering: ["Free physiotherapy clinics for underserved", "Disability sports programs", "Elderly care homes", "School posture education", "Marathon/sports event coverage"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "helping-others", "sports"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // FOOD ENGINEERING
+  {
+    id: "food-engineering",
+    name: "Food Engineering & Technology",
+    category: "Engineering",
+    overview: "Food Engineering applies engineering principles to the production, processing, preservation, packaging, and distribution of food. Food engineers design food processing plants, develop new food products, ensure food safety and quality, optimize production efficiency, and create sustainable food systems. This field combines chemical engineering, biology, nutrition, and business.",
+    coreSkills: ["Food Processing & Preservation", "Food Chemistry & Microbiology", "Process Engineering (Heat, Mass Transfer)", "Food Safety & Quality Control", "Food Product Development", "Food Packaging Technology", "Plant Design & Optimization"],
+    nigeriaContext: {
+      description: "Nigeria's food processing industry is booming with local manufacturing of beverages, dairy, snacks, and packaged foods. UNILORIN and FUTA lead in food engineering. Food engineers work for multinationals (Nestle, Unilever, Coca-Cola), local food companies, and startups. Excellent entrepreneurship opportunities creating packaged foods, snacks, and beverages. Strong job market and good salaries.",
+      teachingStyle: "Combination of engineering fundamentals, food science, and practical processing. Students use pilot plants for juice processing, baking, canning, and fermentation. Industry visits and internships at food factories are essential. Focus on local food crops and Nigerian market needs.",
+      careerOpportunities: [
+        "Food Process Engineer (Beverage, Dairy, Snacks)",
+        "Food Product Developer (R&D)",
+        "Quality Assurance/Control Manager",
+        "Production Manager (Food Factory)",
+        "Food Safety Specialist",
+        "Food Entrepreneur (Packaged Foods Startup)",
+        "Agricultural Processing Engineer"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 12,000,000/year"
+    },
+    globalContext: {
+      description: "Food engineers are needed globally as the world demands safe, nutritious, sustainable, and convenient food. Opportunities exist in food giants (Nestle, Unilever, PepsiCo), startups, consulting, and government food safety agencies. Growing focus on plant-based foods, food waste reduction, and sustainable packaging creates new opportunities.",
+      teachingStyle: "Strong engineering curriculum (thermodynamics, fluid mechanics, process control) applied to food systems. Hands-on pilot plant training, food analysis labs, and product development projects. Emphasis on food safety regulations (FDA, HACCP) and quality management.",
+      careerOpportunities: [
+        "Food Process Engineer",
+        "Product Development Scientist",
+        "Quality Assurance Manager",
+        "Food Plant Manager",
+        "Food Safety Engineer",
+        "R&D Manager (Food Company)",
+        "Food Technology Consultant"
+      ],
+      salaryRange: "USD 60,000 - USD 120,000/year"
+    },
+    careerPath: {
+      dayToDay: "Designing or optimizing food processing operations (pasteurization, drying, fermentation), developing new food products (formulation, testing, scaling up), ensuring food safety and quality (HACCP, quality audits), troubleshooting production issues, conducting sensory tests and shelf-life studies, managing production schedules and efficiency, collaborating with marketing and supply chain teams, researching new technologies (freeze-drying, high-pressure processing).",
+      typicalEmployers: ["Food & beverage companies (Nestle, Coca-Cola, Unilever, Dangote)", "Bakeries and confectioneries", "Dairy processors", "Breweries and distilleries", "Food equipment manufacturers", "Government food agencies (NAFDAC)", "Research institutions"]
+    },
+    curriculum: {
+      year1: ["Mathematics & Engineering Math", "Chemistry", "Physics", "Introduction to Food Engineering", "Biology/Microbiology", "Engineering Drawing"],
+      year2: ["Food Chemistry", "Food Microbiology", "Thermodynamics", "Fluid Mechanics", "Unit Operations I", "Food Analysis"],
+      year3: ["Food Processing I (Thermal, Drying)", "Food Preservation", "Heat & Mass Transfer", "Process Control", "Food Product Development", "Food Safety & HACCP"],
+      year4: ["Food Processing II (Fermentation, Baking)", "Food Packaging", "Food Plant Design", "Quality Management", "Capstone Design Project", "Industrial Training"]
+    },
+    futureOutlook: {
+      relevanceToday: 8,
+      relevanceIn5Years: 9,
+      techImpact: "AI and automation are optimizing food production, but food engineers are needed to design, manage, and innovate. Plant-based meat, personalized nutrition, and food waste reduction are creating new opportunities. Sustainability is becoming critical.",
+      trends: ["Plant-Based & Alternative Proteins", "Food Waste Reduction Technologies", "Sustainable Packaging (Biodegradable, Edible)", "Precision Fermentation", "3D Food Printing", "Cold Chain Optimization", "Clean Label & Natural Ingredients"]
+    },
+    successPathway: {
+      internships: ["Food processing companies (production/R&D)", "Beverage manufacturers", "Quality control labs", "NAFDAC", "Food startups"],
+      certifications: ["HACCP Certification", "Six Sigma (Quality Management)", "Food Safety Certifications", "GMP (Good Manufacturing Practice)", "Lean Manufacturing"],
+      projects: ["Design a food processing line", "Develop a new food product", "Food safety audit projects", "Packaging optimization studies", "Start a small food business (garri, zobo, chin-chin)"],
+      volunteering: ["Food safety awareness campaigns", "Community nutrition programs", "School STEM education", "Food waste initiatives"]
+    },
+    schools: allSchools,
+    interestMatch: ["science", "entrepreneurship", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: -1, peopleVsTask: 0, riskVsStability: -1 }
+  },
+
+  // QUANTITY SURVEYING
+  {
+    id: "quantity-surveying",
+    name: "Quantity Surveying",
+    category: "Engineering & Construction",
+    overview: "Quantity Surveying (also called Construction Cost Management) is the profession of managing all costs related to building and civil engineering projects. Quantity surveyors prepare cost estimates, manage budgets, handle contracts, conduct valuations, and ensure value for money throughout a project's lifecycle. They are the financial experts of the construction industry.",
+    coreSkills: ["Cost Estimation & Budgeting", "Contract Administration", "Project Management", "Construction Technology & Methods", "Valuation & Measurement", "Cost Control & Value Engineering", "Construction Law & Procurement"],
+    nigeriaContext: {
+      description: "Nigeria's massive infrastructure deficit and construction boom create huge demand for quantity surveyors. OAU, FUTA, and UNILAG offer top programs. QS professionals work on building projects, roads, bridges, oil/gas facilities, and real estate developments. They are essential for preventing budget overruns and corruption in public projects. High demand with excellent salaries.",
+      teachingStyle: "Combination of construction technology, cost analysis, and contractual/legal studies. Students learn industry-standard measurement methods (NRM, CESMM), estimating software, and contract types (JCT, FIDIC). Site visits and practical case studies are integral.",
+      careerOpportunities: [
+        "Quantity Surveyor (Construction Firms)",
+        "Cost Estimator/Planner",
+        "Contract Administrator",
+        "Project Quantity Surveyor",
+        "Procurement Specialist",
+        "Facilities Manager",
+        "Construction Project Manager"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 15,000,000/year"
+    },
+    globalContext: {
+      description: "Quantity surveyors are in demand globally, particularly in UK, Australia, Canada, Middle East, and growing Asian markets. The profession offers excellent career progression, work-life balance, and diverse project types. Professional chartership (RICS, CIQS, AIQS) greatly enhances career prospects and earning potential.",
+      teachingStyle: "Focus on commercial management, cost planning throughout project lifecycle (RIBA stages), and risk management. Heavy use of BIM (Building Information Modeling) for cost extraction. Case studies from mega-projects. Professional accreditation pathways integrated.",
+      careerOpportunities: [
+        "Quantity Surveyor/Cost Consultant",
+        "Commercial Manager",
+        "Contract Manager",
+        "Project Manager",
+        "Cost Engineer (Oil & Gas, Infrastructure)",
+        "Building Surveyor",
+        "Forensic Delay Analyst"
+      ],
+      salaryRange: "USD 60,000 - USD 140,000/year"
+    },
+    careerPath: {
+      dayToDay: "Preparing cost estimates and bills of quantities, measuring completed work and preparing valuations for payment, negotiating with contractors and suppliers, managing project budgets and cash flow, reviewing design changes and assessing cost impacts, administering contracts and resolving disputes, conducting feasibility studies, preparing tender documents, attending site meetings.",
+      typicalEmployers: ["Construction companies (Julius Berger, RCC)", "QS consultancies", "Real estate developers", "Oil & gas companies (project departments)", "Government ministries (works, housing)", "Banks (project finance/valuation)", "International contractors"]
+    },
+    curriculum: {
+      year1: ["Building Construction I", "Mathematics for Construction", "Engineering Drawing", "Introduction to Quantity Surveying", "Construction Materials", "Economics"],
+      year2: ["Building Construction II", "Measurement & Quantification I", "Construction Technology", "Contract Law", "Building Services", "Structural Elements"],
+      year3: ["Advanced Measurement & Quantification", "Cost Planning & Control", "Contract Administration", "Construction Management", "Estimating & Tendering", "Project Management"],
+      year4: ["Construction Economics", "Advanced Contractual Procedures", "Facilities Management", "Professional Practice", "Capstone Project (Full QS for a building)", "Valuation & Development Appraisal"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 9,
+      techImpact: "BIM and digital tools are transforming quantity surveying, automating measurements and improving accuracy. However, QS professionals are still needed for judgment, negotiation, risk assessment, and commercial strategy. Sustainability (green building cost analysis) is growing.",
+      trends: ["BIM & 5D Cost Modeling", "Sustainable Construction Costing", "Modular & Off-Site Construction", "Digital Tendering Platforms", "Data Analytics for Cost Benchmarking", "Carbon Costing", "Infrastructure Megaprojects"]
+    },
+    successPathway: {
+      internships: ["QS consultancies", "Construction companies", "Real estate developers", "Government project agencies", "Engineering firms"],
+      certifications: ["RICS (Royal Institution of Chartered Surveyors)", "NIQS (Nigerian Institute of Quantity Surveyors)", "BIM Certifications", "Project Management (PMP)", "Construction Software (CostX, Bluebeam)"],
+      projects: ["Prepare bills of quantities for real buildings", "Cost estimate case studies", "Contract administration simulations", "Site measurement exercises", "Tender document preparation"],
+      volunteering: ["Community building projects (costing/management)", "Construction industry associations", "STEM mentoring", "Public procurement transparency advocacy"]
+    },
+    schools: allSchools,
+    interestMatch: ["analytical", "business", "construction"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 0, riskVsStability: -1 }
+  },
+
+  // DENTISTRY
+  {
+    id: "dentistry",
+    name: "Dentistry & Dental Surgery",
+    category: "Health & Medicine",
+    overview: "Dentistry is the branch of medicine focused on the diagnosis, prevention, and treatment of diseases and conditions of the oral cavity (teeth, gums, mouth, jaw). Dentists perform procedures like tooth extractions, fillings, root canals, crowns, orthodontics (braces), and cosmetic dentistry. They also educate patients on oral hygiene and preventive care.",
+    coreSkills: ["Clinical Diagnosis & Treatment Planning", "Dental Procedures (Restorative, Endodontics, Periodontics)", "Oral Surgery", "Dental Radiology & Imaging", "Patient Management & Communication", "Manual Dexterity & Precision", "Infection Control & Sterilization"],
+    nigeriaContext: {
+      description: "Nigeria has a severe shortage of dentists (~3,000 for 200+ million people). OAU, UNILAG, UI, and UNN have dental schools. Dentists enjoy very high demand, excellent salaries, flexible work arrangements, and the option to run private clinics. Unlike medicine, dentists often work regular hours with less emergency stress. Specialization opportunities exist (orthodontics, oral surgery, pediatric dentistry).",
+      teachingStyle: "First 2-3 years are medical foundation (anatomy, physiology, pathology), then intensive dental-specific training in dental school clinics. Students treat real patients under supervision, performing hundreds of procedures before graduation. Strong emphasis on manual skills and patient care.",
+      careerOpportunities: [
+        "General Dental Practitioner",
+        "Specialist (Orthodontist, Oral Surgeon, Periodontist, Prosthodontist, Pediatric Dentist)",
+        "Public Health Dentist",
+        "Dental Consultant (Teaching Hospitals)",
+        "Forensic Odontologist",
+        "Dental Practice Owner",
+        "Dental Product Sales/Training"
+      ],
+      salaryRange: "NGN 3,600,000 - NGN 24,000,000+/year (private practice earns most)"
+    },
+    globalContext: {
+      description: "Dentists are in demand globally and enjoy excellent quality of life, high income, and job security. The profession offers work-life balance rare in healthcare. Many dentists own their practices and have entrepreneurial freedom. Licensing required in each country, but pathways exist for international dentists.",
+      teachingStyle: "Rigorous clinical training with simulated practice (phantom heads) before treating patients. Students must complete minimum procedure requirements. Balance of science, clinical skills, and business/practice management. Continuing education is mandatory throughout career.",
+      careerOpportunities: [
+        "General Dentist",
+        "Specialist (Orthodontics, Oral Surgery, Endodontics, etc.)",
+        "Cosmetic Dentist",
+        "Dental Practice Owner",
+        "Academic Dentist/Researcher",
+        "Corporate Dentistry (Chains)",
+        "Public Health Dentist"
+      ],
+      salaryRange: "USD 120,000 - USD 300,000+/year"
+    },
+    careerPath: {
+      dayToDay: "Examining patients' teeth and gums, diagnosing dental issues (cavities, gum disease, oral cancer), performing treatments (fillings, extractions, root canals, crowns), taking and interpreting X-rays, educating patients on oral hygiene, referring complex cases to specialists, managing dental clinic operations, working with dental assistants and hygienists.",
+      typicalEmployers: ["Private dental clinics (own or employed)", "Teaching hospitals", "Government hospitals and health centers", "Military/police medical services", "Dental chains/franchises", "NGOs (dental outreach programs)", "Dental product companies"]
+    },
+    curriculum: {
+      year1: ["Anatomy", "Physiology", "Biochemistry", "Dental Anatomy", "Introduction to Dentistry", "Medical Ethics"],
+      year2: ["Pathology", "Pharmacology", "Microbiology", "Oral Biology", "Dental Materials Science", "Pre-clinical Dentistry (Phantom Practice)"],
+      year3: ["Operative Dentistry", "Oral Pathology", "Periodontology", "Endodontics", "Prosthodontics I", "Community Dentistry", "Clinical Practice Begins"],
+      year4: ["Oral & Maxillofacial Surgery", "Orthodontics", "Pediatric Dentistry", "Prosthodontics II", "Dental Radiology", "Extensive Clinical Practice"],
+      year5: ["Advanced Clinical Rotations", "Oral Medicine", "Anesthesia in Dentistry", "Practice Management", "Research Project", "Final Clinical Competency Exams"]
+    },
+    futureOutlook: {
+      relevanceToday: 10,
+      relevanceIn5Years: 10,
+      techImpact: "Technology (digital X-rays, CAD/CAM crowns, 3D printing, laser dentistry) is enhancing dentistry, not replacing dentists. AI can assist diagnosis, but the hands-on clinical work and patient relationship remain irreplaceable. Cosmetic dentistry and implants are growing rapidly.",
+      trends: ["Digital Dentistry (CAD/CAM, 3D Printing)", "Dental Implants", "Clear Aligners (Invisalign)", "Laser Dentistry", "Teledentistry", "Cosmetic Dentistry Boom", "Minimally Invasive Techniques", "AI Diagnostic Tools"]
+    },
+    successPathway: {
+      internships: ["Dental hospital rotations (part of curriculum)", "Community dental outreach", "Private clinic attachments", "Dental public health programs"],
+      certifications: ["MDCN (Medical & Dental Council of Nigeria) Registration", "Specialty Training (3-5 years post-DDS)", "BLS/ACLS", "Dental Software (Dentrix, Eaglesoft)", "Implantology Courses"],
+      projects: ["Clinical case presentations", "Community oral health campaigns", "Dental research publications", "Dental practice business plans"],
+      volunteering: ["Free dental outreach to underserved communities", "School oral health education", "Mission trips", "Professional association activities"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "helping-others", "precision-work"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: -1, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // MEDICAL REHABILITATION
+  {
+    id: "medical-rehabilitation",
+    name: "Medical Rehabilitation Sciences",
+    category: "Health & Medicine",
+    overview: "Medical Rehabilitation (also called Rehabilitation Sciences or Allied Health) encompasses professions that help patients recover function and independence after illness, injury, or disability. This includes Physiotherapy, Occupational Therapy, Prosthetics & Orthotics, and Speech-Language Pathology. Rehabilitation professionals work with stroke patients, accident victims, athletes, children with developmental delays, and elderly patients.",
+    coreSkills: ["Patient Assessment & Diagnosis", "Therapeutic Exercise & Manual Therapy", "Assistive Technology & Adaptive Equipment", "Neurological Rehabilitation", "Musculoskeletal Treatment", "Patient Education & Counseling", "Interdisciplinary Teamwork"],
+    nigeriaContext: {
+      description: "Nigeria has a critical shortage of rehabilitation professionals. OAU is a leader in Medical Rehabilitation training. Growing awareness of stroke rehabilitation, sports injuries, pediatric developmental issues, and geriatric care is driving demand. Opportunities in hospitals, specialized rehabilitation centers, sports teams, schools for children with disabilities, and private practice.",
+      teachingStyle: "Balanced clinical and theoretical training. Students spend significant time in teaching hospital rehabilitation departments, treating patients under supervision. Hands-on practice with therapeutic techniques, equipment (wheelchairs, prosthetics), and patient management.",
+      careerOpportunities: [
+        "Physiotherapist",
+        "Occupational Therapist",
+        "Prosthetist & Orthotist",
+        "Speech-Language Pathologist",
+        "Sports Rehabilitation Specialist",
+        "Rehabilitation Center Manager",
+        "Academic/Researcher in Rehabilitation"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 9,600,000/year"
+    },
+    globalContext: {
+      description: "Rehabilitation professionals are in high demand globally, particularly in aging populations (USA, Canada, UK, Australia). The profession offers excellent work-life balance, diverse work settings, and the satisfaction of helping people regain independence. Licensing required but pathways exist for internationally trained therapists.",
+      teachingStyle: "Evidence-based practice with focus on functional outcomes. Extensive clinical placements across diverse settings (hospitals, schools, nursing homes, outpatient clinics, sports facilities). Strong emphasis on patient-centered care and cultural competence.",
+      careerOpportunities: [
+        "Physical Therapist",
+        "Occupational Therapist",
+        "Speech-Language Pathologist",
+        "Rehabilitation Counselor",
+        "Hand Therapist",
+        "Neurological Rehabilitation Specialist",
+        "Pediatric Therapist"
+      ],
+      salaryRange: "USD 60,000 - USD 100,000/year"
+    },
+    careerPath: {
+      dayToDay: "Assessing patients' physical/cognitive abilities and limitations, designing individualized treatment plans, conducting therapy sessions (exercises, manual therapy, functional training), teaching patients how to use assistive devices (crutches, wheelchairs, communication boards), educating families on home care, documenting progress and adjusting treatment plans, collaborating with doctors, nurses, and other therapists.",
+      typicalEmployers: ["Hospitals (rehabilitation departments)", "Specialized rehabilitation centers", "Sports clubs and fitness centers", "Schools (special needs programs)", "Nursing homes and geriatric care facilities", "Home health agencies", "Private practice"]
+    },
+    curriculum: {
+      year1: ["Anatomy & Physiology", "Kinesiology", "Psychology", "Introduction to Rehabilitation", "Medical Terminology", "First Aid & CPR"],
+      year2: ["Neuroanatomy", "Pathology", "Therapeutic Exercise", "Assessment Techniques", "Modalities (Heat, Cold, Ultrasound, Electrical Stimulation)", "Clinical Practice I"],
+      year3: ["Musculoskeletal Rehabilitation", "Neurological Rehabilitation", "Cardiopulmonary Rehabilitation", "Pediatric Rehabilitation", "Geriatric Rehabilitation", "Clinical Practice II"],
+      year4: ["Orthopedics & Sports Rehabilitation", "Advanced Techniques", "Assistive Technology & Prosthetics", "Professional Practice & Ethics", "Research Project", "Clinical Practice III"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "Technology (robotics, virtual reality, AI-powered assessment tools, telehealth) is enhancing rehabilitation, but the hands-on, relationship-based nature of therapy remains irreplaceable. Aging populations globally are driving unprecedented demand.",
+      trends: ["Telehealth/Tele-Rehabilitation", "Robotic-Assisted Therapy", "Virtual Reality for Neuro Rehab", "Sports Performance Optimization", "Geriatric Care (Aging Populations)", "Pediatric Developmental Therapy", "Chronic Pain Management"]
+    },
+    successPathway: {
+      internships: ["Hospital rehabilitation departments (rotations part of curriculum)", "Sports clinics", "Special needs schools", "Community rehabilitation centers"],
+      certifications: ["Licensed Physiotherapist/OT/SLP (National boards)", "Specialized Certifications (Neurological, Sports, Pediatric)", "BLS/CPR", "Manual Therapy Certifications", "Dry Needling"],
+      projects: ["Clinical case studies", "Community rehabilitation outreach", "Research on rehabilitation outcomes", "Assistive device innovation projects"],
+      volunteering: ["Disability support organizations", "Free rehabilitation camps", "Sports injury prevention education", "Stroke awareness campaigns"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "helping-others", "science"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // FAMILY, NUTRITION AND CONSUMER SCIENCES
+  {
+    id: "family-nutrition-consumer-sciences",
+    name: "Family, Nutrition & Consumer Sciences",
+    category: "Health & Social Sciences",
+    overview: "This multidisciplinary field combines nutrition science, family studies, consumer economics, and home management. Students learn about human nutrition, dietetics, food science, family dynamics, child development, consumer behavior, textile science, and household resource management. Graduates work to improve family well-being, public health nutrition, consumer protection, and quality of life.",
+    coreSkills: ["Nutrition & Dietetics", "Food Science & Safety", "Family & Child Development", "Consumer Education & Protection", "Textile Science & Fashion", "Community Nutrition Programs", "Research & Data Analysis"],
+    nigeriaContext: {
+      description: "OAU offers the premier program in this field. Growing health awareness (obesity, diabetes, malnutrition) and consumer rights movements are driving demand. Careers span nutrition/dietetics, food industry, consumer advocacy, family counseling, hospitality, fashion/textiles, and education. Many graduates work in hospitals, food companies, NGOs, government agencies, and schools.",
+      teachingStyle: "Integrated approach covering nutrition science, family studies, and consumer economics. Practical components include food labs, nutrition counseling simulations, textile workshops, and community outreach projects. Strong emphasis on improving Nigerian family welfare.",
+      careerOpportunities: [
+        "Dietitian/Nutritionist (Hospitals, Clinics)",
+        "Food Product Developer",
+        "Nutrition Educator/Public Health Nutritionist",
+        "Consumer Affairs Officer",
+        "Family Life Educator",
+        "Textile/Fashion Entrepreneur",
+        "Hospitality Manager"
+      ],
+      salaryRange: "NGN 1,800,000 - NGN 7,200,000/year"
+    },
+    globalContext: {
+      description: "Globally known as Family & Consumer Sciences or Home Economics (though the field has evolved significantly). Dietitians and nutritionists are in high demand due to obesity epidemics and aging populations. Consumer science graduates work in product testing, consumer advocacy, sustainability, and public health. Strong career opportunities in healthcare, food industry, and education.",
+      teachingStyle: "Science-based approach to practical life skills. Heavy emphasis on evidence-based nutrition, consumer research methods, and family systems theory. Clinical rotations for dietetics track. Community engagement and service learning integrated.",
+      careerOpportunities: [
+        "Registered Dietitian",
+        "Nutrition Scientist/Researcher",
+        "Public Health Nutritionist",
+        "Consumer Scientist",
+        "Family & Consumer Sciences Teacher",
+        "Food Safety Specialist",
+        "Community Nutrition Coordinator"
+      ],
+      salaryRange: "USD 45,000 - USD 85,000/year"
+    },
+    careerPath: {
+      dayToDay: "Activities vary by specialization: Dietitians assess patients' nutritional needs and create meal plans. Food scientists develop and test new products. Consumer educators teach financial literacy and smart purchasing. Family educators counsel families on parenting, relationships, and household management. Community nutritionists run feeding programs and health education campaigns.",
+      typicalEmployers: ["Hospitals (dietetics departments)", "Food companies (Nestlé, Unilever, Dangote)", "Government health/consumer agencies (NAFDAC, FCCPC)", "NGOs (nutrition and family programs)", "Schools (nutrition/family life education)", "Research institutions", "Private practice (nutrition consulting)"]
+    },
+    curriculum: {
+      year1: ["Introduction to Nutrition", "Food Science Basics", "Chemistry & Biochemistry", "Human Anatomy & Physiology", "Family Studies", "Textile Science"],
+      year2: ["Nutrition Across Lifespan", "Food Preparation & Processing", "Consumer Economics", "Child Development", "Clothing Construction", "Research Methods"],
+      year3: ["Clinical Nutrition & Dietetics", "Community Nutrition", "Consumer Protection & Rights", "Family Counseling", "Fashion & Design", "Food Safety & Quality"],
+      year4: ["Medical Nutrition Therapy", "Public Health Nutrition", "Nutrition Education & Counseling", "Entrepreneurship (Food/Fashion)", "Research Project", "Internship/Practicum"]
+    },
+    futureOutlook: {
+      relevanceToday: 8,
+      relevanceIn5Years: 9,
+      techImpact: "Technology (apps for nutrition tracking, online counseling, food safety sensors, sustainable textiles) is enhancing the field. Rising health consciousness, personalized nutrition, and sustainability movements are creating new opportunities. Human expertise in counseling and education remains critical.",
+      trends: ["Personalized Nutrition & Nutrigenomics", "Plant-Based Diets & Food Innovation", "Sustainable Fashion & Textiles", "Digital Health & Nutrition Apps", "Consumer Sustainability Education", "Functional Foods & Nutraceuticals", "Family Mental Health Awareness"]
+    },
+    successPathway: {
+      internships: ["Hospital dietetics departments", "Food companies (R&D/QC)", "Consumer protection agencies", "Family support NGOs", "School nutrition programs"],
+      certifications: ["Registered Dietitian (RD)", "Food Safety Certifications (HACCP)", "Counseling Certifications", "Nutrition Coaching", "Consumer Rights Advocacy"],
+      projects: ["Community nutrition assessments", "Food product development", "Family education workshops", "Consumer research studies", "Fashion/textile design portfolios"],
+      volunteering: ["Community feeding programs", "Malnutrition screening camps", "Consumer education outreach", "Family counseling centers", "School health programs"]
+    },
+    schools: allSchools,
+    interestMatch: ["health", "helping-others", "science"],
+    personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: -1, riskVsStability: -1 }
+  },
+
+  // PETROLEUM ENGINEERING
+  {
+    id: "petroleum-engineering",
+    name: "Petroleum Engineering",
+    category: "Engineering",
+    overview: "Petroleum Engineering is the engineering discipline focused on finding, extracting, and producing oil and natural gas from underground reservoirs. Petroleum engineers design drilling operations, optimize production, manage reservoirs, and ensure safety and environmental compliance. This field combines geology, physics, chemistry, and engineering to maximize hydrocarbon recovery.",
+    coreSkills: ["Reservoir Engineering & Modeling", "Drilling Engineering", "Production Engineering", "Well Design & Completion", "Petroleum Geology", "Fluid Mechanics & Thermodynamics", "Economic Analysis & Project Management"],
+    nigeriaContext: {
+      description: "Nigeria's economy heavily depends on oil and gas, making petroleum engineering one of the most lucrative and strategic fields. Covenant University and University of Port Harcourt offer top programs. Petroleum engineers work for oil majors (Shell, Chevron, TotalEnergies, ExxonMobil), service companies (Schlumberger, Baker Hughes), and indigenous operators. Salaries are among the highest in Nigeria. The energy transition is creating new challenges but oil/gas will remain vital for decades.",
+      teachingStyle: "Strong theoretical foundation in engineering and geology, combined with industry-standard software (Petrel, Eclipse, CMG). Field trips to oil fields, refineries, and offshore platforms. Industry partnerships provide internships and guest lectures. Emphasis on safety and environmental management.",
+      careerOpportunities: [
+        "Reservoir Engineer",
+        "Drilling Engineer",
+        "Production Engineer",
+        "Petroleum Geologist",
+        "Completions Engineer",
+        "Facilities Engineer",
+        "Petroleum Economist/Project Manager"
+      ],
+      salaryRange: "NGN 4,800,000 - NGN 24,000,000+/year (offshore and expat roles pay much more)"
+    },
+    globalContext: {
+      description: "Petroleum engineers are in demand globally in oil/gas producing regions: Middle East, North America, Latin America, Russia, and Southeast Asia. Very high salaries, particularly for experienced professionals and those willing to work offshore or in remote locations. The energy transition is shifting some focus to carbon capture, geothermal, and hydrogen, creating new opportunities for petroleum engineers.",
+      teachingStyle: "Rigorous engineering fundamentals with specialized courses in drilling, production, and reservoir management. Heavy use of simulation software and economic modeling. Many programs offer co-op/internship semesters with energy companies. Graduate degrees (MS, PhD) are common for research and senior roles.",
+      careerOpportunities: [
+        "Petroleum Engineer (Upstream)",
+        "Reservoir Engineer",
+        "Drilling Engineer",
+        "Production Optimization Engineer",
+        "Enhanced Oil Recovery (EOR) Specialist",
+        "Carbon Capture & Storage Engineer",
+        "Energy Transition Consultant"
+      ],
+      salaryRange: "USD 90,000 - USD 200,000+/year"
+    },
+    careerPath: {
+      dayToDay: "Activities vary by specialization: Reservoir engineers analyze well data and run simulations to optimize production. Drilling engineers design well plans and oversee drilling operations. Production engineers troubleshoot wells, design artificial lift systems, and optimize flow rates. All work closely with geologists, geophysicists, and field operators. Significant time using technical software, analyzing data, and solving complex engineering problems.",
+      typicalEmployers: ["Oil majors (Shell, Chevron, ExxonMobil, BP, TotalEnergies)", "National oil companies (NNPC, Saudi Aramco, Petronas)", "Service companies (Schlumberger, Halliburton, Baker Hughes)", "Independent producers", "Consulting firms", "Government regulatory agencies", "Energy transition companies (geothermal, CCS)"]
+    },
+    curriculum: {
+      year1: ["Mathematics (Calculus, Differential Equations)", "Physics", "Chemistry", "Engineering Drawing", "Introduction to Petroleum Engineering", "Geology"],
+      year2: ["Fluid Mechanics", "Thermodynamics", "Petroleum Geology", "Rock & Fluid Properties", "Engineering Mechanics", "Drilling Engineering I"],
+      year3: ["Reservoir Engineering I & II", "Drilling Engineering II", "Well Testing", "Production Engineering", "Natural Gas Engineering", "Petroleum Economics"],
+      year4: ["Advanced Reservoir Simulation", "Enhanced Oil Recovery", "Well Completion & Stimulation", "Facilities & Pipeline Engineering", "Petroleum Project Management", "Capstone Design Project"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 7,
+      techImpact: "AI and automation are optimizing drilling, production, and reservoir management. Digital oilfields and IoT sensors are transforming operations. While the energy transition will reduce long-term demand for petroleum engineers, their skills are transferable to geothermal, hydrogen, and carbon storage. Oil/gas will remain essential for 30+ years, ensuring career viability.",
+      trends: ["Digital Oilfields & Automation", "Enhanced Oil Recovery (EOR)", "Carbon Capture & Storage (CCS)", "Geothermal Energy", "Offshore & Deepwater Development", "Unconventional Resources (Shale, Tight Oil)", "Hydrogen Production from Natural Gas", "Energy Transition"]
+    },
+    successPathway: {
+      internships: ["Oil & gas companies (summer internships critical)", "Service companies (field roles)", "Research institutes", "Regulatory agencies (DPR, NUPRC)"],
+      certifications: ["PE (Professional Engineer) License", "SPE Membership", "Well Control Certifications", "HSE Certifications", "Software Certifications (Petrel, CMG, Eclipse)"],
+      projects: ["Reservoir simulation projects", "Drilling optimization studies", "Economic analysis of oil field development", "Participate in SPE competitions", "Research on EOR techniques"],
+      volunteering: ["Energy education outreach", "Environmental remediation in oil communities", "SPE student chapter activities", "STEM mentoring"]
+    },
+    schools: allSchools,
+    interestMatch: ["engineering", "analytical", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: 0 }
+  },
+
+  // CRIMINOLOGY AND SECURITY STUDIES
+  {
+    id: "criminology-security-studies",
+    name: "Criminology & Security Studies",
+    category: "Social Sciences & Law",
+    overview: "Criminology & Security Studies examines crime, criminal behavior, law enforcement, security management, and crime prevention. Students study the causes of crime, criminal justice systems, policing strategies, security risk assessment, intelligence analysis, and corrections. This interdisciplinary field combines sociology, psychology, law, and security management to understand and combat crime and security threats.",
+    coreSkills: ["Crime Analysis & Investigation", "Security Risk Assessment", "Criminal Law & Justice Systems", "Intelligence & Surveillance", "Cybercrime & Digital Forensics", "Conflict Resolution & Negotiation", "Research & Data Analysis"],
+    nigeriaContext: {
+      description: "Nigeria's security challenges (insurgency, kidnapping, cybercrime, armed robbery) drive strong demand for criminology and security professionals. Covenant University and UNILORIN offer programs. Graduates work in law enforcement (police, DSS), private security companies, corporate security departments (banks, oil companies), intelligence agencies, and NGOs. Growing field with diverse career paths and increasing importance.",
+      teachingStyle: "Multidisciplinary approach combining theory (criminal psychology, sociology of deviance) with practical skills (crime scene investigation, security management, intelligence analysis). Guest lectures from security professionals, case study analysis, and field visits to prisons, police stations, and security installations.",
+      careerOpportunities: [
+        "Crime Analyst/Intelligence Officer",
+        "Security Manager (Corporate/Government)",
+        "Private Investigator",
+        "Cybercrime Investigator",
+        "Corrections Officer/Prison Administrator",
+        "Security Consultant",
+        "Border & Immigration Officer"
+      ],
+      salaryRange: "NGN 2,400,000 - NGN 12,000,000/year"
+    },
+    globalContext: {
+      description: "Criminologists and security professionals work in law enforcement, intelligence agencies (FBI, CIA, MI5), private security, corporate security, consulting, and academia. Growing areas include cybercrime, terrorism studies, organized crime, and risk management. Graduate degrees enhance career prospects. Strong job security due to persistent crime and evolving security threats.",
+      teachingStyle: "Evidence-based criminology with focus on research methods, statistical analysis of crime data, and policy evaluation. Specialized tracks in areas like forensic psychology, terrorism studies, cybersecurity, or juvenile justice. Internships with law enforcement or security agencies are integral.",
+      careerOpportunities: [
+        "Criminal Intelligence Analyst",
+        "Federal Agent (FBI, DEA, ATF)",
+        "Corporate Security Director",
+        "Cybersecurity Analyst (Crime-focused)",
+        "Forensic Psychologist",
+        "Criminology Researcher/Professor",
+        "Policy Analyst (Criminal Justice)"
+      ],
+      salaryRange: "USD 50,000 - USD 120,000/year"
+    },
+    careerPath: {
+      dayToDay: "Activities vary widely: Crime analysts study crime patterns and predict hotspots. Security managers conduct risk assessments and implement protective measures. Investigators interview suspects and witnesses, gather evidence, and build cases. Intelligence officers monitor threats and brief decision-makers. Researchers study crime causation and evaluate intervention programs. Much work involves data analysis, report writing, and collaboration with law enforcement.",
+      typicalEmployers: ["Law enforcement (Police, DSS, EFCC, ICPC)", "Private security companies (G4S, Halogen)", "Corporate security departments (banks, oil companies, telcos)", "Intelligence agencies", "Prisons and correctional services", "Border control and immigration", "NGOs (human rights, crime prevention)", "Universities (research/teaching)"]
+    },
+    curriculum: {
+      year1: ["Introduction to Criminology", "Sociology", "Psychology", "Introduction to Law", "Research Methods", "Statistics"],
+      year2: ["Criminal Law & Procedure", "Policing & Law Enforcement", "Crime Prevention Strategies", "Victimology", "Deviant Behavior", "Security Management"],
+      year3: ["Criminal Investigation", "Cybercrime & Digital Forensics", "Organized Crime & Terrorism", "Intelligence Analysis", "Penology & Corrections", "Forensic Psychology"],
+      year4: ["Advanced Criminological Theory", "Security Risk Assessment", "Conflict & Crisis Management", "Comparative Criminal Justice", "Research Project", "Practicum/Internship"]
+    },
+    futureOutlook: {
+      relevanceToday: 9,
+      relevanceIn5Years: 10,
+      techImpact: "Technology (AI for crime prediction, facial recognition, digital forensics, big data analytics) is transforming criminology and security. Cybercrime is exploding, creating huge demand for tech-savvy criminologists. However, understanding human behavior, ethical decision-making, and strategic thinking remain irreplaceable.",
+      trends: ["Cybercrime & Digital Forensics", "AI for Predictive Policing", "Terrorism & Radicalization Studies", "Organized Crime Networks", "Human Trafficking Prevention", "Private Security Growth", "Restorative Justice Programs", "Evidence-Based Policing"]
+    },
+    successPathway: {
+      internships: ["Police departments (investigative units)", "Security companies", "Intelligence agencies", "Prison/probation services", "Legal aid organizations"],
+      certifications: ["Certified Protection Professional (CPP)", "Security+ or CISSP (for cybercrime)", "Forensic Certifications", "Investigation Licenses", "Crisis Management"],
+      projects: ["Crime data analysis projects", "Security audits for organizations", "Case study analyses", "Policy research papers", "Community crime prevention initiatives"],
+      volunteering: ["Crime victims support services", "Youth mentoring/diversion programs", "Prison education programs", "Neighborhood watch coordination", "Domestic violence awareness"]
+    },
+    schools: allSchools,
+    interestMatch: ["social-justice", "analytical", "problem-solving"],
+    personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 0, peopleVsTask: 0, riskVsStability: -1 }
+  },
 ];

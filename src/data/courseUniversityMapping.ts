@@ -598,6 +598,158 @@ export const COURSE_UNIVERSITY_MAPPINGS: CourseUniversityMapping[] = [
     africanUniversityIds: ["uct", "legon", "wits"],
     globalUniversityIds: ["stanford", "nyu", "usc", "ucl", "toronto"]
   },
+
+  // ========== ACTUARIAL SCIENCE ==========
+  {
+    courseId: "actuarial-science",
+    nigerianUniversityIds: ["unilag", "oau"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "cairo"],
+    globalUniversityIds: ["waterloo", "toronto", "melbourne", "ucl", "lse"]
+  },
+
+  // ========== MARINE BIOLOGY ==========
+  {
+    courseId: "marine-biology",
+    nigerianUniversityIds: ["unilag"],
+    africanUniversityIds: ["uct", "rhodes", "nelson-mandela"],
+    globalUniversityIds: ["stanford", "ucsd", "miami", "queensland", "southampton"]
+  },
+
+  // ========== MEDICAL RADIOGRAPHY ==========
+  {
+    courseId: "medical-radiography",
+    nigerianUniversityIds: ["unilag"],
+    africanUniversityIds: ["uct", "wits", "kwazulu-natal"],
+    globalUniversityIds: ["toronto", "monash", "ucl", "southampton"]
+  },
+
+  // ========== SYSTEMS ENGINEERING ==========
+  {
+    courseId: "systems-engineering",
+    nigerianUniversityIds: ["unilag"],
+    africanUniversityIds: ["uct", "stellenbosch"],
+    globalUniversityIds: ["mit", "stanford", "georgia-tech", "ucl", "singapore"]
+  },
+
+  // ========== GEOPHYSICS ==========
+  {
+    courseId: "geophysics",
+    nigerianUniversityIds: ["unilag", "oau", "futa", "unilorin"],
+    africanUniversityIds: ["uct", "wits", "addis-ababa"],
+    globalUniversityIds: ["stanford", "mit", "eth", "calgary", "imperial"]
+  },
+
+  // ========== METEOROLOGY & CLIMATE SCIENCE ==========
+  {
+    courseId: "meteorology-climate-science",
+    nigerianUniversityIds: ["unilag", "futa"],
+    africanUniversityIds: ["uct", "nairobi", "cairo"],
+    globalUniversityIds: ["mit", "oxford", "eth", "reading", "penn-state"]
+  },
+
+  // ========== CYBER SECURITY ==========
+  {
+    courseId: "cyber-security",
+    nigerianUniversityIds: ["futa", "cu", "unilag"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch", "strathmore"],
+    globalUniversityIds: ["mit", "stanford", "carnegie-mellon", "oxford", "eth"]
+  },
+
+  // ========== MARINE SCIENCE & TECHNOLOGY ==========
+  {
+    courseId: "marine-science-technology",
+    nigerianUniversityIds: ["futa"],
+    africanUniversityIds: ["uct", "nelson-mandela", "moi"],
+    globalUniversityIds: ["mit", "southampton", "scripps", "woods-hole", "barcelona"]
+  },
+
+  // ========== MINING ENGINEERING ==========
+  {
+    courseId: "mining-engineering",
+    nigerianUniversityIds: ["futa"],
+    africanUniversityIds: ["wits", "pretoria", "stellenbosch", "copperbelt"],
+    globalUniversityIds: ["colorado-school-mines", "imperial", "curtin", "queensland"]
+  },
+
+  // ========== INDUSTRIAL DESIGN ==========
+  {
+    courseId: "industrial-design",
+    nigerianUniversityIds: ["futa", "lasu"],
+    africanUniversityIds: ["uct", "red-yellow"],
+    globalUniversityIds: ["mit", "stanford", "risd", "art-center", "royal-college-art"]
+  },
+
+  // ========== OPTOMETRY ==========
+  {
+    courseId: "optometry",
+    nigerianUniversityIds: ["unilorin", "unilag", "abuad"],
+    africanUniversityIds: ["uct", "kwazulu-natal"],
+    globalUniversityIds: ["waterloo", "melbourne", "aston", "berkeley"]
+  },
+
+  // ========== PHYSIOTHERAPY ==========
+  {
+    courseId: "physiotherapy",
+    nigerianUniversityIds: ["unilorin", "unilag", "oau", "ui"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch"],
+    globalUniversityIds: ["mcgill", "queensland", "kings-college", "toronto"]
+  },
+
+  // ========== FOOD ENGINEERING ==========
+  {
+    courseId: "food-engineering",
+    nigerianUniversityIds: ["unilorin", "futa"],
+    africanUniversityIds: ["uct", "stellenbosch", "jkuat"],
+    globalUniversityIds: ["wageningen", "cornell", "davis", "reading"]
+  },
+
+  // ========== QUANTITY SURVEYING ==========
+  {
+    courseId: "quantity-surveying",
+    nigerianUniversityIds: ["oau", "futa", "unilag"],
+    africanUniversityIds: ["uct", "wits", "nairobi", "kwazulu-natal"],
+    globalUniversityIds: ["reading", "ucl", "melbourne", "queensland", "salford"]
+  },
+
+  // ========== DENTISTRY ==========
+  {
+    courseId: "dentistry",
+    nigerianUniversityIds: ["oau", "unilag", "ui", "unn", "abu"],
+    africanUniversityIds: ["uct", "wits", "cairo", "alexandria"],
+    globalUniversityIds: ["harvard", "michigan", "king's-college", "toronto", "melbourne"]
+  },
+
+  // ========== MEDICAL REHABILITATION ==========
+  {
+    courseId: "medical-rehabilitation",
+    nigerianUniversityIds: ["oau", "unilag"],
+    africanUniversityIds: ["uct", "wits", "stellenbosch"],
+    globalUniversityIds: ["toronto", "mcgill", "sydney", "queensland", "southampton"]
+  },
+
+  // ========== FAMILY, NUTRITION & CONSUMER SCIENCES ==========
+  {
+    courseId: "family-nutrition-consumer-sciences",
+    nigerianUniversityIds: ["oau", "unn"],
+    africanUniversityIds: ["uct", "kwazulu-natal", "makerere"],
+    globalUniversityIds: ["cornell", "penn-state", "purdue", "ohio-state"]
+  },
+
+  // ========== PETROLEUM ENGINEERING ==========
+  {
+    courseId: "petroleum-engineering",
+    nigerianUniversityIds: ["cu", "uniport", "unilag"],
+    africanUniversityIds: ["uct", "stellenbosch", "petroleum-institute-abu-dhabi"],
+    globalUniversityIds: ["stanford", "texas-austin", "colorado-school-mines", "imperial", "petroleum-institute"]
+  },
+
+  // ========== CRIMINOLOGY & SECURITY STUDIES ==========
+  {
+    courseId: "criminology-security-studies",
+    nigerianUniversityIds: ["cu", "unilorin", "unilag"],
+    africanUniversityIds: ["uct", "wits", "pretoria", "nairobi"],
+    globalUniversityIds: ["cambridge", "oxford", "john-jay", "maryland", "griffith"]
+  },
 ];
 
 /**
