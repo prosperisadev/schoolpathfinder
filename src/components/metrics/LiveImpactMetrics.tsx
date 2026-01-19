@@ -162,7 +162,7 @@ function LiveImpactMetrics() {
     },
     {
       icon: GraduationCap,
-      value: 190,
+      value: 200,
       label: 'Universities',
       color: 'text-purple-500',
       bgColor: 'bg-purple-500/10',
@@ -171,11 +171,10 @@ function LiveImpactMetrics() {
     },
     {
       icon: BookOpen,
-      value: 75,
+      value: 114,
       label: 'Courses',
       color: 'text-orange-500',
       bgColor: 'bg-orange-500/10',
-      suffix: '+',
       delay: 750
     },
     {
@@ -216,7 +215,7 @@ function LiveImpactMetrics() {
               Students are choosing better futures — in real time.
             </h2>
             <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
-              190+ Universities • 75 Courses • 3 Continents
+              200+ Universities • 114 Courses • 3 Continents
             </p>
           </div>
 
