@@ -11,10 +11,11 @@ interface ShareModalProps {
   onClose: () => void;
   shareToken?: string;
   studentName?: string;
+  defaultTab?: "invite" | "results" | "email";
   onEmailCapture?: (email: string) => Promise<string | null>;
 }
 
-const ShareModal = ({ isOpen, onClose, shareToken, studentName, onEmailCapture }: ShareModalProps) => {
+const ShareModal = ({ isOpen, onClose, shareToken, studentName, defaultTab = "results", onEmailCapture }: ShareModalProps) => {
   const [copiedResults, setCopiedResults] = useState(false);
   const [copiedPlatform, setCopiedPlatform] = useState(false);
   const [emailInput, setEmailInput] = useState("");
