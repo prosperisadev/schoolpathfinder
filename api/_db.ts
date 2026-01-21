@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon, NeonQueryFunction } from "@neondatabase/serverless";
-import * as schema from "../src/db/schema.js";
+import * as schema from "./_schema.js";
 
 /**
  * OPTIMIZED DATABASE CLIENT FOR SERVERLESS
