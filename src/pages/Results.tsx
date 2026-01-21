@@ -251,18 +251,36 @@ const Results = () => {
         paymentStatus: "shared",
       };
 
+      console.log('[Results.tsx] Preparing to save session:', {
+        email: sessionEmail,
+        fullName: profile.fullName || fullName,
+        token,
+        hasProfile: !!profile,
+        hasRecommendations: !!recommendations,
+        recommendationsCount: recommendations?.length || 0,
+        payloadFullKeys: Object.keys(payloadFull),
+        payloadMinimalKeys: Object.keys(payloadMinimal)
+      });
+
       const trySave = async () => {
         try {
+          console.log('[Results.tsx] Attempting save with FULL payload');
           const savedFull = await saveSession(payloadFull);
-          if (savedFull) return savedFull;
+          if (savedFull) {
+            console.log('[Results.tsx] FULL payload save succeeded:', savedFull);
+            return savedFull;
+          }
         } catch (e) {
-          console.warn("Full payload failed, trying minimal:", e);
+          console.warn("[Results.tsx] Full payload failed, trying minimal:", e);
         }
         // Try minimal payload as fallback
         try {
-          return await saveSession(payloadMinimal);
+          console.log('[Results.tsx] Attempting save with MINIMAL payload');
+          const savedMinimal = await saveSession(payloadMinimal);
+          console.log('[Results.tsx] MINIMAL payload save succeeded:', savedMinimal);
+          return savedMinimal;
         } catch (e) {
-          console.error("Minimal payload also failed:", e);
+          console.error("[Results.tsx] Minimal payload also failed:", e);
           throw e;
         }
       };

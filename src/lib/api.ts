@@ -27,7 +27,15 @@ async function fetchApi<T>(
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
   try {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    const url = `${API_URL}${endpoint}`;
+    console.log('[fetchApi] Request:', {
+      url,
+      method: options.method || 'GET',
+      hasBody: !!options.body,
+      bodyPreview: options.body ? String(options.body).substring(0, 200) + '...' : null
+    });
+    
+    const response = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -37,13 +45,22 @@ async function fetchApi<T>(
 
     const data = await response.json();
 
+    console.log('[fetchApi] Response:', {
+      url,
+      status: response.status,
+      ok: response.ok,
+      hasData: !!data,
+      hasError: !!(data && data.error),
+      errorPreview: data.error ? String(data.error).substring(0, 200) + '...' : null
+    });
+
     if (!response.ok) {
       return { error: data.error || "Request failed" };
     }
 
     return { data };
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("[fetchApi] Network error:", error);
     return { error: "Network error" };
   }
 }
@@ -104,11 +121,28 @@ export async function getSessionByShareToken(token: string): Promise<Session | n
 }
 
 export async function saveSession(sessionData: Partial<Session>): Promise<Session | null> {
+  console.log('[api.ts] saveSession called with data:', {
+    email: sessionData.email,
+    fullName: sessionData.fullName,
+    shareToken: sessionData.shareToken,
+    hasAssessmentData: !!sessionData.assessmentData,
+    hasRecommendations: !!sessionData.recommendations,
+    keys: Object.keys(sessionData)
+  });
+  
   const response = await fetchApi<Session>("/api/sessions", {
     method: "POST",
     body: JSON.stringify(sessionData),
   });
+  
+  console.log('[api.ts] saveSession response:', {
+    hasData: !!response.data,
+    hasError: !!response.error,
+    error: response.error
+  });
+  
   if (response.error) {
+    console.error('[api.ts] saveSession error details:', response.error);
     throw new Error(response.error);
   }
   return response.data || null;
