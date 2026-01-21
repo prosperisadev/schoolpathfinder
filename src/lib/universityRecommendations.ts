@@ -9,7 +9,7 @@
  */
 
 import { Course } from "@/types";
-import { supabase } from "@/integrations/supabase/client";
+// import { supabase } from "@/integrations/supabase/client"; // Not used - we use API endpoints instead
 
 export interface UniversityRecommendation {
   id: string;

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { supabase } from '@/integrations/supabase/client';
+// import { supabase } from '@/integrations/supabase/client'; // Not used - we use access codes now
 
 interface PaymentState {
   sessionId: string | null;
@@ -31,25 +31,10 @@ export const usePaymentStore = create<PaymentState>()(
       createSession: async (email, assessmentData) => {
         set({ isLoading: true });
         try {
-          const { data, error } = await supabase
-            .from('assessment_sessions')
-            .insert({
-              email,
-              assessment_data: assessmentData,
-              payment_status: 'pending'
-            })
-            .select('id')
-            .single();
-
-          if (error) throw error;
-
-          set({ 
-            sessionId: data.id, 
-            email,
-            isLoading: false 
-          });
-          
-          return data.id;
+          // Payment functionality disabled - using access codes instead
+          console.warn('Payment functionality is disabled. Using access codes instead.');
+          set({ isLoading: false });
+          throw new Error('Payment functionality disabled. Please use an access code.');
         } catch (error) {
           console.error('Error creating session:', error);
           set({ isLoading: false });
@@ -74,63 +59,16 @@ export const usePaymentStore = create<PaymentState>()(
           }
         }
 
-        try {
-          const { data, error } = await supabase
-            .from('assessment_sessions')
-            .select('payment_status, expires_at')
-            .eq('id', sessionId)
-            .single();
-
-          if (error) {
-            console.error('Error checking payment status:', error);
-            return false;
-          }
-
-          const isPaid = data.payment_status === 'paid';
-          const hasExpired = data.expires_at && new Date(data.expires_at) < new Date();
-
-          if (isPaid && !hasExpired) {
-            set({ isPaid: true, expiresAt: data.expires_at });
-            return true;
-          } else {
-            set({ isPaid: false });
-            return false;
-          }
-        } catch (error) {
-          console.error('Error checking payment:', error);
-          return false;
-        }
+        // Payment functionality disabled
+        return false;
       },
 
       verifyPayment: async (reference: string) => {
-        const { sessionId, email } = get();
-        if (!sessionId || !email) return false;
-
         set({ isLoading: true });
-        try {
-          // Include email for session ownership verification
-          const { data, error } = await supabase.functions.invoke('verify-payment', {
-            body: { reference, sessionId, email }
-          });
-
-          if (error) throw error;
-
-          if (data.success) {
-            set({ 
-              isPaid: true, 
-              expiresAt: data.expiresAt,
-              isLoading: false 
-            });
-            return true;
-          }
-          
-          set({ isLoading: false });
-          return false;
-        } catch (error) {
-          console.error('Error verifying payment:', error);
-          set({ isLoading: false });
-          return false;
-        }
+        // Payment functionality disabled
+        console.warn('Payment functionality is disabled. Using access codes instead.');
+        set({ isLoading: false });
+        return false;
       },
 
       clearSession: () => set({
