@@ -65,11 +65,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   } catch (error) {
     console.error("Error saving session:", error);
+    console.error("Full error details:", JSON.stringify(error, null, 2));
     const message = error instanceof Error ? error.message : "Unknown error";
+    const stack = error instanceof Error ? error.stack : "";
     // Check for unique constraint violation
     if (message.includes("unique") || message.includes("duplicate")) {
-      return res.status(409).json({ error: "Session already exists" });
+      return res.status(409).json({ error: "Session already exists", details: message });
     }
-    return res.status(500).json({ error: message });
+    return res.status(500).json({ error: message, stack: stack });
   }
 }
