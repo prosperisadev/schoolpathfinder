@@ -18,8 +18,8 @@ import * as schema from "../src/db/schema.js";
  * - This approach reuses connections efficiently
  */
 
-// Cache SQL client globally for connection reuse
-let cachedSql: NeonQueryFunction<false, false> | null = null;
+// Cache the entire database client globally
+let cachedDb: ReturnType<typeof drizzle> | null = null;
 
 // Create database connection for Vercel serverless
 export function getDatabase() {
@@ -31,11 +31,12 @@ export function getDatabase() {
   }
 
   try {
-    // Reuse cached connection if available
-    if (!cachedSql) {
-      cachedSql = neon(connectionString);
+    // Reuse cached database client if available
+    if (!cachedDb) {
+      const sql = neon(connectionString);
+      cachedDb = drizzle(sql, { schema, casing: 'snake_case' });
     }
-    return drizzle(cachedSql, { schema });
+    return cachedDb;
   } catch (error) {
     console.error("Database connection error:", error);
     throw error;
