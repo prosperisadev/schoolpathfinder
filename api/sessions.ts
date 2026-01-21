@@ -25,13 +25,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Email is required" });
     }
 
-    // Convert date strings to Date objects for Drizzle
-    const processedData = {
-      ...sessionData,
-      shareCreatedAt: sessionData.shareCreatedAt ? new Date(sessionData.shareCreatedAt) : undefined,
-      paidAt: sessionData.paidAt ? new Date(sessionData.paidAt) : undefined,
-      expiresAt: sessionData.expiresAt ? new Date(sessionData.expiresAt) : undefined,
+    // Build clean data object with only defined fields
+    const cleanData: any = {
+      email: sessionData.email,
     };
+
+    // Add optional fields only if they're provided
+    if (sessionData.fullName !== undefined) cleanData.fullName = sessionData.fullName;
+    if (sessionData.assessmentData !== undefined) cleanData.assessmentData = sessionData.assessmentData;
+    if (sessionData.paymentStatus !== undefined) cleanData.paymentStatus = sessionData.paymentStatus;
+    if (sessionData.transactionReference !== undefined) cleanData.transactionReference = sessionData.transactionReference;
+    if (sessionData.accessCode !== undefined) cleanData.accessCode = sessionData.accessCode;
+    if (sessionData.shareToken !== undefined) cleanData.shareToken = sessionData.shareToken;
+    if (sessionData.academicTrack !== undefined) cleanData.academicTrack = sessionData.academicTrack;
+    if (sessionData.department !== undefined) cleanData.department = sessionData.department;
+    if (sessionData.waecEstimate !== undefined) cleanData.waecEstimate = sessionData.waecEstimate;
+    if (sessionData.jambEstimate !== undefined) cleanData.jambEstimate = sessionData.jambEstimate;
+    if (sessionData.learningStyle !== undefined) cleanData.learningStyle = sessionData.learningStyle;
+    if (sessionData.isShared !== undefined) cleanData.isShared = sessionData.isShared;
+    if (sessionData.recommendations !== undefined) cleanData.recommendations = sessionData.recommendations;
+    
+    // Convert date strings to Date objects
+    if (sessionData.shareCreatedAt) cleanData.shareCreatedAt = new Date(sessionData.shareCreatedAt);
+    if (sessionData.paidAt) cleanData.paidAt = new Date(sessionData.paidAt);
+    if (sessionData.expiresAt) cleanData.expiresAt = new Date(sessionData.expiresAt);
 
     const db = getDatabase();
 
@@ -43,13 +60,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .limit(1);
 
     if (existing) {
-      // Update existing session
+      // Update existing session - add updatedAt
+      cleanData.updatedAt = new Date();
+      
       const [updated] = await db
         .update(assessmentSessions)
-        .set({
-          ...processedData,
-          updatedAt: new Date(),
-        })
+        .set(cleanData)
         .where(eq(assessmentSessions.email, sessionData.email))
         .returning();
 
@@ -58,7 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Create new session
       const [created] = await db
         .insert(assessmentSessions)
-        .values(processedData)
+        .values(cleanData)
         .returning();
 
       return res.json(created);
