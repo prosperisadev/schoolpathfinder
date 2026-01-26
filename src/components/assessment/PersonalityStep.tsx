@@ -28,14 +28,14 @@ const PersonalityStep = () => {
         <Card key={trait.id} variant="elevated">
           <CardContent className="py-6">
             <div className="space-y-4">
-              <div className="flex flex-row justify-between items-start gap-3">
-                <div className="text-left flex-1 min-w-0">
-                  <span className="font-semibold text-primary block break-words">{trait.leftLabel}</span>
-                  <p className="text-xs text-muted-foreground line-clamp-2">{trait.leftDescription}</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-left">
+                  <span className="font-semibold text-primary block mb-1">{trait.leftLabel}</span>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{trait.leftDescription}</p>
                 </div>
-                <div className="text-right flex-1 min-w-0">
-                  <span className="font-semibold text-accent block break-words">{trait.rightLabel}</span>
-                  <p className="text-xs text-muted-foreground line-clamp-2">{trait.rightDescription}</p>
+                <div className="text-right">
+                  <span className="font-semibold text-accent block mb-1">{trait.rightLabel}</span>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{trait.rightDescription}</p>
                 </div>
               </div>
               <Slider
