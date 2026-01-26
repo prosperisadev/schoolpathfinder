@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { allCourses } from "@/data/courses";
+import { getUniversitiesForCourse } from "@/data/courseUniversityMapping";
 import { Course } from "@/types";
 import CourseComparisonModal from "@/components/courses/CourseComparisonModal";
 import AccessCodeModal from "@/components/payment/AccessCodeModal";
@@ -18,9 +19,10 @@ const categoryIcons: Record<string, string> = {
   "Health": "🏥",
   "Engineering": "⚙️",
   "Finance & Business": "💼",
-  "Governance & Policy": "🏛️",
   "Media & Creative": "🎨",
+  "Governance & Policy": "⚖️",
   "Social Impact": "🌍",
+  "Education": "📚",
 };
 
 const categoryColors: Record<string, string> = {
@@ -28,9 +30,10 @@ const categoryColors: Record<string, string> = {
   "Health": "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
   "Engineering": "bg-orange-500/10 text-orange-600 border-orange-500/20",
   "Finance & Business": "bg-purple-500/10 text-purple-600 border-purple-500/20",
-  "Governance & Policy": "bg-slate-500/10 text-slate-600 border-slate-500/20",
   "Media & Creative": "bg-pink-500/10 text-pink-600 border-pink-500/20",
+  "Governance & Policy": "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
   "Social Impact": "bg-teal-500/10 text-teal-600 border-teal-500/20",
+  "Education": "bg-amber-500/10 text-amber-600 border-amber-500/20",
 };
 
 // Number of free courses to show per category
@@ -49,6 +52,16 @@ const Courses = () => {
   const { recommendations, profile } = useAssessmentStore();
   const [accessValid, setAccessValid] = useState(false);
 
+  const getCourseSchoolCount = (courseId: string) => {
+    const mapping = getUniversitiesForCourse(courseId);
+    if (!mapping) return 0;
+    return (
+      mapping.nigerianUniversityIds.length +
+      mapping.africanUniversityIds.length +
+      mapping.globalUniversityIds.length
+    );
+  };
+
   // Check access status on mount
   useEffect(() => {
     setAccessValid(checkAccess());
@@ -61,9 +74,9 @@ const Courses = () => {
 
   // Map academic track to course categories
   const trackToCategoriesMap: Record<string, string[]> = {
-    science: ["Technology", "Health", "Engineering"],
-    art: ["Media & Creative", "Governance & Policy", "Social Impact"],
-    commercial: ["Finance & Business", "Governance & Policy", "Social Impact"],
+    science: ["Technology", "Science", "Health", "Engineering"],
+    art: ["Arts & Design", "Education", "Social & Governance"],
+    commercial: ["Finance & Business", "Technology", "Social & Governance"],
   };
 
   const toggleCourseSelection = (course: Course, e: React.MouseEvent) => {
@@ -313,7 +326,7 @@ const Courses = () => {
                             </div>
                             <div className="flex items-center gap-1">
                               <GraduationCap className="h-3 w-3" />
-                              <span>{course.schools.length} schools</span>
+                              <span>{getCourseSchoolCount(course.id)} schools</span>
                             </div>
                           </div>
 

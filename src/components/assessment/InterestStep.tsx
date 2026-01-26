@@ -32,13 +32,13 @@ const InterestStep = () => {
             className={interests[industry.id] >= 3 ? "border-primary" : ""}
           >
             <CardContent className="py-4">
-              <div className="flex items-center gap-4">
-                <span className="text-3xl">{industry.icon}</span>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-foreground">{industry.name}</h3>
-                  <p className="text-sm text-muted-foreground">{industry.description}</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                <span className="text-2xl sm:text-3xl flex-shrink-0">{industry.icon}</span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-foreground break-words">{industry.name}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{industry.description}</p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-shrink-0">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}

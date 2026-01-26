@@ -80,8 +80,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Extract top course from recommendations
-    const topCourse = data.recommendations?.[0]?.course?.title;
-    const topCourseScore = data.recommendations?.[0]?.fitScore;
+    // Handle different recommendation data structures
+    const topRec = data.recommendations?.[0];
+    const topCourse = topRec?.course?.title || topRec?.course?.id || topRec?.courseName || topRec?.course;
+    const topCourseScore = topRec?.fitScore || topRec?.score || null;
 
     // Prepare data for insert
     const assessmentData = {

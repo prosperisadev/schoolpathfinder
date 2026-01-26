@@ -57,7 +57,7 @@ export interface PlatformStats {
 
 export const PLATFORM_STATS: PlatformStats = {
   universities: 191, // 171 Nigerian + 10 African + 10 Global
-  courses: 106,      // 10 core + 58 additional + 38 global
+  courses: 153,      // 23 global + 100+ additional + core courses
   continents: 3      // Nigeria, Africa, Global
 };
 

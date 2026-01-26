@@ -27,24 +27,27 @@ const PersonalityStep = () => {
       {PERSONALITY_TRAITS.map((trait) => (
         <Card key={trait.id} variant="elevated">
           <CardContent className="py-6">
-            <div className="flex justify-between items-start mb-4">
-              <div className="text-left">
-                <span className="font-semibold text-primary">{trait.leftLabel}</span>
-                <p className="text-xs text-muted-foreground max-w-[140px]">{trait.leftDescription}</p>
+            <div className="space-y-4">
+              <div className="flex flex-row justify-between items-start gap-3">
+                <div className="text-left flex-1 min-w-0">
+                  <span className="font-semibold text-primary block break-words">{trait.leftLabel}</span>
+                  <p className="text-xs text-muted-foreground line-clamp-2">{trait.leftDescription}</p>
+                </div>
+                <div className="text-right flex-1 min-w-0">
+                  <span className="font-semibold text-accent block break-words">{trait.rightLabel}</span>
+                  <p className="text-xs text-muted-foreground line-clamp-2">{trait.rightDescription}</p>
+                </div>
               </div>
-              <div className="text-right">
-                <span className="font-semibold text-accent">{trait.rightLabel}</span>
-                <p className="text-xs text-muted-foreground max-w-[140px]">{trait.rightDescription}</p>
-              </div>
+              <Slider
+                value={[(personality as any)[trait.id] || 0]}
+                onValueChange={(value) => handleTraitChange(trait.id, value)}
+                min={-2}
+                max={2}
+                step={1}
+                className="mt-2"
+                aria-label={`${trait.leftLabel} to ${trait.rightLabel}`}
+              />
             </div>
-            <Slider
-              value={[(personality as any)[trait.id] || 0]}
-              onValueChange={(value) => handleTraitChange(trait.id, value)}
-              min={-2}
-              max={2}
-              step={1}
-              className="mt-2"
-            />
           </CardContent>
         </Card>
       ))}

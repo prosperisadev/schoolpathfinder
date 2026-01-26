@@ -508,52 +508,70 @@ function scoreFinancialFeasibility(course: Course, profile: UserProfile): number
  * @returns Final 20 recommendations
  */
 function applyOutputConstraints(scoredCourses: CourseScore[]): CourseScore[] {
-  // Filter by minimum score threshold
-  const qualifiedCourses = scoredCourses.filter(
-    sc => sc.weightedScore >= OUTPUT_CONSTRAINTS.minimumScore
-  );
-  
   // Sort by score (highest first)
-  const sorted = qualifiedCourses.sort((a, b) => b.weightedScore - a.weightedScore);
-  
-  // Track constraints
+  const sortedAll = [...scoredCourses].sort((a, b) => b.weightedScore - a.weightedScore);
+
+  const finalCourses: CourseScore[] = [];
+  const selectedIds = new Set<string>();
   const industryCounts: Record<string, number> = {};
   let globalOnlyCount = 0;
-  const finalCourses: CourseScore[] = [];
-  
-  // Iterate through sorted courses and apply constraints
-  for (const courseScore of sorted) {
-    if (finalCourses.length >= OUTPUT_CONSTRAINTS.totalCourses) {
-      break; // We have 20 courses
-    }
-    
-    // Check global-only constraint
+
+  const tryAddCourse = (
+    courseScore: CourseScore,
+    enforceIndustryLimit: boolean,
+    enforceGlobalLimit: boolean
+  ) => {
+    if (finalCourses.length >= OUTPUT_CONSTRAINTS.totalCourses) return false;
+    if (selectedIds.has(courseScore.course.id)) return false;
+
     const isGlobalOnly = courseScore.course.nigerianAvailable === false;
-    if (isGlobalOnly && globalOnlyCount >= OUTPUT_CONSTRAINTS.maxGlobalOnly) {
-      continue; // Skip: global-only limit reached
+    if (enforceGlobalLimit && isGlobalOnly && globalOnlyCount >= OUTPUT_CONSTRAINTS.maxGlobalOnly) {
+      return false;
     }
-    
-    // Check industry constraint
+
     const industry = courseScore.course.category || 'Other';
     const currentIndustryCount = industryCounts[industry] || 0;
-    
-    if (currentIndustryCount >= OUTPUT_CONSTRAINTS.maxPerIndustry) {
-      continue; // Skip: industry limit reached
+    if (enforceIndustryLimit && currentIndustryCount >= OUTPUT_CONSTRAINTS.maxPerIndustry) {
+      return false;
     }
-    
-    // All constraints passed - add to final list
+
     finalCourses.push(courseScore);
-    
-    // Update counters
+    selectedIds.add(courseScore.course.id);
+
     if (isGlobalOnly) {
       globalOnlyCount++;
     }
     industryCounts[industry] = currentIndustryCount + 1;
-    
-    // Update eligibility rules to reflect constraint validation
-    courseScore.eligibilityRules.passedGlobalConstraint = !isGlobalOnly || globalOnlyCount <= OUTPUT_CONSTRAINTS.maxGlobalOnly;
+
+    courseScore.eligibilityRules.passedGlobalConstraint = !isGlobalOnly || !enforceGlobalLimit || globalOnlyCount <= OUTPUT_CONSTRAINTS.maxGlobalOnly;
+    return true;
+  };
+
+  // Pass 1: Enforce minimum score and all constraints
+  const qualifiedCourses = sortedAll.filter(
+    sc => sc.weightedScore >= OUTPUT_CONSTRAINTS.minimumScore
+  );
+  for (const courseScore of qualifiedCourses) {
+    tryAddCourse(courseScore, true, true);
+    if (finalCourses.length >= OUTPUT_CONSTRAINTS.totalCourses) break;
   }
-  
+
+  // Pass 2: Relax minimum score, keep constraints
+  if (finalCourses.length < OUTPUT_CONSTRAINTS.totalCourses) {
+    for (const courseScore of sortedAll) {
+      tryAddCourse(courseScore, true, true);
+      if (finalCourses.length >= OUTPUT_CONSTRAINTS.totalCourses) break;
+    }
+  }
+
+  // Pass 3: Relax industry + global-only limits to reach 20
+  if (finalCourses.length < OUTPUT_CONSTRAINTS.totalCourses) {
+    for (const courseScore of sortedAll) {
+      tryAddCourse(courseScore, false, false);
+      if (finalCourses.length >= OUTPUT_CONSTRAINTS.totalCourses) break;
+    }
+  }
+
   return finalCourses;
 }
 
@@ -633,6 +651,7 @@ function formatIndustryName(id: string): string {
     'health': 'Healthcare',
     'engineering': 'Engineering',
     'social-impact': 'Social Impact',
+    'education': 'Education',
   };
   return names[id] || id.replace('-', ' & ');
 }

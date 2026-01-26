@@ -409,6 +409,7 @@ function formatIndustryName(id: string): string {
     'health': 'Healthcare',
     'engineering': 'Engineering',
     'social-impact': 'Social Impact',
+    'education': 'Education',
   };
   return names[id] || id;
 }

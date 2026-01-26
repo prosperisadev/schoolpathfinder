@@ -1041,7 +1041,7 @@ export const newGlobalCourses: Course[] = [
       volunteering: ["Tutoring", "Educational NGOs", "Community teaching"],
     },
     schools: allSchools,
-    interestMatch: ["social-impact"],
+    interestMatch: ["education"],
     personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: -2, riskVsStability: 1 },
     academicTrackRequired: ["art", "science", "commercial"],
     difficultyLevel: "low",

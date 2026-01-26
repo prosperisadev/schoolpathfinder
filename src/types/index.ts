@@ -131,7 +131,8 @@ export type Industry =
   | "finance-business"
   | "health"
   | "engineering"
-  | "social-impact";
+  | "social-impact"
+  | "education";
 
 export const INDUSTRIES: { id: Industry; name: string; icon: string; description: string }[] = [
   { id: "technology", name: "Technology", icon: "💻", description: "Building apps, websites, and working with computers" },
@@ -141,6 +142,7 @@ export const INDUSTRIES: { id: Industry; name: string; icon: string; description
   { id: "health", name: "Health & Medicine", icon: "🏥", description: "Becoming a doctor, nurse, pharmacist, or health worker" },
   { id: "engineering", name: "Engineering", icon: "⚙️", description: "Building things, fixing machines, designing structures" },
   { id: "social-impact", name: "Helping People", icon: "🌍", description: "Teaching, helping communities, charity work" },
+  { id: "education", name: "Education", icon: "📚", description: "Teaching, curriculum design, educational leadership, and learning science" },
 ];
 
 export const PERSONALITY_TRAITS = [

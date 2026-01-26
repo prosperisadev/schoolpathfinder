@@ -1,7 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getDatabase } from "./_db.js";
-import { eq } from "drizzle-orm";
-import { assessmentSessions } from "../src/db/schema.js";
+import { Pool } from "@neondatabase/serverless";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -18,6 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  let client;
   try {
     const sessionData = req.body;
 
@@ -25,69 +24,136 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Email is required" });
     }
 
-    // Build clean data object with only defined fields
-    const cleanData: any = {
-      email: sessionData.email,
-    };
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      return res.status(500).json({ error: "Database not configured" });
+    }
 
-    // Add optional fields only if they're provided
-    if (sessionData.fullName !== undefined) cleanData.fullName = sessionData.fullName;
-    if (sessionData.assessmentData !== undefined) cleanData.assessmentData = sessionData.assessmentData;
-    if (sessionData.paymentStatus !== undefined) cleanData.paymentStatus = sessionData.paymentStatus;
-    if (sessionData.transactionReference !== undefined) cleanData.transactionReference = sessionData.transactionReference;
-    if (sessionData.accessCode !== undefined) cleanData.accessCode = sessionData.accessCode;
-    if (sessionData.shareToken !== undefined) cleanData.shareToken = sessionData.shareToken;
-    if (sessionData.academicTrack !== undefined) cleanData.academicTrack = sessionData.academicTrack;
-    if (sessionData.department !== undefined) cleanData.department = sessionData.department;
-    if (sessionData.waecEstimate !== undefined) cleanData.waecEstimate = sessionData.waecEstimate;
-    if (sessionData.jambEstimate !== undefined) cleanData.jambEstimate = sessionData.jambEstimate;
-    if (sessionData.learningStyle !== undefined) cleanData.learningStyle = sessionData.learningStyle;
-    if (sessionData.isShared !== undefined) cleanData.isShared = sessionData.isShared;
-    if (sessionData.recommendations !== undefined) cleanData.recommendations = sessionData.recommendations;
-    
-    // Convert date strings to Date objects
-    if (sessionData.shareCreatedAt) cleanData.shareCreatedAt = new Date(sessionData.shareCreatedAt);
-    if (sessionData.paidAt) cleanData.paidAt = new Date(sessionData.paidAt);
-    if (sessionData.expiresAt) cleanData.expiresAt = new Date(sessionData.expiresAt);
+    const pool = new Pool({ connectionString });
+    client = await pool.connect();
 
-    const db = getDatabase();
+    // Build update data - don't include share_token to avoid unique constraint issues
+    const updateParams = [
+      sessionData.fullName || null,
+      sessionData.assessmentData ? JSON.stringify(sessionData.assessmentData) : null,
+      sessionData.paymentStatus || 'pending',
+      sessionData.transactionReference || null,
+      sessionData.paidAt || null,
+      sessionData.expiresAt || null,
+      sessionData.accessCode || null,
+      sessionData.academicTrack || null,
+      sessionData.department || null,
+      sessionData.waecEstimate || null,
+      sessionData.jambEstimate || null,
+      sessionData.learningStyle || null,
+      sessionData.isShared || false,
+      sessionData.shareCreatedAt || null,
+      sessionData.recommendations ? JSON.stringify(sessionData.recommendations) : null,
+      sessionData.email,
+    ];
 
-    // Check if session exists
-    const [existing] = await db
-      .select()
-      .from(assessmentSessions)
-      .where(eq(assessmentSessions.email, sessionData.email))
-      .limit(1);
+    // Try update first - don't touch share_token to avoid unique constraint conflicts
+    const updateResult = await client.query(
+      `UPDATE assessment_sessions SET
+        full_name = $1,
+        assessment_data = $2,
+        payment_status = $3,
+        transaction_reference = $4,
+        paid_at = $5,
+        expires_at = $6,
+        access_code = $7,
+        academic_track = $8,
+        department = $9,
+        waec_estimate = $10,
+        jamb_estimate = $11,
+        learning_style = $12,
+        is_shared = $13,
+        share_created_at = $14,
+        recommendations = $15,
+        updated_at = NOW()
+      WHERE email = $16
+      RETURNING *;`,
+      updateParams
+    );
 
-    if (existing) {
-      // Update existing session - add updatedAt
-      cleanData.updatedAt = new Date();
-      
-      const [updated] = await db
-        .update(assessmentSessions)
-        .set(cleanData)
-        .where(eq(assessmentSessions.email, sessionData.email))
-        .returning();
+    if (updateResult.rows && updateResult.rows.length > 0) {
+      // Update succeeded - now try to set share_token if provided and not already set
+      if (sessionData.shareToken && !updateResult.rows[0].share_token) {
+        try {
+          const tokenUpdateResult = await client.query(
+            `UPDATE assessment_sessions SET share_token = $1 WHERE email = $2 RETURNING *;`,
+            [sessionData.shareToken, sessionData.email]
+          );
+          client.release();
+          return res.json(tokenUpdateResult.rows[0] || updateResult.rows[0]);
+        } catch (tokenError) {
+          // Token might already exist - just return the existing record
+          client.release();
+          return res.json(updateResult.rows[0]);
+        }
+      }
+      client.release();
+      return res.json(updateResult.rows[0]);
+    }
 
-      return res.json(updated);
+    // If no rows updated, insert new session
+    const insertParams = [
+      sessionData.email,
+      sessionData.fullName || null,
+      sessionData.assessmentData ? JSON.stringify(sessionData.assessmentData) : null,
+      sessionData.paymentStatus || 'pending',
+      sessionData.transactionReference || null,
+      sessionData.paidAt || null,
+      sessionData.expiresAt || null,
+      sessionData.accessCode || null,
+      sessionData.shareToken || null,
+      sessionData.academicTrack || null,
+      sessionData.department || null,
+      sessionData.waecEstimate || null,
+      sessionData.jambEstimate || null,
+      sessionData.learningStyle || null,
+      sessionData.isShared || false,
+      sessionData.shareCreatedAt || null,
+      sessionData.recommendations ? JSON.stringify(sessionData.recommendations) : null,
+    ];
+
+    const insertResult = await client.query(
+      `INSERT INTO assessment_sessions (
+        email, 
+        full_name, 
+        assessment_data, 
+        payment_status, 
+        transaction_reference, 
+        paid_at, 
+        expires_at, 
+        access_code, 
+        share_token, 
+        academic_track, 
+        department, 
+        waec_estimate, 
+        jamb_estimate, 
+        learning_style, 
+        is_shared, 
+        share_created_at, 
+        recommendations
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
+      )
+      RETURNING *;`,
+      insertParams
+    );
+
+    client.release();
+
+    if (insertResult.rows && insertResult.rows.length > 0) {
+      return res.json(insertResult.rows[0]);
     } else {
-      // Create new session
-      const [created] = await db
-        .insert(assessmentSessions)
-        .values(cleanData)
-        .returning();
-
-      return res.json(created);
+      return res.status(400).json({ error: "Failed to save session" });
     }
   } catch (error) {
+    if (client) client.release();
     console.error("Error saving session:", error);
-    console.error("Full error details:", JSON.stringify(error, null, 2));
     const message = error instanceof Error ? error.message : "Unknown error";
-    const stack = error instanceof Error ? error.stack : "";
-    // Check for unique constraint violation
-    if (message.includes("unique") || message.includes("duplicate")) {
-      return res.status(409).json({ error: "Session already exists", details: message });
-    }
-    return res.status(500).json({ error: message, stack: stack });
+    return res.status(500).json({ error: message });
   }
 }

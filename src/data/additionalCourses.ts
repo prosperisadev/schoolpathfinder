@@ -1045,7 +1045,7 @@ export const additionalCourses: Course[] = [
   {
     id: "political-science",
     name: "Political Science",
-    category: "Governance & Policy",
+    category: "Social & Governance",
     overview: "Political Science studies government, politics, and power. Students learn political theory, comparative politics, and public policy analysis.",
     coreSkills: ["Critical Analysis", "Research", "Writing", "Public Speaking", "Policy Analysis", "Debate"],
     nigeriaContext: {
@@ -1089,7 +1089,7 @@ export const additionalCourses: Course[] = [
   {
     id: "public-administration",
     name: "Public Administration",
-    category: "Governance & Policy",
+    category: "Social & Governance",
     overview: "Public Administration focuses on managing government agencies and public programs. Students learn policy implementation, public finance, and organizational management.",
     coreSkills: ["Policy Implementation", "Management", "Budgeting", "Communication", "Leadership", "Problem Solving"],
     nigeriaContext: {
@@ -1134,7 +1134,7 @@ export const additionalCourses: Course[] = [
   {
     id: "graphic-design",
     name: "Graphic Design",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Graphic Design creates visual content for communication. Students learn typography, branding, digital design, and visual storytelling.",
     coreSkills: ["Visual Design", "Adobe Creative Suite", "Typography", "Branding", "Creativity", "Communication"],
     nigeriaContext: {
@@ -1178,7 +1178,7 @@ export const additionalCourses: Course[] = [
   {
     id: "film-television",
     name: "Film & Television Production",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Film & TV Production covers all aspects of creating visual content. Students learn directing, cinematography, editing, and production management.",
     coreSkills: ["Storytelling", "Camera Work", "Editing", "Direction", "Production Management", "Creativity"],
     nigeriaContext: {
@@ -1222,7 +1222,7 @@ export const additionalCourses: Course[] = [
   {
     id: "music",
     name: "Music",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Music studies the theory, performance, and production of music. Students learn music theory, performance, composition, and music technology.",
     coreSkills: ["Musical Performance", "Music Theory", "Production", "Creativity", "Collaboration", "Technical Skills"],
     nigeriaContext: {
@@ -1266,7 +1266,7 @@ export const additionalCourses: Course[] = [
   {
     id: "fine-arts",
     name: "Fine Arts",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Fine Arts develops artistic skills in painting, sculpture, and other visual media. Students learn technique, art history, and conceptual thinking.",
     coreSkills: ["Artistic Technique", "Creativity", "Conceptual Thinking", "Art History", "Portfolio Development", "Exhibition"],
     nigeriaContext: {
@@ -1310,7 +1310,7 @@ export const additionalCourses: Course[] = [
   {
     id: "fashion-design",
     name: "Fashion Design",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Fashion Design creates clothing and accessories. Students learn design, pattern making, textiles, and fashion business.",
     coreSkills: ["Design", "Sewing", "Pattern Making", "Trend Analysis", "Creativity", "Business Acumen"],
     nigeriaContext: {
@@ -1354,7 +1354,7 @@ export const additionalCourses: Course[] = [
   {
     id: "theatre-arts",
     name: "Theatre & Performing Arts",
-    category: "Media & Creative",
+    category: "Arts & Design",
     overview: "Theatre Arts trains performers and production professionals. Students learn acting, directing, stagecraft, and dramatic literature.",
     coreSkills: ["Acting", "Voice", "Movement", "Stagecraft", "Creativity", "Collaboration"],
     nigeriaContext: {
@@ -1399,7 +1399,7 @@ export const additionalCourses: Course[] = [
   {
     id: "social-work",
     name: "Social Work",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Social Work helps individuals and communities overcome challenges. Students learn counseling, case management, and community development.",
     coreSkills: ["Counseling", "Case Management", "Advocacy", "Empathy", "Problem Solving", "Community Development"],
     nigeriaContext: {
@@ -1443,7 +1443,7 @@ export const additionalCourses: Course[] = [
   {
     id: "education",
     name: "Education",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Education prepares teachers and education professionals. Students learn pedagogy, curriculum development, and classroom management.",
     coreSkills: ["Teaching", "Communication", "Patience", "Creativity", "Leadership", "Subject Expertise"],
     nigeriaContext: {
@@ -1487,7 +1487,7 @@ export const additionalCourses: Course[] = [
   {
     id: "sociology",
     name: "Sociology",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Sociology studies human society, social relationships, and institutions. Students learn research methods, social theory, and understanding of social issues.",
     coreSkills: ["Research", "Critical Thinking", "Data Analysis", "Writing", "Cultural Awareness", "Communication"],
     nigeriaContext: {
@@ -1531,7 +1531,7 @@ export const additionalCourses: Course[] = [
   {
     id: "development-studies",
     name: "Development Studies",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Development Studies examines social, economic, and political development in developing countries. Students learn development theory, policy, and practice.",
     coreSkills: ["Policy Analysis", "Research", "Project Management", "Cross-Cultural Communication", "Critical Thinking", "Advocacy"],
     nigeriaContext: {
@@ -1575,7 +1575,7 @@ export const additionalCourses: Course[] = [
   {
     id: "environmental-science",
     name: "Environmental Science",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Environmental Science studies the environment and solutions to environmental problems. Students learn ecology, climate science, and environmental management.",
     coreSkills: ["Scientific Research", "Data Analysis", "Environmental Assessment", "GIS", "Policy Analysis", "Communication"],
     nigeriaContext: {
@@ -1619,7 +1619,7 @@ export const additionalCourses: Course[] = [
   {
     id: "agricultural-science",
     name: "Agricultural Science",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Agricultural Science studies crop production, animal husbandry, and food systems. Students learn farming techniques, agricultural economics, and food security.",
     coreSkills: ["Crop Science", "Animal Science", "Research", "Farm Management", "Agribusiness", "Problem Solving"],
     nigeriaContext: {
@@ -1663,7 +1663,7 @@ export const additionalCourses: Course[] = [
   {
     id: "library-science",
     name: "Library & Information Science",
-    category: "Social Impact",
+    category: "Social & Governance",
     overview: "Library Science focuses on organizing, preserving, and providing access to information. Students learn information management, digital libraries, and knowledge organization.",
     coreSkills: ["Information Organization", "Research", "Digital Literacy", "Communication", "Technology", "Service Orientation"],
     nigeriaContext: {
@@ -1924,7 +1924,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["STEM education", "Robotics clubs", "Maker spaces", "Engineering competitions"],
     },
     schools: allSchools,
-    interestMatch: ["technology", "building"],
+    interestMatch: ["technology", "engineering"],
     personalityMatch: { analyticalVsCreative: 0, structuredVsFlexible: 0, peopleVsTask: 1, riskVsStability: 0 },
   },
 
@@ -1932,7 +1932,7 @@ export const additionalCourses: Course[] = [
   {
     id: "digital-media",
     name: "Digital Media & Communication",
-    category: "Arts & Media",
+    category: "Arts & Design",
     overview: "Digital Media combines storytelling, technology, and creativity to produce content for digital platforms. Students learn video production, social media strategy, content creation, digital journalism, and multimedia design for the modern media landscape.",
     coreSkills: ["Video Production", "Content Creation", "Social Media Management", "Digital Storytelling", "Graphic Design", "SEO & Analytics", "Multimedia Journalism"],
     nigeriaContext: {
@@ -1970,7 +1970,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Community storytelling", "NGO media work", "Student media organizations", "Film festivals"],
     },
     schools: allSchools,
-    interestMatch: ["creative", "communication", "technology"],
+    interestMatch: ["media-creative", "technology"],
     personalityMatch: { analyticalVsCreative: 1, structuredVsFlexible: 1, peopleVsTask: -1, riskVsStability: 1 },
   },
 
@@ -2031,7 +2031,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Financial literacy programs", "Math tutoring", "Actuarial society events", "Mentoring pre-actuarial students"]
     },
     schools: allSchools,
-    interestMatch: ["finance", "analytical", "technology"],
+    interestMatch: ["finance-business", "technology"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: -1 }
   },
 
@@ -2039,7 +2039,7 @@ export const additionalCourses: Course[] = [
   {
     id: "marine-biology",
     name: "Marine Biology",
-    category: "Science & Research",
+    category: "Science",
     overview: "Marine Biology is the scientific study of ocean life, ecosystems, and marine environments. Students explore marine organisms from microscopic plankton to massive whales, coral reef ecology, oceanography, conservation, and the impact of human activity on marine ecosystems. This field combines biology, chemistry, ecology, and environmental science.",
     coreSkills: ["Marine Ecology & Biodiversity", "Oceanography", "Fish Biology & Aquaculture", "Marine Conservation", "Scuba Diving & Field Research", "Data Collection & Analysis", "Environmental Impact Assessment"],
     nigeriaContext: {
@@ -2093,7 +2093,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Beach cleanups", "Turtle conservation projects", "Community fisheries education", "Marine science outreach to schools"]
     },
     schools: allSchools,
-    interestMatch: ["environment", "science", "research"],
+    interestMatch: ["health", "social-impact"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 1, peopleVsTask: 0, riskVsStability: 0 }
   },
 
@@ -2101,7 +2101,7 @@ export const additionalCourses: Course[] = [
   {
     id: "medical-radiography",
     name: "Medical Radiography & Radiation Science",
-    category: "Health & Medicine",
+    category: "Health",
     overview: "Medical Radiography (also called Diagnostic Imaging or Radiologic Technology) trains professionals to use X-rays, CT scans, MRI, ultrasound, and other imaging technologies to help diagnose diseases and injuries. Radiographers are vital members of healthcare teams, working closely with doctors to produce high-quality medical images for diagnosis and treatment planning.",
     coreSkills: ["Medical Imaging Techniques (X-ray, CT, MRI, Ultrasound)", "Radiation Safety & Protection", "Patient Care & Positioning", "Anatomy & Physiology", "Image Quality & Analysis", "Equipment Operation & Maintenance", "Medical Ethics & Communication"],
     nigeriaContext: {
@@ -2155,7 +2155,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Health screening outreaches", "Cancer awareness campaigns", "Medical missions to underserved areas", "Professional association activities"]
     },
     schools: allSchools,
-    interestMatch: ["health", "technology", "helping-others"],
+    interestMatch: ["health", "technology"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: -1, riskVsStability: -1 }
   },
 
@@ -2217,7 +2217,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["STEM education outreach", "Engineering competition mentoring", "Professional society activities (INCOSE chapter)"]
     },
     schools: allSchools,
-    interestMatch: ["technology", "engineering", "problem-solving"],
+    interestMatch: ["technology", "engineering"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 0, riskVsStability: -1 }
   },
 
@@ -2225,7 +2225,7 @@ export const additionalCourses: Course[] = [
   {
     id: "geophysics",
     name: "Geophysics",
-    category: "Science & Engineering",
+    category: "Science",
     overview: "Geophysics applies physics principles to study the Earth's structure, composition, and processes. Geophysicists use seismic waves, magnetic fields, gravity, and electrical methods to explore what lies beneath the Earth's surface. This field is critical for oil and gas exploration, mining, earthquake studies, groundwater detection, and environmental assessment.",
     coreSkills: ["Seismic Data Acquisition & Interpretation", "Gravity & Magnetic Surveying", "Electrical & Electromagnetic Methods", "Geophysical Data Processing (MATLAB, Python)", "Well Logging & Reservoir Analysis", "GIS & Remote Sensing", "Geology Fundamentals"],
     nigeriaContext: {
@@ -2279,7 +2279,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Science education outreach", "Geohazard awareness campaigns", "Geophysical society activities"]
     },
     schools: allSchools,
-    interestMatch: ["science", "technology", "analytical"],
+    interestMatch: ["engineering", "technology"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: -1, peopleVsTask: 1, riskVsStability: 0 }
   },
 
@@ -2287,7 +2287,7 @@ export const additionalCourses: Course[] = [
   {
     id: "meteorology-climate-science",
     name: "Meteorology & Climate Science",
-    category: "Science & Environment",
+    category: "Science",
     overview: "Meteorology is the study of weather and atmospheric phenomena, while climate science examines long-term climate patterns and changes. Students learn to forecast weather, understand climate systems, analyze atmospheric data, and assess climate change impacts. This field combines physics, mathematics, computer modeling, and environmental science.",
     coreSkills: ["Weather Forecasting & Analysis", "Climate Modeling", "Atmospheric Physics", "Remote Sensing & Satellite Data", "Statistical Climate Analysis", "Programming (Python, R, Fortran)", "Data Visualization & Communication"],
     nigeriaContext: {
@@ -2341,7 +2341,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Climate awareness campaigns", "School weather education programs", "Disaster preparedness outreach", "Environmental NGO activities"]
     },
     schools: allSchools,
-    interestMatch: ["science", "environment", "technology"],
+    interestMatch: ["engineering", "technology"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 0, peopleVsTask: 0, riskVsStability: -1 }
   },
 
@@ -2403,7 +2403,7 @@ export const additionalCourses: Course[] = [
       volunteering: ["Cyber security awareness for SMEs", "School cybersafety programs", "NGO security audits", "Security conference volunteering"]
     },
     schools: allSchools,
-    interestMatch: ["technology", "problem-solving", "analytical"],
+    interestMatch: ["technology"],
     personalityMatch: { analyticalVsCreative: -1, structuredVsFlexible: 1, peopleVsTask: 1, riskVsStability: 0 }
   },
 
@@ -2411,7 +2411,7 @@ export const additionalCourses: Course[] = [
   {
     id: "marine-science-technology",
     name: "Marine Science & Technology",
-    category: "Science & Engineering",
+    category: "Science",
     overview: "Marine Science & Technology is an interdisciplinary field combining oceanography, marine engineering, maritime technology, and marine resource management. Students learn about ocean systems, marine vessels, offshore structures, underwater technology, fisheries, and sustainable ocean resource exploitation. This field supports the blue economy.",
     coreSkills: ["Oceanography & Marine Systems", "Marine Engineering & Naval Architecture", "Offshore Technology", "Marine Resource Management", "Underwater Robotics (ROVs, AUVs)", "GIS & Remote Sensing", "Maritime Operations"],
     nigeriaContext: {
@@ -2535,7 +2535,7 @@ export const additionalCourses: Course[] = [
   {
     id: "industrial-design",
     name: "Industrial Design",
-    category: "Creative & Design",
+    category: "Arts & Design",
     overview: "Industrial Design (also called Product Design) is the art and science of creating mass-produced products that are functional, aesthetically pleasing, user-friendly, and manufacturable. Industrial designers combine creativity, engineering, business, and user research to design everything from smartphones and furniture to cars and medical devices. This field bridges art and engineering.",
     coreSkills: ["3D Modeling & CAD (SolidWorks, Rhino, Fusion 360)", "Sketching & Rendering", "Prototyping & Model Making", "User-Centered Design & Ergonomics", "Materials & Manufacturing Processes", "Design Thinking", "Adobe Creative Suite"],
     nigeriaContext: {
@@ -2597,7 +2597,7 @@ export const additionalCourses: Course[] = [
   {
     id: "optometry",
     name: "Optometry",
-    category: "Health & Medicine",
+    category: "Health",
     overview: "Optometry is a healthcare profession focused on eye and vision care. Optometrists (Doctors of Optometry) examine eyes, diagnose vision problems and eye diseases, prescribe corrective lenses (glasses/contacts), detect systemic diseases (diabetes, hypertension) through eye exams, and provide pre/post-operative care for eye surgeries. This field combines healthcare, patient interaction, and small business management.",
     coreSkills: ["Eye Examination & Diagnosis", "Vision Testing & Refraction", "Contact Lens Fitting", "Ocular Disease Detection & Management", "Low Vision Rehabilitation", "Pediatric & Geriatric Eye Care", "Clinical Instrumentation (Autorefractors, OCT, Fundus Cameras)"],
     nigeriaContext: {
@@ -2660,7 +2660,7 @@ export const additionalCourses: Course[] = [
   {
     id: "physiotherapy",
     name: "Physiotherapy (Physical Therapy)",
-    category: "Health & Medicine",
+    category: "Health",
     overview: "Physiotherapy is a healthcare profession focused on restoring and maintaining physical function, mobility, and quality of life through movement, exercise, manual therapy, education, and modalities. Physiotherapists treat injuries, chronic conditions, disabilities, and help with rehabilitation after surgery or illness. This field combines clinical knowledge, hands-on skills, and patient education.",
     coreSkills: ["Musculoskeletal Assessment & Treatment", "Therapeutic Exercise Prescription", "Manual Therapy Techniques", "Electrotherapy & Modalities", "Neurological Rehabilitation", "Cardiopulmonary Physiotherapy", "Patient Education & Motivation"],
     nigeriaContext: {
@@ -2785,7 +2785,7 @@ export const additionalCourses: Course[] = [
   {
     id: "quantity-surveying",
     name: "Quantity Surveying",
-    category: "Engineering & Construction",
+    category: "Engineering",
     overview: "Quantity Surveying (also called Construction Cost Management) is the profession of managing all costs related to building and civil engineering projects. Quantity surveyors prepare cost estimates, manage budgets, handle contracts, conduct valuations, and ensure value for money throughout a project's lifecycle. They are the financial experts of the construction industry.",
     coreSkills: ["Cost Estimation & Budgeting", "Contract Administration", "Project Management", "Construction Technology & Methods", "Valuation & Measurement", "Cost Control & Value Engineering", "Construction Law & Procurement"],
     nigeriaContext: {
@@ -2847,7 +2847,7 @@ export const additionalCourses: Course[] = [
   {
     id: "dentistry",
     name: "Dentistry & Dental Surgery",
-    category: "Health & Medicine",
+    category: "Health",
     overview: "Dentistry is the branch of medicine focused on the diagnosis, prevention, and treatment of diseases and conditions of the oral cavity (teeth, gums, mouth, jaw). Dentists perform procedures like tooth extractions, fillings, root canals, crowns, orthodontics (braces), and cosmetic dentistry. They also educate patients on oral hygiene and preventive care.",
     coreSkills: ["Clinical Diagnosis & Treatment Planning", "Dental Procedures (Restorative, Endodontics, Periodontics)", "Oral Surgery", "Dental Radiology & Imaging", "Patient Management & Communication", "Manual Dexterity & Precision", "Infection Control & Sterilization"],
     nigeriaContext: {
@@ -2910,7 +2910,7 @@ export const additionalCourses: Course[] = [
   {
     id: "medical-rehabilitation",
     name: "Medical Rehabilitation Sciences",
-    category: "Health & Medicine",
+    category: "Health",
     overview: "Medical Rehabilitation (also called Rehabilitation Sciences or Allied Health) encompasses professions that help patients recover function and independence after illness, injury, or disability. This includes Physiotherapy, Occupational Therapy, Prosthetics & Orthotics, and Speech-Language Pathology. Rehabilitation professionals work with stroke patients, accident victims, athletes, children with developmental delays, and elderly patients.",
     coreSkills: ["Patient Assessment & Diagnosis", "Therapeutic Exercise & Manual Therapy", "Assistive Technology & Adaptive Equipment", "Neurological Rehabilitation", "Musculoskeletal Treatment", "Patient Education & Counseling", "Interdisciplinary Teamwork"],
     nigeriaContext: {
@@ -2972,7 +2972,7 @@ export const additionalCourses: Course[] = [
   {
     id: "family-nutrition-consumer-sciences",
     name: "Family, Nutrition & Consumer Sciences",
-    category: "Health & Social Sciences",
+    category: "Health",
     overview: "This multidisciplinary field combines nutrition science, family studies, consumer economics, and home management. Students learn about human nutrition, dietetics, food science, family dynamics, child development, consumer behavior, textile science, and household resource management. Graduates work to improve family well-being, public health nutrition, consumer protection, and quality of life.",
     coreSkills: ["Nutrition & Dietetics", "Food Science & Safety", "Family & Child Development", "Consumer Education & Protection", "Textile Science & Fashion", "Community Nutrition Programs", "Research & Data Analysis"],
     nigeriaContext: {
@@ -3096,7 +3096,7 @@ export const additionalCourses: Course[] = [
   {
     id: "criminology-security-studies",
     name: "Criminology & Security Studies",
-    category: "Social Sciences & Law",
+    category: "Social & Governance",
     overview: "Criminology & Security Studies examines crime, criminal behavior, law enforcement, security management, and crime prevention. Students study the causes of crime, criminal justice systems, policing strategies, security risk assessment, intelligence analysis, and corrections. This interdisciplinary field combines sociology, psychology, law, and security management to understand and combat crime and security threats.",
     coreSkills: ["Crime Analysis & Investigation", "Security Risk Assessment", "Criminal Law & Justice Systems", "Intelligence & Surveillance", "Cybercrime & Digital Forensics", "Conflict Resolution & Negotiation", "Research & Data Analysis"],
     nigeriaContext: {

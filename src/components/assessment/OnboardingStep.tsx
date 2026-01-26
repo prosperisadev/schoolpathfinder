@@ -70,7 +70,7 @@ const OnboardingStep = () => {
           {/* Academic Track */}
           <div className="space-y-3">
             <Label>Academic Track *</Label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { value: "science", label: "🔬 Science", desc: "Physics, Chemistry, Biology" },
                 { value: "art", label: "📚 Art", desc: "Literature, History, Languages" },
@@ -172,7 +172,7 @@ const OnboardingStep = () => {
           {/* Preferred Location */}
           <div className="space-y-3">
             <Label>Preferred Study Location</Label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { value: "nigeria", label: "🇳🇬 Nigeria" },
                 { value: "africa", label: "🌍 Africa" },
@@ -197,7 +197,7 @@ const OnboardingStep = () => {
           {/* Budget Range */}
           <div className="space-y-3">
             <Label>Annual Budget Range</Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {[
                 { value: { min: 0, max: 500000, currency: "NGN" as const }, label: "Under ₦500K" },
                 { value: { min: 500000, max: 2000000, currency: "NGN" as const }, label: "₦500K - ₦2M" },
